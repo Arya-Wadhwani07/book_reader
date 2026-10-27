@@ -2,18 +2,31 @@
 
 I measured real provider, Pinecone, Tavily MCP, and Cloud Run behavior on October 27, 2026. I keep reproducible raw measurements in [evaluation_results.json](evaluation_results.json) and my fixed questions/references in [questions.json](../src/eval/questions.json). I distinguish my initial quality baseline from later release and regression checks.
 
-## My fixed RAGAS baseline
+## My fixed RAGAS evaluation
 
-I evaluated six fixed questions across Alice, The Time Machine, Jekyll and Hyde, The Art of War, and The Prince. I supplied original retrieved passages, reference answers, and generated responses to RAGAS 0.4.3 with a budgeted GPT-6 Luna judge and text-embedding-3-small embeddings. I used `raise_exceptions=True`; all 24 metric computations completed.
+I evaluated six fixed questions across Alice, The Time Machine, Jekyll and Hyde, The Art of War, and The Prince. I supplied actual vector-retrieval passages, reference answers, and generated responses to RAGAS 0.4.3 with a budgeted GPT-6 Luna judge and text-embedding-3-small embeddings. I used `raise_exceptions=True`; all 24 metric computations completed. I evaluated the provider-recovery implementation from commit `a84c809`.
 
-| My metric | My mean |
-| --- | ---: |
-| Faithfulness | 0.8611 |
-| Answer relevance | 0.9357 |
-| Context precision | 0.6944 |
-| Context recall | 1.0000 |
+| My metric | My released-run mean | My initial baseline |
+| --- | ---: | ---: |
+| Faithfulness | 0.8551 | 0.8611 |
+| Answer relevance | 0.9003 | 0.9357 |
+| Context precision | 0.7139 | 0.6944 |
+| Context recall | 1.0000 | 1.0000 |
 
-I obtained this baseline on revision `book-companion-00001-dac`. I do not present six questions as comprehensive book coverage or a grade guarantee. Context recall was high, while precision showed irrelevant retrieved passages; unsupported elaboration reduced faithfulness in several answers. I retained these weaker results rather than selecting only successful-looking answers. A later rerun failed during generation and therefore did not produce a replacement quality score.
+I do not present six questions as comprehensive book coverage or a grade guarantee. Recall was high, while precision showed irrelevant retrieved passages and unsupported elaboration reduced faithfulness. I retain weaker results rather than selecting successful-looking answers. My initial baseline used revision `book-companion-00001-dac`.
+
+I corrected my evaluator to use the actual `rag_retrieval.chunk_ids`, rather than all citations from Summary/Data. I reused the already-generated responses after correcting that context selection; I did not regenerate answers to improve their scores. One released-run question exercised provider recovery, and I include its added latency. My pinned RAGAS compatibility wrappers emit deprecation notices; all metrics still execute, and I do not suppress evaluator failures.
+
+| My question | Retrieval (s) | LLM work (s) | Total (s) | TTFT (s) | Paid generation (USD) |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Q1: Why does Alice follow the White Rabbit at the beginning of the story? | 1.060 | 12.602 | 14.587 | 11.327 | $0.0000445 |
+| Q2: What happens when Alice drinks from the bottle labelled DRINK ME? | 0.788 | 30.003 | 31.405 | 8.333 | $0.0005776 |
+| Q3: What does the Time Traveller say the fourth dimension is? | 0.748 | 8.950 | 10.330 | 5.354 | $0.0000422 |
+| Q4: What does Mr Enfield see Hyde do to a little girl? | 1.012 | 9.257 | 10.954 | 8.369 | $0.0000409 |
+| Q5: What five constant factors does Sun Tzu say govern the art of war? | 0.954 | 16.160 | 17.801 | 11.785 | $0.0000416 |
+| Q6: How does Machiavelli distinguish hereditary principalities from new principalities? | 0.900 | 23.941 | 25.463 | 13.574 | $0.0000450 |
+
+I time retrieval independently from generation. My client total includes obtaining original passages for verification; TTFT ends at the first streamed token. The paid-generation column excludes separately reserved embeddings, student-plan NVIDIA usage, and infrastructure costs. I retain exact usage traces and answers in the JSON evidence.
 
 ## My latency measurements
 
@@ -49,16 +62,16 @@ I found that all three answers identified curiosity and the pocket watch. OpenAI
 
 I indexed eight complete public-domain books: 425,982 extracted words, 570,802 tokens, and 864 original chunks. My largest source, Walden with Civil Disobedience, contains 115,831 words and 153,361 tokens. I preserve source URLs and original files.
 
-- I passed 142 offline Python tests and 90 JavaScript stream-parser tests without failures or skips. My offline tests block external socket access and writes outside Assignment 2; I do not describe Python guards as an OS security sandbox.
+- I passed 144 offline Python tests and 90 JavaScript stream-parser tests without failures or skips. My offline tests block external socket access and writes outside Assignment 2; I do not describe Python guards as an OS security sandbox.
 - I exercised real PDF, EPUB, and TXT cloud ingestion, duplicate rejection, private-book listing isolation, and original-source authorization. My synthetic files completed in approximately 40.0, 32.8, and 28.7 seconds respectively.
 - I reproduced three HTTP 429 responses in an earlier 120-read/12-worker stress test. After increasing Cloud Run request concurrency to 16, all 120 reads passed in 3.515 seconds. I do not claim an unbounded production load capacity.
-- I verified Research and Data invoking the same Tavily MCP tool with different queries, and a separate deep query exercised all three specialists plus OpenAI/Sonnet routing.
+- I verified Research and Data invoking the same Tavily MCP tool with different queries, and a separate complete deep query exercised all three specialists plus OpenAI/Sonnet routing (91.677 s TTFT; 107.154 s total). I expose activity while waiting for the multi-stage result.
 - I restored a saved answer through a separately deployed revision, checking exact answer equality and completed status. I also verified refresh restoration and opening an original passage in Chrome.
 - I found browser-origin rejection behind TLS termination, unreliable explicit-retrieval delegation, a missing ingestion-job override permission, Unicode boundary corruption, transient provider failures, and incomplete generation. I retain regression checks and failed-run evidence.
 
 ## My costs and interpretation
 
-I use a shared transactional ledger for paid ingestion, generation, evaluation, recovery attempts, and verification. My recorded comparison snapshot was $0.448953 OpenAI and $0.007024 Anthropic, with no pending reservations. Subsequent calls use the same ledger and cannot reserve above the approved $5/$2.50 limits. Embedding reservations conservatively use UTF-8 byte counts because the wrapper does not return billed token usage; generation uses reported tokens when available.
+I use a shared transactional ledger for paid ingestion, generation, evaluation, recovery attempts, and verification. My later shared-ledger snapshot recorded $0.473099 spent plus $0.001993 reserved for OpenAI, and $0.178154 spent plus $0.057254 reserved for Anthropic. Active verification calls explain the reservations. Every call uses the same ledger and cannot reserve above the approved $5/$2.50 limits. Embedding reservations conservatively use UTF-8 byte counts because the wrapper does not return billed token usage; generation uses reported tokens when available.
 
 I use confirmed NVIDIA/Tavily student access, Pinecone Starter, and existing GCP credits. I have not measured final infrastructure invoices or claimed that credits make resource consumption free. Firestore, GCS, Cloud Run, Artifact Registry, and Cloud Build are separate from LLM usage.
 

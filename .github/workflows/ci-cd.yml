@@ -54,7 +54,7 @@ jobs:
         run: |
           docker build --tag book-companion:${{ github.sha }} .
           test "$(docker run --rm --entrypoint id book-companion:${{ github.sha }} -u)" -gt 0
-          docker run -d --name book-test -p 127.0.0.1:8088:8080 -e SESSION_SECRET=ci-test-secret-at-least-thirty-two-characters -e APP_ENV=test book-companion:${{ github.sha }}
+          docker run -d --name book-test -p 127.0.0.1:8088:8090 -e PORT=8090 -e SESSION_SECRET=ci-test-secret-at-least-thirty-two-characters -e APP_ENV=test book-companion:${{ github.sha }}
           for attempt in $(seq 1 30); do
             if curl --fail --silent http://127.0.0.1:8088/healthz; then break; fi
             sleep 1

@@ -36,6 +36,7 @@ I use an official Gutenberg mirror and retain original source files and edition 
 ## My tests and evaluation
 
 ```sh
+TIKTOKEN_CACHE_DIR="$PWD/.cache/tiktoken" .venv/bin/python -c "import tiktoken; tiktoken.get_encoding('cl100k_base')"
 .venv/bin/ruff check .
 .venv/bin/ruff format --check .
 .venv/bin/python -m pytest tests --ignore=tests/live --junitxml=reports/offline.xml
