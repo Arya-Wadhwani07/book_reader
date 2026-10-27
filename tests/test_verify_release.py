@@ -217,3 +217,19 @@ def test_live_does_not_swallow_http_failure():
         factory.return_value.open.side_effect = error
         with pytest.raises(HTTPError):
             verify_live("https://example.test", "query")
+
+
+def test_release_workflow_keeps_tested_digest_and_matching_rollback():
+    from src.config import ROOT
+
+    workflow = (ROOT / ".github/workflows/ci-cd.yml").read_text()
+    assert "docker load -i reports/image.tar" in workflow
+    assert '--image "$DEPLOY_IMAGE"' in workflow
+    assert "--no-traffic --tag candidate" in workflow
+    assert workflow.index("name: Verify my live candidate") < workflow.index(
+        "name: Promote my verified revision"
+    )
+    assert "steps.promote.outcome == 'success'" in workflow
+    assert '--to-revisions "$PREVIOUS_REVISION=100"' in workflow
+    assert '--image "$PREVIOUS_IMAGE"' in workflow
+    assert "continue-on-error" not in workflow

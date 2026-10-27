@@ -39,12 +39,36 @@ class Chats:
 
     def messages(self, owner, chat_id):
         self.owned(owner, chat_id)
+        self.recover_expired(owner, chat_id)
         return sorted(self.store.query("turns", chat_id=chat_id), key=lambda t: t["started_at"])
+
+    def recover_expired(self, owner, chat_id):
+        chat = self.owned(owner, chat_id)
+        if not chat["active_turn"] or chat["lease_until"] > time.time():
+            return
+        chat_key = ("chats", chat_id)
+        turn_key = ("turns", f"{chat_id}:{chat['active_turn']}")
+
+        def recover(documents):
+            current, turn = documents[chat_key], documents[turn_key]
+            if (
+                current
+                and current["owner_id"] == owner
+                and current["active_turn"] == chat["active_turn"]
+                and current["lease_until"] <= time.time()
+            ):
+                if turn and turn["status"] == "running":
+                    turn.update(status="interrupted", finished_at=time.time())
+                current.update(active_turn=None, lease_until=0)
+            return documents
+
+        self.store.mutate_many([chat_key, turn_key], recover)
 
     def begin(self, owner, request):
         chat_id, turn_id = str(request.session_id), str(request.turn_id)
         key = f"{chat_id}:{turn_id}"
         self.owned(owner, chat_id)
+        self.recover_expired(owner, chat_id)
         if self.store.get("turns", key):
             raise Conflict("This turn already exists; reload the chat instead of paying twice.")
 

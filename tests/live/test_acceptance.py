@@ -96,3 +96,61 @@ def test_live_shared_mcp(client):
     assert {"research", "data"} <= {data["agent"] for data in sharing}
     assert {data["tool"] for data in sharing} == {"tavily_search"}
     assert len({data["reason"] for data in sharing}) >= 2
+
+
+@pytest.mark.parametrize(
+    "query",
+    ["What is the weather in Los Angeles today?", "Write an unrelated poem about my new bicycle."],
+)
+def test_live_off_topic_redirect(client, query):
+    book = next(b for b in client.get("/api/books").json() if b["status"] == "ready")
+    chat = client.post("/api/chats", json={}).json()
+    response = client.post(
+        "/api/chat",
+        json={
+            "query": query,
+            "session_id": chat["id"],
+            "turn_id": str(uuid.uuid4()),
+            "book_id": book["id"],
+            "spoiler_limit": 1,
+            "depth": "brief",
+        },
+    )
+    response.raise_for_status()
+    events = list(read_events(io.BytesIO(response.content)))
+    assert events[-1][0] == "done" and events[-1][1]["success"] is True
+    assert "book reading companion" in response.text
+    assert any("Off-topic, no worker" in data.get("reason", "") for _, data in events)
+    assert not any(data.get("type") in {"agent_input", "mcp_tool_call"} for _, data in events)
+    saved = client.get(f"/api/chats/{chat['id']}").json()["turns"][0]
+    assert saved["status"] == "complete" and saved["answer"]
+
+
+def test_live_summary_inputs_and_unrehearsed_book_question(client):
+    book = next(b for b in client.get("/api/books").json() if b.get("gutenberg_id") == 11)
+    chat = client.post("/api/chats", json={}).json()
+    response = client.post(
+        "/api/chat",
+        json={
+            "query": "Summarize the opening chapter, then explain how Alice's attention shifts from ordinary surroundings to something unexpected. Separate observation from interpretation.",
+            "session_id": chat["id"],
+            "turn_id": str(uuid.uuid4()),
+            "book_id": book["id"],
+            "spoiler_limit": 1,
+            "depth": "brief",
+        },
+    )
+    response.raise_for_status()
+    events = list(read_events(io.BytesIO(response.content)))
+    assert events[-1][0] == "done" and events[-1][1]["success"] is True
+    summary = next(data for _, data in events if data.get("type") == "summary_input")
+    assert summary["book_id"] == book["id"] and summary["maps"]
+    assert all(row["chapter"] <= 1 for row in summary["maps"])
+    routes = [data for _, data in events if data.get("type") == "agent_route" and "state" in data]
+    assert routes[-1]["agent"] == "synthesis"
+    assert "summary" in routes[-1]["state"]["completed"]
+    for row in summary["maps"]:
+        for identifier in row["chunk_ids"]:
+            source = client.get(f"/api/books/{book['id']}/sources/{identifier}")
+            assert source.status_code == 200 and source.json()["text"]
+    assert not any(data.get("type") == "mcp_tool_call" for _, data in events)

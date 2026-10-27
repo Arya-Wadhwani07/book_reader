@@ -1,5 +1,7 @@
 import argparse
 import asyncio
+import gzip
+import hashlib
 import json
 
 import httpx
@@ -13,6 +15,13 @@ async def prepare(limit):
     settings = Settings()
     library = Library(settings, make_store(settings))
     manifest = json.loads((ROOT / "corpus/manifest.json").read_text())
+    snapshot_path = ROOT / "corpus/snapshot.json.gz"
+    snapshot = {}
+    if snapshot_path.exists():
+        snapshot = {
+            b["gutenberg_id"]: b
+            for b in json.loads(gzip.decompress(snapshot_path.read_bytes()))["books"]
+        }
     for item in manifest[:limit]:
         existing = next(
             (b for b in library.list("public") if b.get("gutenberg_id") == item["gutenberg_id"]),
@@ -36,10 +45,17 @@ async def prepare(limit):
         identifier = str(item["gutenberg_id"])
         path = "/".join(identifier[:-1]) + "/" + identifier
         url = f"https://gutenberg.pglaf.org/{path}/{identifier}-0.txt"
-        async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
-            response = await client.get(url)
-            response.raise_for_status()
-        book = await library.upload("public", f"{identifier}.txt", response.content)
+        pinned = snapshot.get(item["gutenberg_id"])
+        if pinned:
+            content = pinned["original"].encode("utf-8")
+            if hashlib.sha256(content).hexdigest() != pinned["original_sha256"]:
+                raise ValueError("My pinned corpus source checksum does not match.")
+        else:
+            async with httpx.AsyncClient(timeout=60, follow_redirects=True) as client:
+                response = await client.get(url)
+                response.raise_for_status()
+            content = response.content
+        book = await library.upload("public", f"{identifier}.txt", content)
         book.update(
             gutenberg_id=item["gutenberg_id"],
             curated_title=item["title"],

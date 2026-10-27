@@ -134,6 +134,8 @@ jobs:
         run: |
           previous="$(gcloud run services describe "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" --region "$GCP_REGION" --format=json | jq -r '.status.traffic[] | select(.percent == 100) | .revisionName' | head -1)"
           echo "PREVIOUS_REVISION=$previous" >> "$GITHUB_ENV"
+          previous_image="$(gcloud run revisions describe "$previous" --project "$GCP_PROJECT_ID" --region "$GCP_REGION" --format='value(spec.containers[0].image)')"
+          echo "PREVIOUS_IMAGE=$previous_image" >> "$GITHUB_ENV"
           gcloud run jobs deploy book-companion-ingest --project "$GCP_PROJECT_ID" --region "$GCP_REGION" \
             --image "$DEPLOY_IMAGE" --service-account "$RUNTIME_SERVICE_ACCOUNT" \
             --set-secrets "$RUNTIME_SECRETS" --set-env-vars "$RUNTIME_ENV" \
@@ -177,6 +179,14 @@ jobs:
         run: |
           gcloud run services update-traffic "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" --to-revisions "$PREVIOUS_REVISION=100" --quiet
+      - name: Restore my matching ingestion image after failed verification
+        if: failure() && env.PREVIOUS_IMAGE != ''
+        run: |
+          gcloud run jobs deploy book-companion-ingest --project "$GCP_PROJECT_ID" --region "$GCP_REGION" \
+            --image "$PREVIOUS_IMAGE" --service-account "$RUNTIME_SERVICE_ACCOUNT" \
+            --set-secrets "$RUNTIME_SECRETS" --set-env-vars "$RUNTIME_ENV" \
+            --command /app/.venv/bin/python --args=-m,src.rag.ingest \
+            --memory 2Gi --cpu 1 --tasks 1 --max-retries 0 --task-timeout 3600s --quiet
       - uses: actions/upload-artifact@v7
         if: always()
         with:

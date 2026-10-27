@@ -76,3 +76,15 @@ I use a shared transactional ledger for paid ingestion, generation, evaluation, 
 I use confirmed NVIDIA/Tavily student access, Pinecone Starter, and existing GCP credits. I have not measured final infrastructure invoices or claimed that credits make resource consumption free. Firestore, GCS, Cloud Run, Artifact Registry, and Cloud Build are separate from LLM usage.
 
 I keep scanned/OCR books, non-English books, cross-device account recovery, and lossless summaries outside the implemented scope. Whole-text sources without recognizable chapter headings provide coarse spoiler boundaries. Model answers remain probabilistic; passing software tests does not prove every literary claim correct.
+
+## My instructor-clarification regression review
+
+I added explicit off-topic/no-worker handling, per-hop state traces, pre-generation Summary evidence traces, and an inspectable trace-data panel. I added regression cases for silent-provider cancellation, storage failure before completion, expired process leases, ingestion resume/idempotency, owner-scoped retries, malformed EPUB metadata/entities, and hourly admission. My realistic long-book parser check reproduces all Walden chunks with the actual tokenizer and checks its 115,831 words against the deployed snapshot. I distinguish that from my synthetic 300/400/500-page PDF boundary fixtures; I do not claim exhaustive PDF-layout coverage.
+
+I requested VS Code-integrated testing, but computer-use access to Code was rejected. I then explicitly authorized Chrome only for Assignment 2 testing. I distinguish those Chrome checks from VS Code verification.
+
+## My infrastructure cost method
+
+I checked the official pricing references on October 27, 2026. I account separately for Cloud Run CPU-seconds/GiB-seconds/requests and network transfer, ingestion-job compute, Firestore document/index reads and writes plus storage, GCS stored bytes/operations/transfer, and image/build storage and execution. I use the applicable regional rate multiplied by measured usage when billing exports are available; I do not report an unobserved invoice as zero. My web service uses 1 CPU/1 GiB, concurrency 16, min 0/max 2; ingestion uses 1 CPU/2 GiB with a one-hour deadline. My prior 120-read stress run informed the concurrency choice. [Cloud Run pricing](https://cloud.google.com/run/pricing), [Firestore pricing](https://cloud.google.com/firestore/pricing), [GCS pricing](https://cloud.google.com/storage/pricing).
+
+I use Basic Tavily searches, listed at one credit per request; the published free allowance is 1,000 credits/month. Two successful shared-tool calls consume two search credits, distinct from any LLM tokens. I rely on the user's confirmed student access rather than assuming unlimited quota. Pinecone lists Starter as free; I do not enable an upgrade. Remaining account balances are separate from publicly listed allowances. [Tavily credits](https://docs.tavily.com/documentation/api-credits), [Pinecone plans](https://www.pinecone.io/pricing/).

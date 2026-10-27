@@ -8,7 +8,6 @@ from pathlib import Path
 from typing import Annotated, Literal
 from urllib.parse import unquote
 
-import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -22,9 +21,41 @@ from src.store import Conflict, make_store
 logger = logging.getLogger(__name__)
 
 
+class TurnCancelled(Exception):
+    pass
+
+
+async def interruptible_stream(stream, store, turn_id):
+    pending = None
+    try:
+        while True:
+            if pending is None:
+                pending = asyncio.create_task(anext(stream))
+            done, _ = await asyncio.wait({pending}, timeout=0.5)
+            current = await asyncio.to_thread(store.get, "turns", turn_id)
+            if current is None or current.get("cancel_requested"):
+                raise TurnCancelled
+            if done:
+                try:
+                    event = pending.result()
+                except StopAsyncIteration:
+                    return
+                pending = None
+                yield event
+    finally:
+        if pending is not None:
+            pending.cancel()
+            await asyncio.gather(pending, return_exceptions=True)
+        await stream.aclose()
+
+
 class ChatCreate(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True)
     title: str = Field(default="New chat", min_length=1, max_length=100)
+
+
+class BookCategory(BaseModel):
+    kind: Literal["Book", "Fiction", "Nonfiction"]
 
 
 class ChatRequest(BaseModel):
@@ -62,6 +93,20 @@ def create_app(settings=None, store=None, engine=None, library=None):
     app.state.store = store
     app.state.engine = engine
     app.state.library = library
+
+    def admit(identity, action, owner_limit, global_limit):
+        window = int(time.time() // 3600)
+        keys = [("admission", f"{action}:{window}:{scope}") for scope in (identity, "global")]
+
+        def reserve(documents):
+            for key, limit in zip(keys, (owner_limit, global_limit), strict=True):
+                count = (documents[key] or {}).get("count", 0)
+                if count >= limit:
+                    raise HTTPException(429, "Hourly usage limit reached. Please try again later.")
+                documents[key] = {"count": count + 1, "window": window}
+            return documents
+
+        store.mutate_many(keys, reserve)
 
     @app.middleware("http")
     async def safe_requests(request, call_next):
@@ -175,6 +220,10 @@ def create_app(settings=None, store=None, engine=None, library=None):
     def get_book(book_id: str, identity: Annotated[str, Depends(owner)]):
         return library.book(identity, book_id)
 
+    @app.patch("/api/books/{book_id}")
+    def set_category(book_id: str, body: BookCategory, identity: Annotated[str, Depends(owner)]):
+        return library.set_kind(identity, book_id, body.kind)
+
     @app.get("/api/books/{book_id}/sources/{chunk_id}")
     def source(book_id: str, chunk_id: str, identity: Annotated[str, Depends(owner)]):
         library.book(identity, book_id)
@@ -182,6 +231,7 @@ def create_app(settings=None, store=None, engine=None, library=None):
 
     @app.post("/api/books", status_code=202)
     async def upload(request: Request, identity: Annotated[str, Depends(owner)]):
+        await asyncio.to_thread(admit, identity, "upload", 3, 24)
         content = bytearray()
         async for part in request.stream():
             content.extend(part)
@@ -192,6 +242,17 @@ def create_app(settings=None, store=None, engine=None, library=None):
             return await library.upload(identity, filename, bytes(content))
         except ValueError as error:
             raise HTTPException(422, str(error)) from error
+        except RuntimeError:
+            raise HTTPException(503, "Ingestion could not start. Retry from the library.") from None
+
+    @app.post("/api/books/{book_id}/retry", status_code=202)
+    async def retry_book(book_id: str, identity: Annotated[str, Depends(owner)]):
+        await asyncio.to_thread(library.book, identity, book_id)
+        await asyncio.to_thread(admit, identity, "upload", 3, 24)
+        try:
+            return await library.retry(identity, book_id)
+        except RuntimeError:
+            raise HTTPException(503, "Ingestion could not restart. Please retry later.") from None
 
     @app.post("/api/chat")
     async def chat(body: ChatRequest, identity: Annotated[str, Depends(owner)]):
@@ -200,6 +261,8 @@ def create_app(settings=None, store=None, engine=None, library=None):
             raise HTTPException(409, "This book is still processing.")
         if engine.readiness():
             raise HTTPException(503, "Provider and retrieval configuration is not ready.")
+        await asyncio.to_thread(chats.owned, identity, str(body.session_id))
+        await asyncio.to_thread(admit, identity, "chat", 30, 600)
         turn = await asyncio.to_thread(chats.begin, identity, body)
         history = await asyncio.to_thread(chats.messages, identity, str(body.session_id))
         history = [message for message in history if message["status"] == "complete"]
@@ -210,12 +273,9 @@ def create_app(settings=None, store=None, engine=None, library=None):
             saved = False
             try:
                 async with asyncio.timeout(300):
-                    async for event, payload in engine.stream(identity, body, history):
-                        current = await asyncio.to_thread(store.get, "turns", turn["id"])
-                        if current and current.get("cancel_requested"):
-                            status = "cancelled"
-                            yield encode_event("done", {"success": False, "status": status})
-                            return
+                    async for event, payload in interruptible_stream(
+                        engine.stream(identity, body, history), store, turn["id"]
+                    ):
                         if event == "token":
                             turn["answer"] += payload["text"]
                             turn.setdefault("ttft_seconds", time.monotonic() - started)
@@ -238,7 +298,10 @@ def create_app(settings=None, store=None, engine=None, library=None):
                         "total_seconds": turn["total_seconds"],
                     },
                 )
-            except (TimeoutError, RuntimeError, ValueError, httpx.HTTPError) as error:
+            except TurnCancelled:
+                status = "cancelled"
+                yield encode_event("done", {"success": False, "status": status})
+            except Exception as error:
                 status = "failed"
                 logger.warning("Turn failed: %s", type(error).__name__)
                 yield encode_event(
@@ -247,7 +310,10 @@ def create_app(settings=None, store=None, engine=None, library=None):
                 yield encode_event("done", {"success": False, "status": status})
             finally:
                 if not saved:
-                    await asyncio.shield(asyncio.to_thread(chats.finish, turn, status))
+                    try:
+                        await asyncio.shield(asyncio.to_thread(chats.finish, turn, status))
+                    except Exception as error:
+                        logger.warning("Turn persistence failed: %s", type(error).__name__)
 
         return StreamingResponse(
             response_stream(),

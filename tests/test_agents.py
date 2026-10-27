@@ -2,6 +2,8 @@ import asyncio
 import json
 import uuid
 
+import pytest
+
 from src.agents import BookGraph
 from src.app import ChatRequest, create_app
 from src.config import Settings
@@ -120,6 +122,85 @@ def test_worker_failure_does_not_collapse_graph(tmp_path):
     events = asyncio.run(run())
     assert any(event == "trace" and data.get("type") == "worker_failure" for event, data in events)
     assert any(event == "token" for event, _ in events)
+    routes = [data for event, data in events if data.get("type") == "agent_route"]
+    assert [r["agent"] for r in routes] == [
+        "supervisor",
+        "research",
+        "summary",
+        "data",
+        "synthesis",
+    ]
+    assert routes[2]["state"]["completed"] == ["research"]
+    assert routes[2]["state"]["errors"]
+    assert routes[2]["state"]["available_results"] == []
+
+
+@pytest.mark.parametrize("query", ["What is the weather in LA?", "Write an unrelated poem."])
+def test_off_topic_redirect_has_no_workers_and_persists(tmp_path, query):
+    class OffTopic(ProviderFixture):
+        async def complete(self, system, prompt, task="extract", **kwargs):
+            assert task == "plan"
+            assert query in prompt and "workers: []" in system
+            return json.dumps({"workers": [], "reason": "Unrelated to books"})
+
+        async def stream(self, *args, **kwargs):
+            raise AssertionError("Off-topic responses must not call synthesis models")
+            yield
+
+    settings = Settings(_env_file=None, data_dir=tmp_path)
+    store = SQLiteStore(tmp_path / "state.sqlite3")
+    graph = BookGraph(settings, store, LibraryFixture(), OffTopic())
+    request = ChatRequest(
+        query=query, session_id=uuid.uuid4(), turn_id=uuid.uuid4(), book_id="book"
+    )
+
+    async def run():
+        return [event async for event in graph.stream("owner", request, [])]
+
+    events = asyncio.run(run())
+    assert any("book reading companion" in data.get("text", "") for _, data in events)
+    assert not any(data.get("type") in {"agent_input", "mcp_tool_call"} for _, data in events)
+    assert any("Off-topic, no worker" in data.get("reason", "") for _, data in events)
+    snapshot = graph.graph.get_state({"configurable": {"thread_id": f"owner:{request.session_id}"}})
+    assert snapshot.values["completed"] == []
+    assert snapshot.values["answer"]
+
+
+def test_summary_input_is_traced_before_generation_failure(tmp_path):
+    class FailedSummary(ProviderFixture):
+        async def complete(self, system, prompt, task="extract", **kwargs):
+            if task == "plan":
+                return json.dumps({"workers": ["summary", "research"], "reason": "Summary first"})
+            if task == "summary":
+                raise RuntimeError("private provider error")
+            return await super().complete(system, prompt, task=task, **kwargs)
+
+    settings = Settings(_env_file=None, data_dir=tmp_path)
+    graph = BookGraph(
+        settings, SQLiteStore(tmp_path / "state.sqlite3"), LibraryFixture(), FailedSummary()
+    )
+    request = ChatRequest(
+        query="Summarize this chapter",
+        session_id=uuid.uuid4(),
+        turn_id=uuid.uuid4(),
+        book_id="book",
+    )
+
+    async def run():
+        return [event async for event in graph.stream("owner", request, [])]
+
+    events = asyncio.run(run())
+    inputs = [d for _, d in events if d.get("type") == "summary_input"]
+    assert inputs[0]["maps"] == [{"chapter": 1, "chunk_ids": ["book-s1-t0"]}]
+    assert inputs[0]["question"] == request.query
+    assert inputs[0]["spoiler_limit"] == 1
+    assert "private provider error" not in json.dumps(events)
+    assert [d["agent"] for _, d in events if d.get("type") == "agent_route"] == [
+        "supervisor",
+        "summary",
+        "research",
+        "synthesis",
+    ]
 
 
 def test_default_application_constructs_without_network(tmp_path):

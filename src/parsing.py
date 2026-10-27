@@ -1,5 +1,6 @@
 import io
 import re
+import xml.etree.ElementTree as ET
 import zipfile
 from pathlib import Path, PurePosixPath
 
@@ -51,6 +52,12 @@ def extract_book(filename, content, settings, tokenizer):
                     raise ValueError("The EPUB contains unsafe file paths.")
                 if "META-INF/encryption.xml" in archive.namelist():
                     raise ValueError("Encrypted EPUB content is not supported.")
+                for item in items:
+                    if item.filename.lower().endswith((".xml", ".opf", ".ncx")):
+                        document = archive.read(item)
+                        if re.search(rb"<!\s*(?:DOCTYPE|ENTITY)\b", document, re.I):
+                            raise ValueError("EPUB document types and entities are not supported.")
+                        ET.fromstring(document)
             book = epub.read_epub(io.BytesIO(content))
             titles = book.get_metadata("DC", "title")
             authors = book.get_metadata("DC", "creator")
@@ -76,7 +83,7 @@ def extract_book(filename, content, settings, tokenizer):
                         "text": soup.get_text(" ", strip=True),
                     }
                 )
-        except (zipfile.BadZipFile, KeyError, epub.EpubException) as error:
+        except (zipfile.BadZipFile, KeyError, epub.EpubException, ET.ParseError) as error:
             raise ValueError("The EPUB cannot be read.") from error
     else:
         try:

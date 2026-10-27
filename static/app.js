@@ -25,6 +25,14 @@ function renderBooks() {
     const subtitle = document.createElement("span"); subtitle.textContent = `${book.author || "Uploaded book"} · ${book.status}`;
     node.append(title, subtitle); node.disabled = book.status !== "ready" || state.active;
     node.classList.toggle("selected", state.book?.id === book.id); $("books").append(node);
+    if (book.status === "failed" && book.owner_id !== "public") {
+      const retry = button(`Retry ${book.title}`, async () => {
+        retry.disabled = true;
+        try { await api(`/api/books/${encodeURIComponent(book.id)}/retry`, jsonOptions({})); state.books = await api("/api/books"); renderBooks(); }
+        finally { retry.disabled = false; }
+      });
+      retry.disabled = state.active; $("books").append(retry);
+    }
   }
   if (!state.books.length) $("books").textContent = "No books yet. Add a text-based book to begin.";
 }
@@ -37,6 +45,8 @@ function renderChats() {
 }
 function showBook(book) {
   state.book = book;
+  $("category-control").hidden = !book || book.owner_id === "public";
+  $("category").value = book?.kind || "Book";
   $("book-title").textContent = book?.title || "Make room for a good book.";
   $("book-author").textContent = book ? `${book.author || "Unknown author"} · ${book.kind || "Book"}${book.words ? ` · ${book.words.toLocaleString()} words` : ""}` : "Choose a book from the library or bring your own.";
   $("spoiler").replaceChildren();
@@ -109,6 +119,10 @@ function renderEvent(event, data, view) {
     const badge = document.createElement("span"); badge.className = "badge"; badge.textContent = ({ agent_route: "AGENT", llm_route: "MODEL", rag_retrieval: "RETRIEVAL", mcp_tool_call: "TOOL" })[data.type] || "STATUS";
     const label = document.createElement("div"); label.textContent = [data.agent, data.provider, data.model, data.tool, data.reason || data.message].filter(Boolean).join(" · ");
     row.append(badge, label); $("activity").append(row);
+    const details = document.createElement("details");
+    const heading = document.createElement("summary"); heading.textContent = "Inspect trace data";
+    const payload = document.createElement("pre"); payload.textContent = JSON.stringify(data, null, 2);
+    details.append(heading, payload); row.append(details);
     if (["agent_route", "llm_route"].includes(data.type)) view.summary.append(`${label.textContent}\n`);
     if (state.active) $("turn-status").textContent = data.message || data.reason || "Working with your sources…";
   }
@@ -131,7 +145,7 @@ function renderEvent(event, data, view) {
 }
 function setActive(active) {
   state.active = active;
-  for (const id of ["new-chat", "delete-chat", "depth", "spoiler", "upload"]) $(id).disabled = active;
+  for (const id of ["new-chat", "delete-chat", "depth", "spoiler", "upload", "category"]) $(id).disabled = active;
   $("send").disabled = active || !state.book || $("spoiler").value === ""; $("stop").hidden = !active;
   for (const node of document.querySelectorAll("#views button")) node.disabled = active || !state.book;
 }
@@ -185,6 +199,13 @@ $("delete-chat").addEventListener("click", async () => { if (!state.chat || !con
 $("upload").addEventListener("click", () => upload().catch((e) => notice(e.message)));
 $("book-search").addEventListener("input", renderBooks);
 $("spoiler").addEventListener("change", () => setActive(state.active));
+$("category").addEventListener("change", async () => {
+  try {
+    const book = await api(`/api/books/${state.book.id}`, { ...jsonOptions({kind: $("category").value}), method: "PATCH" });
+    state.books = state.books.map((b) => b.id === book.id ? book : b);
+    const scope = $("spoiler").value; showBook(book); $("spoiler").value = scope;
+  } catch (error) { notice(error.message); $("category").value = state.book.kind || "Book"; }
+});
 $("close-passage").addEventListener("click", () => $("passage").close());
 $("latest").addEventListener("click", () => { state.follow = true; $("composer").scrollIntoView({ block: "end" }); $("latest").hidden = true; });
 window.addEventListener("wheel", (e) => { if (e.deltaY < 0 && state.active) state.follow = false; }, { passive: true });

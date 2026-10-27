@@ -33,6 +33,14 @@ I open `http://127.0.0.1:8080`. I select a ready book, choose a spoiler boundary
 
 I use an official Gutenberg mirror and retain original source files and edition metadata. My curated manifest is [corpus/manifest.json](corpus/manifest.json). My private uploads are limited to 25 MB, 500 PDF pages or 125,000 EPUB/TXT words, and 250,000 extracted tokens. I reject encrypted/scanned-only or unreadable files and unsupported languages.
 
+I ship my exact **October 27, 2026, pipeline-2** corpus snapshot in `corpus/snapshot.json.gz`: eight public originals with their Gutenberg licenses, 864 chunks, structured evidence maps, source URLs, timestamps, and SHA-256 checksums. I exported it from deployed storage. My preparation script prefers these pinned originals and verifies their hashes; if the snapshot is absent, it downloads current mirror files, which may represent a different edition snapshot. I omit private uploads, conversations, credentials, and Pinecone vector binaries. I keep the complete chunk and fact records inspectable in the compressed JSON.
+
+I estimate **10–30 minutes** for a fresh eight-book embedding/extraction rebuild, depending on provider latency and quotas; this is a planning estimate, not a measured clean-rebuild duration. Download is unnecessary with my shipped snapshot. Regeneration still requires the documented APIs and can produce different probabilistic chapter summaries. I preserve the deployed maps in my snapshot for comparison. I do not overwrite a populated index or spending ledger to demonstrate reproducibility.
+
+I keep my assistant focused on books. For unrelated weather requests or unrelated creative tasks, I return a short redirect with example book questions, emit an explicit off-topic/no-worker decision, and invoke no specialist or web search. Book-related creative questions and follow-ups remain in scope. I show actual supervisor transitions and full trace details in Activity, including the Summary Agent's input scope and original chunk IDs.
+
+I allow 30 chat attempts per anonymous owner per hour and 600 across the service; uploads/retries allow 3 per owner and 24 service-wide per hour. These transactional limits complement my global paid-provider budgets. They are not identity-proof abuse prevention: clearing the anonymous cookie changes identity. I offer Retry for failed private uploads and a category selector for private books. I preserve completed chats across refresh; after process loss, an expired 330-second turn lease becomes interrupted rather than falsely completed. Silent generation can be stopped without waiting for another model token.
+
 ## My tests and evaluation
 
 ```sh

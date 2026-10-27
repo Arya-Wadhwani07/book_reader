@@ -50,6 +50,18 @@ class Library:
             raise KeyError("Book not found.")
         return book
 
+    def set_kind(self, owner, book_id, kind):
+        if kind not in {"Book", "Fiction", "Nonfiction"}:
+            raise ValueError("Unsupported book category.")
+
+        def update(book):
+            if not book or book["owner_id"] != owner:
+                raise KeyError("Book not found.")
+            book["kind"] = kind
+            return book
+
+        return self.store.mutate("books", book_id, update)
+
     def chunks(self, book_id):
         if book_id not in self.chunk_cache:
             if len(self.chunk_cache) >= 4:
@@ -104,23 +116,7 @@ class Library:
         await asyncio.to_thread(self.store.mutate, "books", digest, reserve)
         try:
             await asyncio.to_thread(self.artifacts.put, f"{digest}/original", content)
-            if self.settings.app_env == "cloud":
-                from google.cloud import run_v2
-
-                name = f"projects/{self.settings.gcp_project_id}/locations/{self.settings.gcp_region}/jobs/{self.settings.ingestion_job}"
-                await asyncio.to_thread(
-                    run_v2.JobsClient().run_job,
-                    request={
-                        "name": name,
-                        "overrides": {
-                            "container_overrides": [{"env": [{"name": "BOOK_ID", "value": digest}]}]
-                        },
-                    },
-                )
-            else:
-                task = asyncio.create_task(self.ingest(digest))
-                self.tasks.add(task)
-                task.add_done_callback(self.tasks.discard)
+            await self.start_ingestion(digest)
         except Exception as error:
             book.update(
                 status="failed", error=f"Ingestion could not start ({type(error).__name__})."
@@ -129,10 +125,74 @@ class Library:
             raise RuntimeError(book["error"]) from None
         return book
 
+    async def start_ingestion(self, book_id):
+        if self.settings.app_env == "cloud":
+            from google.cloud import run_v2
+
+            name = f"projects/{self.settings.gcp_project_id}/locations/{self.settings.gcp_region}/jobs/{self.settings.ingestion_job}"
+            await asyncio.to_thread(
+                run_v2.JobsClient().run_job,
+                request={
+                    "name": name,
+                    "overrides": {
+                        "container_overrides": [{"env": [{"name": "BOOK_ID", "value": book_id}]}]
+                    },
+                },
+            )
+        else:
+            task = asyncio.create_task(self.ingest(book_id))
+            self.tasks.add(task)
+            task.add_done_callback(self.ingestion_finished)
+
+    def ingestion_finished(self, task):
+        self.tasks.discard(task)
+        if not task.cancelled():
+            task.exception()  # I persist ingestion errors on the book before retrieving task failures.
+
+    async def retry(self, owner, book_id):
+        self.book(owner, book_id)
+
+        def reserve(book):
+            if not book or book["owner_id"] != owner:
+                raise KeyError("Book not found.")
+            if (
+                book["status"] != "failed"
+                and book.get("ingestion_lease", book["created_at"] + 3600) > time.time()
+            ):
+                raise Conflict("This book is already available or processing.")
+            if book["status"] == "ready":
+                raise Conflict("This book is already available.")
+            book.update(status="queued", error=None, ingestion_lease=time.time() + 3600)
+            return book
+
+        book = await asyncio.to_thread(self.store.mutate, "books", book_id, reserve)
+        try:
+            await self.start_ingestion(book_id)
+        except Exception as error:
+            book.update(
+                status="failed", error=f"Ingestion could not restart ({type(error).__name__})."
+            )
+            await asyncio.to_thread(self.store.put, "books", book_id, book)
+            raise RuntimeError(book["error"]) from None
+        return book
+
     async def ingest(self, book_id):
-        book = await asyncio.to_thread(self.store.get, "books", book_id)
-        if not book:
-            raise KeyError("Book not found.")
+        def claim(book):
+            if not book:
+                raise KeyError("Book not found.")
+            if book["status"] == "ready":
+                return book
+            if (
+                book["status"] in {"extracting", "indexing", "summarizing"}
+                and book.get("ingestion_lease", 0) > time.time()
+            ):
+                raise Conflict("Ingestion is already running.")
+            book.update(status="extracting", ingestion_lease=time.time() + 3600)
+            return book
+
+        book = await asyncio.to_thread(self.store.mutate, "books", book_id, claim)
+        if book["status"] == "ready":
+            return
         try:
             book["status"] = "extracting"
             await asyncio.to_thread(self.store.put, "books", book_id, book)

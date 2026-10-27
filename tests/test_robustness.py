@@ -87,6 +87,67 @@ def test_cancellation_flag_survives_finish(components):
     assert store.get("turns", current["id"])["cancel_requested"] is True
 
 
+def test_cancellation_interrupts_silent_engine(components):
+    from src.app import TurnCancelled, interruptible_stream
+
+    _, store = components
+    store.put("turns", "silent", {"cancel_requested": False})
+    closed = []
+
+    async def silent():
+        try:
+            await asyncio.sleep(60)
+            yield "token", {"text": "Too late"}
+        finally:
+            closed.append(True)
+
+    async def run():
+        stream = interruptible_stream(silent(), store, "silent")
+        pending = asyncio.create_task(anext(stream))
+        await asyncio.sleep(0.05)
+        store.put("turns", "silent", {"cancel_requested": True})
+        with pytest.raises(TurnCancelled):
+            await asyncio.wait_for(pending, timeout=2)
+
+    asyncio.run(run())
+    assert closed == [True]
+
+
+def test_storage_failure_never_emits_success(components, monkeypatch):
+    settings, store = components
+    original = Chats.finish
+
+    def fail_completion(self, current, status):
+        if status == "complete":
+            raise RuntimeError("private storage details")
+        return original(self, current, status)
+
+    monkeypatch.setattr(Chats, "finish", fail_completion)
+    with TestClient(create_app(settings, store, EngineFixture(), LibraryFixture())) as client:
+        client.get("/api/bootstrap")
+        chat_id = client.post("/api/chats", json={}).json()["id"]
+        response = client.post("/api/chat", json=turn(chat_id))
+        assert '"success": true' not in response.text
+        assert '"success": false' in response.text
+        assert "private storage" not in response.text
+        assert client.get(f"/api/chats/{chat_id}").json()["turns"][0]["status"] == "failed"
+
+
+def test_expired_process_lease_recovers_on_restart(components):
+    _, store = components
+    chats = Chats(store)
+    chat = chats.create("reader")
+    current = chats.begin("reader", ChatRequest(**turn(chat["id"])))
+    store.mutate("chats", chat["id"], lambda c: c | {"lease_until": 0})
+    restarted = Chats(SQLiteStore(store.path))
+    assert restarted.messages("reader", chat["id"])[0]["status"] == "interrupted"
+    assert restarted.owned("reader", chat["id"])["active_turn"] is None
+    with pytest.raises(Exception, match="already exists"):
+        restarted.begin(
+            "reader", ChatRequest(**(turn(chat["id"]) | {"turn_id": current["turn_id"]}))
+        )
+
+
 def test_stress_atomic_store_updates(components):
     _, store = components
     store.put("stress", "counter", {"value": 0})
@@ -235,3 +296,17 @@ def test_oversized_upload_rejected_before_ingestion(components):
         client.get("/api/bootstrap")
         response = client.post("/api/books", content=b"x" * 101, headers={"X-Filename": "book.txt"})
         assert response.status_code == 413
+
+
+def test_hourly_admission_rejects_before_model_execution(components):
+    settings, store = components
+    engine = EngineFixture()
+    with TestClient(create_app(settings, store, engine, LibraryFixture())) as client:
+        client.get("/api/bootstrap")
+        chat_id = client.post("/api/chats", json={}).json()["id"]
+        for _ in range(30):
+            assert '"success": true' in client.post("/api/chat", json=turn(chat_id)).text
+        histories = len(engine.histories)
+        assert client.post("/api/chat", json=turn(chat_id)).status_code == 429
+        assert len(engine.histories) == histories
+        assert len(client.get(f"/api/chats/{chat_id}").json()["turns"]) == 30

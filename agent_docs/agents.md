@@ -56,6 +56,8 @@ I validate the built container and the deployed candidate, check a real streamed
 
 ## My live submission verification
 
+I prefer the VS Code-integrated browser. After Code access was rejected, I explicitly authorized Chrome for testing this Assignment 2 application only. I do not inspect unrelated Chrome tabs or use it for other projects.
+
 I test the actual public Cloud Run URL in a browser and through its API. I verify cold and warm requests, unrehearsed reasonable queries, visible incremental tokens, citations, agent/provider rationale, all selected specialists and providers, current web retrieval, failure handling, and uploaded-book isolation. If I claim durable state, I verify instance-replacement recovery.
 
 I require the complete live suite to pass on the submitted revision, not merely on localhost or an earlier deployment. I fix failures and rerun affected checks before submission. I retain my live URL and measured evidence and confirm that the frontend connects to the deployed backend.

@@ -198,3 +198,74 @@ def test_real_tokenizer_never_splits_unicode_characters():
     chunks = chunk_book("unicode", extracted, tokenizer, size=9, overlap=0)
     assert "".join(chunk["text"] for chunk in chunks) == text
     assert all("\ufffd" not in chunk["text"] for chunk in chunks)
+
+
+@pytest.mark.parametrize(
+    "document", [b"<package>", b'<!DOCTYPE package [<!ENTITY x "bad">]><package>&x;</package>']
+)
+def test_epub_rejects_malformed_metadata_and_entities(settings, document):
+    output = io.BytesIO()
+    with zipfile.ZipFile(output, "w") as archive:
+        archive.writestr("content.opf", document)
+    with pytest.raises(ValueError):
+        parse(output.getvalue(), settings, "book.epub")
+
+
+def test_full_length_curated_book_with_real_tokenizer(settings):
+    import gzip
+    import json
+
+    from src.config import ROOT
+    from src.library import Library
+
+    snapshot = json.loads(gzip.decompress((ROOT / "corpus/snapshot.json.gz").read_bytes()))
+    book = next(b for b in snapshot["books"] if b["gutenberg_id"] == 205)
+    tokenizer = Library.tokenizer()
+    parsed = extract_book("walden.txt", book["original"].encode(), settings, tokenizer)
+    assert parsed["words"] == book["words"] > 100000
+    assert parsed["tokens"] == book["tokens"]
+    chunks = chunk_book(book["id"], parsed, tokenizer)
+    assert chunks == book["chunks"]
+
+
+@pytest.mark.parametrize("pages", [300, 400, 500])
+def test_substantial_book_pdf_with_real_text_and_tokenizer(settings, pages):
+    import gzip
+    import json
+    import textwrap
+
+    from pypdf.generic import DecodedStreamObject, DictionaryObject, NameObject
+
+    from src.config import ROOT
+    from src.library import Library
+
+    snapshot = json.loads(gzip.decompress((ROOT / "corpus/snapshot.json.gz").read_bytes()))
+    source = next(b for b in snapshot["books"] if b["gutenberg_id"] == 205)["original"]
+    words = source.encode("ascii", "replace").decode().split()[: pages * 200]
+    writer, output = PdfWriter(), io.BytesIO()
+    font = DictionaryObject(
+        {
+            NameObject("/Type"): NameObject("/Font"),
+            NameObject("/Subtype"): NameObject("/Type1"),
+            NameObject("/BaseFont"): NameObject("/Helvetica"),
+        }
+    )
+    for number in range(pages):
+        page = writer.add_blank_page(width=612, height=792)
+        page[NameObject("/Resources")] = DictionaryObject(
+            {NameObject("/Font"): DictionaryObject({NameObject("/F1"): font})}
+        )
+        lines = textwrap.wrap(" ".join(words[number * 200 : (number + 1) * 200]), width=85)
+        commands = ["BT /F1 10 Tf 12 TL 40 740 Td"]
+        for line in lines:
+            escaped = line.replace("\\", "\\\\").replace("(", "\\(").replace(")", "\\)")
+            commands.append(f"({escaped}) Tj T*")
+        content = DecodedStreamObject()
+        content.set_data(("\n".join(commands) + "\nET").encode())
+        page[NameObject("/Contents")] = writer._add_object(content)
+    writer.write(output)
+    parsed = extract_book("walden_paginated.pdf", output.getvalue(), settings, Library.tokenizer())
+    assert len(parsed["sections"]) == pages
+    assert parsed["words"] >= pages * 190
+    assert words[-1] in parsed["sections"][-1]["text"]
+    assert parsed["tokens"] <= settings.max_tokens

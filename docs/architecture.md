@@ -27,6 +27,8 @@ flowchart TD
 
 I give each specialist a separate system prompt and a different tool surface. My supervisor does not count toward the three-specialist requirement. Each worker returns to the supervisor; a failed worker records a structured failure, and successful workers can still contribute. If every selected worker fails, I return an incomplete response.
 
+I generate the worker plan once per request. At every subsequent hop, I read `plan` and `completed` to choose the next unfinished worker; I expose available result names and sanitized errors alongside the routing reason. I synthesize after all planned workers have returned. I do not announce an unexecuted worker as an invocation. For an empty off-topic plan, I return a deterministic book-focused redirect without workers or synthesis-model calls. I trace Summary's question, book, spoiler boundary, chapter maps, and original chunk IDs before its generation call.
+
 ## My provider routing
 
 | My task | My normal provider/model | My rationale |
@@ -90,7 +92,7 @@ flowchart LR
 | --- | --- |
 | Identity | `owner_id`, `session_id`, `book_id` |
 | Request | `query`, `depth`, `spoiler_limit`, bounded `history` |
-| Execution | `plan`, `completed`, `initialized` |
+| Execution | `plan`, `plan_reason`, `completed`, `initialized` |
 | Results | `results`, `errors`, `citations`, `answer` |
 
 I derive ownership from a signed HttpOnly cookie; a caller-supplied chat ID is not authorization. I isolate multiple chats, preserve them when creating a new chat, and require explicit deletion. I filter incomplete turns and exclude prior answers outside a reduced spoiler boundary from model history.
@@ -98,6 +100,10 @@ I derive ownership from a signed HttpOnly cookie; a caller-supplied chat ID is n
 I atomically reserve a chat and its turn, reject duplicate IDs and concurrent turns, and persist successful completion before emitting success. I persist LangGraph checkpoints and intermediate writes through a shared storage adapter. Local development uses SQLite; Cloud Run uses application-prefixed Firestore collections and GCS artifacts. I do not mix conversation checkpoints with Pinecone's book index.
 
 I use a separate Cloud Run Job for cloud ingestion. I use a tracked asynchronous task locally. My artifact/checkpoint adapters and ready-state records separate long-running ingestion from reader requests.
+
+I reserve an ingestion lease to reject competing jobs, publish readiness only after vector writes and every evidence map succeed, and reuse existing maps when retrying the same pipeline. I expose private-owner retry for failed or expired jobs. The job has a one-hour deadline and 2 GiB memory limit; I do not claim hostile PDF parsing is completely resource-safe. I reject XML entities and malformed EPUB metadata before ebook parsing. My curated snapshot pins pipeline 2 originals/chunks/maps; changes to chunking require explicit corpus migration.
+
+I poll cancellation during otherwise silent generation, close the pending async stream, and never send terminal success before durable turn finalization. A lost process can lose unpublished partial output; an expired lease becomes interrupted on subsequent access. I enforce transactional hourly admission limits separately from exact paid-budget reservations. My anonymous cookie lasts 30 days; clearing it removes access, not an assertion that server-side artifacts were immediately erased.
 
 ## My complete workflow
 

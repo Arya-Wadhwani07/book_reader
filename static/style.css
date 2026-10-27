@@ -8,3 +8,4 @@
 
 #toggle-library{display:none}
 @media(max-width:767px){header{flex-wrap:wrap;gap:10px}.brand{width:100%}#toggle-library{display:block}.library{display:none}.library.is-open{display:block}header>button{flex:1}}
+.trace pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:12px;max-height:320px;overflow:auto}
