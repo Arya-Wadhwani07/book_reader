@@ -8,13 +8,21 @@ I have completed my one-time authorized read of Assignment 1's deployment config
 
 ## My directory and documentation rules
 
-I name project-owned directories in lowercase snake_case, such as `agent_docs` and `reference_docs`. I preserve required tool-owned names such as `.github` and generated dependency directories. I keep every authored Markdown file under `agent_docs/`, except root `README.md`. I also store supplied Markdown references under `agent_docs/reference_docs/`, preserving their contents. I use `agent_docs/agents.md` as my working guidelines and explicitly read it at task start; I do not rely on root `AGENTS.md` discovery.
+I name project-owned directories in lowercase snake_case, such as `agent_docs` and `reference_docs`. I preserve required tool-owned names such as `.github` and generated dependency directories. I follow the professor's required paths first: `docs/architecture.md`, `docs/evaluation.md`, root `PROCESS_LOG.md`, and root `README.md`. I keep my other authored Markdown under `agent_docs/`; my personal folder convention never overrides the assignment contract. I also store supplied Markdown references under `agent_docs/reference_docs/`, preserving their contents. I use `agent_docs/agents.md` as my working guidelines and explicitly read it at task start; I do not rely on root `AGENTS.md` discovery.
 
 ## My source of truth and documentation
 
 I use the supplied assignment PDF and supporting documents as my grading contract. I track all unfinished work, open decisions, implementation steps, and completion checkboxes exclusively in `agent_docs/requirements.md`. This file contains standing rules, not a second backlog.
 
 I write original documentation in first person. I describe actual behavior and measured results accurately. I preserve supplied instructor documents. I update my requirements when a decision changes and mark completion only with reviewed evidence. I ask when material information is missing, but continue independent authorized work.
+
+## My anonymous multi-chat memory and uploads
+
+I provide persistent memory within one anonymous browser identity, with no login/logout. I allow multiple separate saved chats. I use `owner_id` for the server-verified browser identity and `session_id` for one chat; I never merge messages or agent checkpoints across chats. I keep each chat's messages, book context, preferences, citations, and trace history in external durable storage and restore them after refresh or Cloud Run instance replacement. My browser cookie identifies the owner; it does not contain conversation text.
+
+I make New Chat/Reset create a new chat under the same owner and preserve previous chats. I make deletion an explicit, confirmed action. I authorize chat/source access on the server and reject a chat ID belonging to another owner. I do not promise recovery after clearing browser identity or access from another device. I test chat switching, simultaneous tabs, cross-chat isolation, refresh, restart, and deletion behavior.
+
+I accept English text-based PDF, EPUB, and TXT. I cap PDF uploads at 500 physical pages; for EPUB/TXT I label a 125,000-word cap as approximately 500 pages at 250 words/page. I cap each file at 25 MB (25,000,000 bytes) and extracted model input at 250,000 tokens. I display all applicable limits before upload, reject excess input with a clear reason, and never silently truncate a book. I verify representative 300–400-page books and the 500-page boundary before claiming support.
 
 ## My code standard
 

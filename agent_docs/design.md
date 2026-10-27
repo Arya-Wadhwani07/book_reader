@@ -9,7 +9,7 @@ I propose a quiet, reading-first interface with warm neutral surfaces, clear typ
 | [Assignment description](../docs/Assignment_2_Description%20%281%29.pdf), §§2.6, 4.3, 7.2 | I provide FastAPI-served chat, actual SSE token streaming, visible agent/provider routing with reasons, inspectable orchestration traces, and linked citations. |
 | [Professor's frontend prompt](reference_docs/frontend_vibecode_prompt.md) | I adopt vanilla HTML/CSS/JS, POST streaming, the five named events, separate trace/citation panels, distinct trace badges, submit locking, and Reset. |
 | [Professor's supporting documents](requirements.md#my-source-inventory-and-interpretation) | I preserve their provider, retrieval, persistence, sharing, and evaluation constraints; I do not infer a prescribed color palette or typography from them. |
-| [My architecture](architecture.md) | I reflect the three specialists, curated library/uploads, fiction/nonfiction views, background ingestion, and separation of book evidence from web research. |
+| [My architecture](../docs/architecture.md) | I reflect the three specialists, curated library/uploads, fiction/nonfiction views, background ingestion, and separation of book evidence from web research. |
 
 I choose the visual tokens below; I do not present them as professor-specified styling. I use the permitted vanilla frontend path, without React, Vue, Angular, Svelte, a Node build step, or `node_modules` in my runtime image.
 
@@ -40,7 +40,7 @@ I choose the visual tokens below; I do not present them as professor-specified s
 ## My page composition
 
 ```text
-Header: Book Companion                         Library / Upload
+Header: Book Companion                         Library / Upload / New Chat
 Library rail       Reading workspace           Evidence rail
 Search and books   Book title + content views   Sources panel
 Upload progress    Depth + spoiler controls    Activity panel
@@ -68,14 +68,25 @@ I keep a compact routing summary visible with every turn at every width. I make 
 | Adaptations | I identify evidenced film/TV adaptations, distinguish related works, and show source links. |
 | Buy | I show verified retailer links, edition, format, and retrieval date; I do not invent availability or prices. |
 
+I limit my initial input scope to English PDF, EPUB, and TXT. I restore the saved-chat list, active conversation, and its book context after refresh from server-side state. I support multiple isolated chats under the same anonymous browser identity without login/logout.
+
 I keep Library and Upload as entry points into the same reading workspace. I show “Not applicable” or “No supported result found” where appropriate instead of fabricating content. I keep technical storage and deployment details out of these reading views.
+
+### My visible upload message
+
+I display this helper text beside Upload:
+
+> English PDF, EPUB or TXT · Up to 25 MB per file. PDFs: up to 500 pages. EPUB/TXT: up to 125,000 words (approximately 500 pages). An extracted-text limit of 250,000 tokens also applies. Text-based files only.
+
+I show the measured page/word count after extraction and name the exact limit if rejected. I never advertise that every 500-page file is supported regardless of size or text density. I label saved chats as available in this browser and explain that clearing site data can remove access.
 
 ## My reusable components
 
 | My component | My behavior |
 | --- | --- |
 | Book item | I display title, author, fiction/nonfiction label, edition, and readiness state; I allow selection only when its required content is ready. |
-| Upload control | I provide a labelled file picker plus optional drag-and-drop; I show supported formats and configured limits before upload. |
+| Upload control | I provide a labelled file picker plus optional drag-and-drop and show the exact limit message below before selection. |
+| Chat list | I show saved chat titles, New Chat, and the active selection; I restore each chat's own messages, book, depth, and spoiler settings. |
 | Progress row | I show actual stages: uploading, extracting, indexing, summarizing, ready, or failed; I show percentages only when measured. |
 | Depth control | I offer Brief, Detailed, and Deep Dive; I retain the choice for the selected book. |
 | Spoiler control | I offer “Up to chapter…” and explicit “Whole book”; I require a deliberate whole-book choice before revealing the ending. |
@@ -91,7 +102,7 @@ I use labels with distinct badge colors: **Agent** (`agent_route`, green), **Mod
 
 ## My streaming and interaction contract
 
-I serve one HTML page and its local static assets through FastAPI. I POST JSON `{query, session_id}` to `/api/chat`, consume `text/event-stream` through `fetch()` and `ReadableStream`, and parse complete SSE frames across arbitrary network chunks.
+I serve one HTML page and its local static assets through FastAPI. I POST JSON `{query, session_id, turn_id, book_id, depth, spoiler_limit}` to `/api/chat`; I use `session_id` as the selected chat ID and derive the owning browser identity from its signed cookie. I consume `text/event-stream` through `fetch()` and `ReadableStream`, and parse complete SSE frames across arbitrary network chunks.
 
 | My event | My rendering rule |
 | --- | --- |
@@ -102,12 +113,13 @@ I serve one HTML page and its local static assets through FastAPI. I POST JSON `
 | `done` | I finalize the turn according to its success status and restore the composer controls. |
 
 - I disable Send while a turn is active and expose Stop; I do not permit overlapping submissions from the same composer.
+- I allow switching to another saved chat after stopping an active response; each chat restores its own context.
 - I keep the active turn's book, depth, and spoiler scope fixed; I require stopping it before changing that context.
 - I distinguish “Searching sources” progress from answer tokens and avoid fake progress or fake time-to-first-token claims.
 - I stop following the stream when the reader scrolls upward and show “Jump to latest” instead of pulling the viewport down.
 - I treat EOF without successful completion as interrupted, release disabled controls, and expose Retry without silently issuing another paid request.
 - I make Stop abort the stream and request backend cancellation; I show “Stopping” until acknowledged and preserve partial output.
-- I make Reset stop the active turn, clear the conversation/evidence, and start a new session while retaining the library and uploaded books. Reset does not delete source files.
+- I make New Chat/Reset stop the active turn, clear the active workspace, and create a fresh chat under the same browser identity. Previous chats and uploaded books remain accessible; deleting a chat requires a separate confirmation.
 - I clear previous turn evidence from the active panels when starting a new turn but keep it accessible with its original message.
 
 ## My empty, loading, and failure states

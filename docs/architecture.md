@@ -1,12 +1,12 @@
 # My Book Companion Architecture
 
-I propose this design for review; I do not claim it is implemented or benchmarked. I keep implementation status and open decisions in [my requirements](requirements.md).
+I propose this design for review; I do not claim it is implemented or benchmarked. I keep implementation status and open decisions in [my requirements](../agent_docs/requirements.md).
 
 ## My topology and scope
 
 - I use **LangGraph Supervisor orchestration**: one coordinator, three specialist agents, explicit state, bounded delegation.
 - I select the rubric's Supervisor option; I avoid extra team supervisors for three workers. I use hierarchical *book summarization*, which is separate from agent topology.
-- I support fiction/nonfiction, a curated library, uploads, adjustable summary depth, character/event analysis, author research, adaptations, and purchase links.
+- I support English fiction/nonfiction, a curated library, PDF/EPUB/TXT uploads, adjustable summary depth, character/event analysis, author research, adaptations, and purchase links.
 - I use one Python codebase/container image for my FastAPI web service and a separately executed ingestion job.
 
 | My component | My responsibility and exclusive tools |
@@ -53,7 +53,7 @@ flowchart LR
     F --> Q
 ```
 
-- I accept text-based PDF, EPUB, and TXT as my proposed upload scope; I report unsupported/scanned inputs explicitly.
+- I accept English text-based PDF, EPUB, and TXT as my confirmed format scope; I report unsupported/scanned inputs explicitly.
 - I preserve `book_id`, edition, chapter, chunk ID, and page/location; I use location anchors when pages do not exist.
 - I start with chapter-bounded chunks around 800 tokens and 120-token overlap, then tune against evaluation.
 - I use bounded chapter processing plus ordered reconciliation to retain chronology, recurring characters, and nonfiction arguments.
@@ -61,6 +61,18 @@ flowchart LR
 - I use Pinecone for mutable uploaded-book vectors, GCS for large artifacts, and Firestore for small structured records/progress. I keep complete book text out of graph state.
 
 I use a Cloud Run Job for long ingestion rather than tying it to the chat request lifetime. [Google Cloud Jobs](https://docs.cloud.google.com/run/docs/create-jobs)
+
+### My upload admission rules
+
+| My limit | My rule |
+| --- | --- |
+| Format/language | I accept English text-based PDF, EPUB, and TXT; I reject unsupported, scanned-only, or encrypted input explicitly. |
+| File size | I accept at most 25 MB (25,000,000 bytes) per file. |
+| PDF length | I count actual PDF pages and accept at most 500. |
+| EPUB/TXT length | I accept at most 125,000 extracted words; I label this as approximately 500 pages at 250 words/page, not printed pagination. |
+| Model workload | I accept at most 250,000 extracted tokens using my ingestion tokenizer, regardless of format. |
+
+I enforce limits server-side before paid processing, do not truncate excess content, and report the specific limit exceeded. I bound EPUB decompression and parser resource usage. My target includes typical 300–400-page books, but dense or image-heavy files can hit another limit first.
 
 ## 2. My per-turn orchestration and provider flow
 
@@ -92,14 +104,18 @@ I delegate only relevant workers and parallelize independent research/data looku
 
 | My graph-state group | My fields |
 | --- | --- |
-| Identity and scope | `owner_id`, `session_id`, `turn_id`, `book_id`, `corpus_version` |
+| Identity and scope | `owner_id` (browser identity), `session_id` (chat), `turn_id`, `book_id`, `corpus_version` |
 | Request | `query`, `intent`, `depth`, `spoiler_limit`, `book_type` |
 | Execution | `plan`, `active_workers`, `provider_routes`, `budget`, `attempts` |
-| Evidence and result | `chunk_refs`, `worker_results`, `citations`, `errors`, `status` |
+| Evidence and result | `history_ref`, `chunk_refs`, `worker_results`, `citations`, `errors`, `status` |
 
 - I start focused Q&A at `top_k=6`, filter by authorized book/version/spoiler scope, and retrieve adjacent passages when needed.
 - I build whole-book summaries from the chapter manifest, not a few top-k matches; I expose character/event details through structured evidence.
 - I use this augmentation contract: “I answer from supplied evidence; I attach source IDs to factual claims, separate interpretation/web context, and state when evidence is missing.”
+- I design one anonymous browser identity to own multiple saved chats without login/logout. Each `session_id` identifies one chat, not the entire browser visit.
+- I persist messages, evidence, selected book, depth/spoiler settings, and graph checkpoints per chat. I restore the chat list and active chat after refresh and Cloud Run instance replacement.
+- I scope graph threads to the authorized owner/chat pair, serialize turns within a chat, and deduplicate retries by `turn_id`. Separate chats never inherit each other's messages.
+- I use a signed HttpOnly/Secure cookie for browser identity. Clearing it or changing device does not provide automatic history recovery. New Chat/Reset preserves old chats; explicit deletion is separate.
 - I persist conversation/graph checkpoints through a Firestore-backed adapter; I store large evidence in GCS and keep references in state. I treat checkpoint persistence as distinct from reusable book knowledge. [LangGraph persistence](https://docs.langchain.com/oss/python/langgraph/persistence)
 
 ## 3. My runtime, deployment, and user experience
@@ -115,7 +131,7 @@ flowchart LR
     API -->|SSE tokens, traces, citations| U
     API -->|Start ingestion| J[Cloud Run Job: same image]
     U -->|Read ingestion progress| API
-    API --> F[(Firestore sessions and job status)]
+    API --> F[(Firestore owners, chats and job status)]
     J --> F
     SEC[Secret Manager] -. runtime identities .-> API
     SEC -. runtime identities .-> J
@@ -137,7 +153,7 @@ flowchart TB
     USER[Reader: curated library or upload] --> WEB[FastAPI and vanilla UI]
     WEB -->|Upload and progress| ING[Ingestion job]
     ING --> KNOW[(GCS books and summaries / Pinecone vectors)]
-    ING --> STATE[(Firestore facts, sessions, checkpoints)]
+    ING --> STATE[(Firestore facts, chats, checkpoints)]
     WEB --> SUP[LangGraph Supervisor]
     SUP --> TEAM[Summary / Research / Data]
     TEAM <--> KNOW
