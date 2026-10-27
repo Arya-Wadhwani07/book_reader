@@ -157,6 +157,7 @@ async function send(event) {
   setActive(true);
   try { if (!state.chat) await newChat(true); } catch (error) { setActive(false); notice(error.message); return; }
   notice(""); clearEvidence(); const view = createTurn(query);
+  $("turn-status").textContent = "Starting your response…";
   setActive(true); renderBooks(); renderChats(); state.follow = true; state.controller = new AbortController();
   let complete = false;
   try {

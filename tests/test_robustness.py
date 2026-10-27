@@ -87,6 +87,15 @@ def test_cancellation_flag_survives_finish(components):
     assert store.get("turns", current["id"])["cancel_requested"] is True
 
 
+def test_disconnect_after_stop_retains_cancelled_status(components):
+    _, store = components
+    chats = Chats(store)
+    chat = chats.create("owner")
+    current = chats.begin("owner", ChatRequest(**turn(chat["id"])))
+    chats.cancel("owner", chat["id"])
+    assert chats.finish(current, "interrupted") == "cancelled"
+
+
 def test_cancellation_interrupts_silent_engine(components):
     from src.app import TurnCancelled, interruptible_stream
 

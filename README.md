@@ -97,3 +97,5 @@ I cap total project usage at **$5 OpenAI** and **$2.50 Anthropic**, with transac
 I use the confirmed NVIDIA/Tavily student plans and eligible GCP credits; I do not assume those cover other provider bills. I have not enabled paid plan upgrades or automatic top-ups. I use short bounded prompts for the quoted generation rates and retain conservative charges when a request's actual billing is unknown. I stop paid requests when my ledger cannot reserve their upper bound.
 
 I source these rates from [OpenAI's model catalog](https://developers.openai.com/api/docs/models/gpt-6-luna), [OpenAI embedding pricing](https://developers.openai.com/api/docs/models/text-embedding-3-small), and [Anthropic's Sonnet 5 documentation](https://platform.claude.com/docs/en/models/sonnet-5/overview). I report actual usage evidence separately from listed prices.
+
+I record my development and verification narrative in [PROCESS_LOG.md](PROCESS_LOG.md). I keep the current completion status in [my requirements checklist](agent_docs/requirements.md).

@@ -125,7 +125,9 @@ class Chats:
             if current is None:
                 raise KeyError("Turn no longer exists.")
             cancelled = current.get("cancel_requested", False)
-            final_status = "cancelled" if status == "complete" and cancelled else status
+            final_status = (
+                "cancelled" if status in {"complete", "interrupted"} and cancelled else status
+            )
             documents[turn_key] = turn | {
                 "cancel_requested": cancelled,
                 "status": final_status,
