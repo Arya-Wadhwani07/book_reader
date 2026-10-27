@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Read deeply, explore characters and ideas, and follow every answer to its sources.">
+  <title>Book Companion</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/stream.js" defer></script>
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip" href="#workspace">Skip to reading workspace</a>
+  <header><a class="brand" href="/">Book Companion<span>A little closer to every story.</span></a><button id="new-chat">＋ New chat</button></header>
+  <div id="notice" role="status" aria-live="polite"></div>
+  <div class="layout">
+    <aside class="library" aria-label="Library and saved chats">
+      <h2>Your library</h2>
+      <label for="book-search">Find a book</label><input id="book-search" type="search" placeholder="Title or author">
+      <div id="books" class="list"></div>
+      <details class="upload"><summary>Add your own book</summary>
+        <p id="upload-help">English PDF, EPUB or TXT · Up to 25 MB. PDFs: 500 pages. EPUB/TXT: 125,000 words (approximately 500 pages). Maximum 250,000 extracted tokens. Text-based files only.</p>
+        <label for="file">Choose a book</label><input id="file" type="file" accept=".pdf,.epub,.txt" aria-describedby="upload-help">
+        <button id="upload">Upload book</button><p id="upload-status" role="status"></p>
+      </details>
+      <div class="section-title"><h2>Conversations</h2><button id="delete-chat" class="quiet" title="Delete the selected chat">Delete</button></div>
+      <div id="chats" class="list"></div>
+      <p class="small">Saved in this browser. No account needed. Clearing site data removes access to your chats.</p>
+    </aside>
+    <main id="workspace">
+      <div class="book-heading"><span class="eyebrow">THE READING ROOM</span><h1 id="book-title">Make room for a good book.</h1><p id="book-author">Choose a book from the library or bring your own.</p></div>
+      <nav id="views" aria-label="Explore this book">
+        <button data-query="Give me an overview of this book, with citations.">Overview</button>
+        <button data-query="Summarize the chapters of this book in order, with citations.">Chapters</button>
+        <button data-query="Explore the main characters or concepts and their relationships, with citations.">Characters &amp; concepts</button>
+        <button data-query="Explain the major events or arguments and how they connect, with citations.">Events &amp; arguments</button>
+        <button data-query="Research the author of this book and cite your web sources.">Author</button>
+        <button data-query="Research film or television adaptations of this book, including recent announcements, with web sources.">Adaptations</button>
+        <button data-query="Find current editions and hardcover purchase links for this book, with web sources.">Find a copy</button>
+      </nav>
+      <div class="preferences">
+        <label>Reading depth<select id="depth"><option value="brief">Brief</option><option value="detailed">Detailed</option><option value="deep">Deep dive</option></select></label>
+        <label>Spoiler boundary<select id="spoiler"><option value="1">Through chapter 1</option><option value="all">Whole book — includes the ending</option></select></label>
+      </div>
+      <section id="conversation" aria-label="Conversation"><div class="welcome"><p class="serif">Understand the story.<br>Stay curious about the details.</p><p>Ask about a passage, trace a character’s journey, or explore the ideas behind a chapter. Your sources stay close by.</p></div></section>
+      <button id="latest" hidden>Jump to latest ↓</button>
+      <form id="composer"><label for="query">Ask about this book</label><textarea id="query" rows="3" maxlength="6000" placeholder="What changes the main character’s perspective?" required></textarea>
+        <div class="composer-actions"><span id="turn-status" role="status" aria-live="polite">Select a ready book to begin.</span><button type="button" id="stop" hidden>Stop</button><button id="send" type="submit">Send ↗</button></div>
+      </form>
+      <p class="small disclaimer">Summaries condense information. Follow the citations for detail; interpretations may be incomplete.</p>
+    </main>
+    <aside class="evidence" aria-label="Answer evidence">
+      <details open><summary>Sources <span id="source-count">0</span></summary><div id="sources"><p class="small">Book passages and web references appear here.</p></div></details>
+      <details open><summary>Activity</summary><div id="activity"><p class="small">See which agents and models handled your question, and why.</p></div></details>
+    </aside>
+  </div>
+  <dialog id="passage"><div class="section-title"><h2>Source passage</h2><button id="close-passage">Close</button></div><p id="passage-label"></p><div id="passage-text" class="serif"></div></dialog>
+</body>
+</html>

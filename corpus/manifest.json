@@ -1,0 +1,10 @@
+[
+  {"gutenberg_id":11,"title":"Alice's Adventures in Wonderland","author":"Lewis Carroll","kind":"Fiction"},
+  {"gutenberg_id":35,"title":"The Time Machine","author":"H. G. Wells","kind":"Fiction"},
+  {"gutenberg_id":43,"title":"Strange Case of Dr Jekyll and Mr Hyde","author":"Robert Louis Stevenson","kind":"Fiction"},
+  {"gutenberg_id":41445,"title":"Frankenstein (1818)","author":"Mary Shelley","kind":"Fiction"},
+  {"gutenberg_id":132,"title":"The Art of War","author":"Sun Tzu; translated by Lionel Giles","kind":"Nonfiction"},
+  {"gutenberg_id":1232,"title":"The Prince","author":"Niccolò Machiavelli; translated by W. K. Marriott","kind":"Nonfiction"},
+  {"gutenberg_id":148,"title":"The Autobiography of Benjamin Franklin","author":"Benjamin Franklin","kind":"Nonfiction"},
+  {"gutenberg_id":205,"title":"Walden, and On the Duty of Civil Disobedience","author":"Henry David Thoreau","kind":"Nonfiction"}
+]

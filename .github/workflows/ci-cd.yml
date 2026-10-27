@@ -17,7 +17,7 @@ env:
   GCP_PROJECT_ID: clean-mountain-511522-d0
   GCP_REGION: us-west1
   CLOUD_RUN_SERVICE: book-companion
-  ARTIFACT_REPOSITORY: csci599
+  ARTIFACT_REPOSITORY: book-companion
 
 jobs:
   test:
@@ -29,25 +29,48 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
+      - run: python -m venv .venv
       - name: Install my verification tools
-        run: python -m pip install -r requirements-ci.txt
+        run: .venv/bin/python -m pip install -r requirements-ci.txt
       - name: Review my Python code
         run: |
-          ruff check .
-          ruff format --check .
+          .venv/bin/ruff check .
+          .venv/bin/ruff format --check .
       - name: Require my application and its acceptance suite
         run: |
           test -s requirements.txt
           test -s Dockerfile
           test -s tests/test_app.py
           test -s tests/live/test_acceptance.py
-          python -m pip install -r requirements.txt
+          .venv/bin/python -m pip install -r requirements.txt
       - name: Run my offline suite without exemptions
         run: |
-          python -m pytest tests --ignore=tests/live --junitxml=reports/offline.xml
-          python scripts/verify_release.py report reports/offline.xml
-      - name: Build my container
-        run: docker build --tag book-companion:${{ github.sha }} .
+          .venv/bin/python -m pytest tests --ignore=tests/live --junitxml=reports/offline.xml
+          .venv/bin/python scripts/verify_release.py report reports/offline.xml
+      - name: Test my browser stream parser
+        run: node --test tests/test_stream.cjs
+      - name: Build and validate my container
+        run: |
+          docker build --tag book-companion:${{ github.sha }} .
+          test "$(docker run --rm --entrypoint id book-companion:${{ github.sha }} -u)" -gt 0
+          docker run -d --name book-test -p 127.0.0.1:8088:8080 -e SESSION_SECRET=ci-test-secret-at-least-thirty-two-characters -e APP_ENV=test book-companion:${{ github.sha }}
+          for attempt in $(seq 1 30); do
+            if curl --fail --silent http://127.0.0.1:8088/healthz; then break; fi
+            sleep 1
+          done
+          curl --fail --silent http://127.0.0.1:8088/healthz
+          docker stop book-test
+          docker save book-companion:${{ github.sha }} -o reports/image.tar
+      - uses: actions/upload-artifact@v7
+        with:
+          name: tested-image
+          path: reports/image.tar
+          retention-days: 2
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: offline-evidence
+          path: reports/*.xml
 
   deploy:
     needs: test
@@ -71,6 +94,7 @@ jobs:
       - uses: actions/setup-python@v7
         with:
           python-version: '3.13'
+      - run: python -m venv .venv
       - name: Validate my deployment configuration
         env:
           WIF_PROVIDER: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
@@ -88,27 +112,40 @@ jobs:
           workload_identity_provider: ${{ vars.GCP_WORKLOAD_IDENTITY_PROVIDER }}
           service_account: ${{ vars.GCP_DEPLOY_SERVICE_ACCOUNT }}
       - uses: google-github-actions/setup-gcloud@v3
-      - name: Build and push my commit-tagged image
+      - uses: actions/download-artifact@v8
+        with:
+          name: tested-image
+          path: reports
+      - name: Push my tested image
         run: |
           gcloud auth configure-docker "$GCP_REGION-docker.pkg.dev" --quiet
           image="$GCP_REGION-docker.pkg.dev/$GCP_PROJECT_ID/$ARTIFACT_REPOSITORY/$CLOUD_RUN_SERVICE:$GITHUB_SHA"
-          docker build --tag "$image" .
+          docker load -i reports/image.tar
+          docker tag book-companion:${{ github.sha }} "$image"
           docker push "$image"
-          echo "DEPLOY_IMAGE=$image" >> "$GITHUB_ENV"
+          digest="$(docker inspect --format='{{index .RepoDigests 0}}' "$image")"
+          echo "DEPLOY_IMAGE=$digest" >> "$GITHUB_ENV"
       - name: Verify my container before deployment
         run: |
           uid="$(docker run --rm --entrypoint id "$DEPLOY_IMAGE" -u)"
           test "$uid" -gt 0
       - name: Deploy my candidate revision
         run: |
-          revision="$CLOUD_RUN_SERVICE-${GITHUB_SHA:0:12}-$GITHUB_RUN_ATTEMPT"
+          previous="$(gcloud run services describe "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" --region "$GCP_REGION" --format=json | jq -r '.status.traffic[] | select(.percent == 100) | .revisionName' | head -1)"
+          echo "PREVIOUS_REVISION=$previous" >> "$GITHUB_ENV"
+          gcloud run jobs deploy book-companion-ingest --project "$GCP_PROJECT_ID" --region "$GCP_REGION" \
+            --image "$DEPLOY_IMAGE" --service-account "$RUNTIME_SERVICE_ACCOUNT" \
+            --set-secrets "$RUNTIME_SECRETS" --set-env-vars "$RUNTIME_ENV" \
+            --command /app/.venv/bin/python --args=-m,src.rag.ingest \
+            --memory 2Gi --cpu 1 --tasks 1 --max-retries 0 --task-timeout 3600s --quiet
+          revision="$CLOUD_RUN_SERVICE-${GITHUB_SHA:0:12}-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT"
           gcloud run deploy "$CLOUD_RUN_SERVICE" \
             --image "$DEPLOY_IMAGE" --project "$GCP_PROJECT_ID" --region "$GCP_REGION" \
             --service-account "$RUNTIME_SERVICE_ACCOUNT" --allow-unauthenticated \
             --set-secrets "$RUNTIME_SECRETS" --set-env-vars "$RUNTIME_ENV" \
             --memory 1Gi --cpu 1 --concurrency 4 --timeout 300 \
             --min-instances 0 --max-instances 2 --no-traffic --tag candidate \
-            --revision-suffix "${GITHUB_SHA:0:12}-$GITHUB_RUN_ATTEMPT" --quiet
+            --revision-suffix "${GITHUB_SHA:0:12}-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" --quiet
           gcloud run services describe "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" --format=json > reports/service.json
           candidate_url="$(jq -er '.status.traffic[] | select(.tag == "candidate") | .url' reports/service.json)"
@@ -116,11 +153,12 @@ jobs:
           echo "CANDIDATE_REVISION=$revision" >> "$GITHUB_ENV"
       - name: Verify my live candidate
         run: |
-          python -m pip install -r requirements.txt -r requirements-ci.txt
-          python scripts/verify_release.py live "$CANDIDATE_URL" --query "$SMOKE_QUERY"
-          BASE_URL="$CANDIDATE_URL" python -m pytest tests/live --junitxml=reports/candidate.xml
-          python scripts/verify_release.py report reports/candidate.xml
+          .venv/bin/python -m pip install -r requirements.txt -r requirements-ci.txt
+          .venv/bin/python scripts/verify_release.py live "$CANDIDATE_URL" --query "$SMOKE_QUERY"
+          BASE_URL="$CANDIDATE_URL" .venv/bin/python -m pytest tests/live --junitxml=reports/candidate.xml
+          .venv/bin/python scripts/verify_release.py report reports/candidate.xml
       - name: Promote my verified revision
+        id: promote
         run: |
           gcloud run services update-traffic "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" \
             --region "$GCP_REGION" --to-revisions "$CANDIDATE_REVISION=100" --quiet
@@ -129,7 +167,17 @@ jobs:
           echo "PUBLIC_URL=$public_url" >> "$GITHUB_ENV"
       - name: Verify my public deployment
         run: |
-          python scripts/verify_release.py live "$PUBLIC_URL" --query "$SMOKE_QUERY"
-          BASE_URL="$PUBLIC_URL" python -m pytest tests/live --junitxml=reports/public.xml
-          python scripts/verify_release.py report reports/public.xml
+          .venv/bin/python scripts/verify_release.py live "$PUBLIC_URL" --query "$SMOKE_QUERY"
+          BASE_URL="$PUBLIC_URL" .venv/bin/python -m pytest tests/live --junitxml=reports/public.xml
+          .venv/bin/python scripts/verify_release.py report reports/public.xml
           echo "My verified public deployment: $PUBLIC_URL" >> "$GITHUB_STEP_SUMMARY"
+      - name: Restore traffic after a failed public verification
+        if: failure() && steps.promote.outcome == 'success' && env.PREVIOUS_REVISION != ''
+        run: |
+          gcloud run services update-traffic "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" \
+            --region "$GCP_REGION" --to-revisions "$PREVIOUS_REVISION=100" --quiet
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: live-evidence
+          path: reports/*.xml

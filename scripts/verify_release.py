@@ -5,7 +5,7 @@ import json
 import uuid
 import xml.etree.ElementTree as ET
 from urllib.parse import urlparse
-from urllib.request import Request, urlopen
+from urllib.request import HTTPCookieProcessor, Request, build_opener
 
 
 def verify_report(path):
@@ -78,22 +78,45 @@ def verify_live(base_url, query):
             "My base URL must not contain credentials, query parameters, or fragments."
         )
     base_url = base_url.rstrip("/")
-    with urlopen(f"{base_url}/readyz", timeout=60) as response:
+    session = build_opener(HTTPCookieProcessor())
+    with session.open(f"{base_url}/readyz", timeout=60) as response:
         if response.status != 200 or json.load(response).get("ready") is not True:
             raise ValueError("My application is not ready.")
-    with urlopen(base_url, timeout=60) as response:
+    with session.open(base_url, timeout=60) as response:
         if response.status != 200 or response.headers.get_content_type() != "text/html":
             raise ValueError("My frontend is not served as HTML.")
         if b"<html" not in response.read().lower():
             raise ValueError("My frontend response is not an HTML document.")
-    payload = json.dumps({"query": query, "session_id": f"ci-{uuid.uuid4()}"}).encode()
+    with session.open(f"{base_url}/api/bootstrap", timeout=60) as response:
+        books = json.load(response)["books"]
+    book = next((book for book in books if book["status"] == "ready"), None)
+    if book is None:
+        raise ValueError("My library has no ready book.")
+    create = Request(
+        f"{base_url}/api/chats",
+        data=b"{}",
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with session.open(create, timeout=60) as response:
+        chat = json.load(response)
+    payload = json.dumps(
+        {
+            "query": query,
+            "session_id": chat["id"],
+            "turn_id": str(uuid.uuid4()),
+            "book_id": book["id"],
+            "spoiler_limit": None,
+            "depth": "brief",
+        }
+    ).encode()
     request = Request(
         f"{base_url}/api/chat",
         data=payload,
         headers={"Content-Type": "application/json", "Accept": "text/event-stream"},
         method="POST",
     )
-    with urlopen(request, timeout=300) as response:
+    with session.open(request, timeout=300) as response:
         if response.status != 200 or response.headers.get_content_type() != "text/event-stream":
             raise ValueError("My chat response is not an SSE stream.")
         verify_stream(response)

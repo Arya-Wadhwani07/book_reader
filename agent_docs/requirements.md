@@ -17,6 +17,21 @@ I mark an item `[x]` only after I review its implementation or deliverable and h
 - [x] **WORK-09 — My documentation layout:** I use lowercase snake_case for project-owned directories. I keep my guidelines at `agent_docs/agents.md`, my architecture at `docs/architecture.md`, and my supplied Markdown references unchanged under `agent_docs/reference_docs/`. I allow the professor-required root `README.md` and `PROCESS_LOG.md`, with `docs/evaluation.md` alongside `docs/architecture.md`; other authored Markdown remains under `agent_docs`. I preserve required tool/dependency directory names.
 - [x] **WORK-10 — My submission-path decision:** On 2026-10-26 I confirmed that the professor's paths override my personal layout preference. I moved my architecture to `docs/architecture.md`, corrected its links, and use the prescribed paths for evaluation and the process log. This resolves the layout decision, not the unfinished submission artifacts.
 
+## My implementation evidence — 2026-10-27
+
+I run Python through my project-local `.venv`; my current local interpreter is Python 3.12.15. I use Python 3.13 in the CI configuration and still require execution evidence for that runtime. I keep test temporary files under `.cache/pytest_tmp`, caches under `.cache`, local application data under ignored `.data`, and reports under `reports`.
+
+I have approved a maximum of $2.50 in existing Anthropic credits, separate from the $5 OpenAI ceiling. I have supplied my other API keys locally and will supply OpenAI later. I have made no paid verification calls in this implementation phase. My durable budget ledger reserves costs atomically and retains the entire reservation when billing is unknown; its integration with every paid call remains an acceptance item.
+
+- [x] **PHASE-01A:** I implemented and tested signed anonymous ownership, separate chats, duplicate-turn rejection, concurrent-turn exclusion, SQLite transaction rollback, and application-restart recovery. My offline suite passed 74 tests with no skips or failures; evidence: `reports/offline.xml`. I used explicit test doubles for agents and the book library, so this does not establish real RAG, provider connectivity, or cloud recovery.
+- [x] **PHASE-01B:** I tested concurrent spending reservations, separate provider allowances, durable spending across ledger restart, conservative rounding, uncertain billing, and rejection above my authorized configuration ceiling.
+- [ ] **PHASE-01C:** I complete agent/library integration, strengthen stream failure/cancellation recovery, and verify persistent LangGraph state and Cloud Run replacement recovery.
+- [x] **PHASE-01D:** I added Python-level offline network and filesystem guards, project-local pytest logging and temporary storage, and regression tests that confirm blocked connections and outside writes. My 74-test run passed with no failures, errors, or skips; Ruff lint, formatting, and `git diff --check` passed. I do not equate Python guards with an OS-level container sandbox.
+- [x] **PHASE-02A:** I implemented PDF/EPUB/TXT extraction and tested malformed files, encrypted PDFs, 501-page rejection, byte/word/token thresholds, EPUB traversal and expansion limits, and chunk continuity. My tokenizer fixture verifies boundary logic; real tokenization, representative long books, language detection, retrieval integration, and cloud ingestion remain unverified.
+- [ ] **PHASE-02:** I implement and test ingestion, original-source retrieval, the curated corpus, all upload boundaries, and spoiler-aware citations.
+- [ ] **PHASE-03:** I integrate supervisor routing, three specialists, live providers, shared Tavily MCP calls, and runtime spending reservations.
+- [ ] **PHASE-04:** I verify the browser workflow, RAGAS evaluation, container, CI/CD, candidate deployment, public live tests, and required submission artifacts.
+
 ## My confirmed deadline, access, and memory constraints — 2026-10-26
 
 I have confirmed the submission deadline as October 27, 2026 at 11:59 PM. I confirmed Los Angeles / Pacific Time (America/Los_Angeles), which is PDT, UTC−7, on that date; the cutoff corresponds to October 28 at 06:59 UTC. I prioritize the required rubric and live verification within that deadline; I do not add optional integrations or reduce the required evidence. I restrict initial input to English PDF, EPUB, and TXT.
@@ -98,7 +113,7 @@ I reviewed all 11 current project Markdown files: my four authored documents and
 
 - [ ] **AUDIT-16 — My remaining product preferences:** I have settled same-browser durable multi-chat history without login, Reset/New Chat preserving older chats, separate explicit deletion, and the upload policy under SESSION-04. Exact curated titles remain open under AUDIT-02; I do not reopen settled product choices.
 - [ ] **AUDIT-17 — My independent engineering decisions:** I finalize API fields/endpoints, typed state/reducers, full evidence prompts, retry/cancellation semantics, quota checks, ingestion versioning, and the measurable evaluation protocol without delegating routine engineering choices back to myself as user questions. I retain their implementation status under the corresponding AUDIT/DESIGN/EVAL items.
-- [ ] **AUDIT-18 — My operational guardrails:** I define bounded per-request/session ingestion and generation, enforce a project-wide spending reservation before concurrent paid calls, and account for judge calls and repeated CI verification. I obtain the usable Anthropic allowance and NVIDIA/Tavily quotas without exposing keys; possession of a key is not proof of remaining budget.
+- [ ] **AUDIT-18 — My operational guardrails:** I define bounded per-request/session ingestion and generation, enforce a project-wide spending reservation before concurrent paid calls, and account for judge calls and repeated CI verification. I enforce my confirmed $2.50 Anthropic allowance and verify NVIDIA/Tavily quotas without exposing keys; possession of a key is not proof of remaining budget.
 - [ ] **AUDIT-19 — My final design clarifications:** I distinguish historical nonfiction claims from present-day fact, make genre correction possible when classification is uncertain, and define what an unsupported or out-of-library request returns. I keep “arbitrary reasonable queries” compatible with honest clarification/refusal to invent evidence rather than a fixed list of rehearsed answers.
 
 My available technical checks can settle service compatibility, current model IDs, and performance; I do not require user answers for those. The deadline is now fully confirmed as October 27 at 11:59 PM Los Angeles / Pacific Time. I do not repeatedly ask for the already confirmed English/PDF/EPUB/TXT scope, funded Anthropic Console access, Tavily key, persistence preference, or professor-first file layout.
@@ -356,3 +371,66 @@ I add the checks below to satisfy my requested engineering standard. These are m
 I read all seven supplied Markdown files and extracted/read all 16 pages of the assignment PDF. I mapped the six rubric weights to checklist sections, preserved conditional alternatives, and included the submission and integrity obligations. I have not implemented or executed the assignment application at this stage, so I have not marked implementation, evaluation, or deployment requirements complete.
 
 My unresolved project choices are recorded in DEC-01 through DEC-08. I have my Assignment 1 baseline, confirmed book-companion scope, GitHub destination, provider-access preferences, and historical GCP deployment identifiers. I have confirmed English PDF/EPUB/TXT scope, a refresh-persistent conversation requirement, the professor's file paths, an October 27 submission date, and up to $5 of OpenAI spending. I have confirmed the 11:59 PM cutoff and funded Anthropic Console access. I have also confirmed Los Angeles / Pacific Time, isolated multiple chats without login, and a 500-page upload cap with the admission policy below. My remaining work includes corpus selection, verified model/service configuration and remaining balances/quotas, detailed endpoint/recovery contracts, and measured acceptance evidence.
+
+## My product rubric and adversarial review — 2026-10-27
+
+I re-read all 16 pages of my assignment description and all seven supplied reference documents. I compared their requirements with my actual source, frontend, configuration, and tests. I distinguish specified behavior from implemented behavior and implemented behavior from live verification. **My product is not submission-ready.** My default application factory fails with `ModuleNotFoundError: src.library`; `src.agents` is also absent. My API tests supply explicit library/engine fixtures, which do not implement the book companion.
+
+### My six weighted rubric criteria
+
+| My criterion | Weight | My implementation evidence | My missing full-credit evidence |
+| --- | --- | --- | --- |
+| Multi-agent orchestration correctness | 25% | I documented Supervisor topology, specialist responsibilities, tool permissions, and state in `docs/architecture.md`. | I have no executable LangGraph graph, supervisor, three real specialists, distinct implemented prompts/tools, state-driven delegation, or worker-failure recovery. I cannot demonstrate the required complexity floor. |
+| RAG implementation quality | 20% | I implemented PDF/EPUB/TXT extraction, chunking, source IDs, and extraction tests. | I have no curated corpus, embedding calls, Pinecone/Chroma indexing, LCEL retriever, augmentation/generation pipeline, working source resolver, or fixed-set RAGAS results. Parser tests are not RAG. |
+| LLM routing logic | 15% | I documented routing preferences and implemented configuration plus a tested budget ledger. | I have no generation adapter or operational router, no verified exact model IDs, and no exercised two-provider path with actual reasons. I have not connected the ledger to paid calls. Provider keys and installed SDKs do not satisfy this criterion. |
+| Frontend usability | 15% | I implemented vanilla static assets, POST SSE consumption, chat controls, and source/activity rendering; API streaming is exercised with fixtures. | I cannot run the default app or demonstrate real model tokens, routing, orchestration transitions, or source links. I have not browser-verified desktop/mobile, accessibility, cancellation, reconnect, or inline citation behavior. |
+| Deployment and scalability | 15% | I have a CI workflow, signed browser ownership, local transactional state, and Firestore/GCS adapter code. | I have no Dockerfile, reproducible README, live acceptance suite, verified Cloud Run URL, cold/warm measurements, cloud checkpoint saver, or instance-replacement recovery evidence. Local concurrency tests do not establish cloud capacity. |
+| A2A or MCP tool sharing | 10% | I documented Research/Data sharing Tavily search for different contexts. | I have no MCP client or real shared-tool calls. I must show the same tool invoked by two specialists with trace evidence; A2A is my unselected alternative. |
+
+I do not assign a predicted grade or treat any weighted criterion as fully implemented based on the current evidence. My selected alternatives remain Supervisor, Pinecone, Tavily MCP, vanilla frontend, Firestore state, and GCS artifacts; I do not need to implement every optional reference alternative. DeepEval does not replace required RAGAS.
+
+### My product feature coverage
+
+| My reader-facing feature | My current assessment |
+| --- | --- |
+| Curated library and uploads | I have UI controls, an upload-size API guard, and a parser. I have no library service, published corpus, upload ingestion job, indexing, progress persistence, or retry/idempotency pipeline. |
+| Fiction/nonfiction summaries and depth | I have prompt-entry buttons and depth controls. I have no generated summaries, ordered chapter coverage, factual coverage evaluation, or adaptive fiction/nonfiction views. |
+| Character/concept and event/argument deep dives | I have UI entry points and a design. I have no extraction/reconciliation pipeline or specialist queries against structured book facts. |
+| Author, adaptations, and buying links | I have UI entry points and safe web-link rendering. I have no live search, edition verification, sourced biography, adaptation matching, or retailer evidence. |
+| Citations and spoilers | I have chunk identifiers and source-card UI. I have no retrieval authorization/filtering implementation or complete source endpoint. I treat PDF pages as sections, so my page boundary is not a real chapter boundary. My existing model history filter removes incomplete turns but does not enforce a lowered spoiler boundary. |
+| Anonymous multi-chat memory | I verified cookie ownership, separate chats, local restart recovery, and concurrent API sessions. I have no graph checkpoint implementation or cloud restart proof; browser behavior remains unverified. |
+| Upload admission | I tested malformed input, byte/word/token logic with a fixture tokenizer, encrypted PDFs, safe EPUB paths/expansion, valid EPUB reading order, and synthetic 300/400/500-page PDFs. I have not verified real embedding-token limits, English detection, realistic long books, parser CPU/RAM limits, or OCR edge cases. |
+| Cost control | I verified concurrent budget reservations and ledger persistence for my $2.50 Anthropic and $5 OpenAI allowances. I have no runtime usage accounting or verified model-price bounds connected to actual paid requests. |
+
+### My reproduced defects and regression evidence
+
+I saved the first targeted run as `reports/robustness_before.xml`: **9 failing cases across 7 distinct defects**, with 4 passing cases. I fixed the seven defects and preserved their regression tests in `tests/test_robustness.py`.
+
+- [x] **REVIEW-FIX-01:** I reject whitespace-only queries before execution; I strip request/title whitespace before length validation.
+- [x] **REVIEW-FIX-02:** I reject an empty generated answer instead of reporting a successful turn.
+- [x] **REVIEW-FIX-03:** I mark an engine error event as a failed stream instead of subsequently reporting success.
+- [x] **REVIEW-FIX-04:** I convert expected HTTP transport errors into sanitized SSE failure events and retain a failed turn.
+- [x] **REVIEW-FIX-05:** I pass only completed prior turns to the engine, excluding the current in-progress request and failed answers.
+- [x] **REVIEW-FIX-06:** I reject artifact paths that resolve through symlinks outside their storage root; my regression fixture remains entirely inside Assignment 2.
+- [x] **REVIEW-FIX-07:** I preserve the current stored cancellation flag when finalizing a turn instead of overwriting it with a stale copy.
+
+### My remaining correctness findings
+
+- [ ] **REVIEW-GAP-01 — Startup:** I implement the missing library and agent modules and prove the default app starts without injected test doubles.
+- [ ] **REVIEW-GAP-02 — Live release contract:** I update `scripts/verify_release.py` to bootstrap an owner cookie, create a real UUID chat, select an authorized ready book, and send the current required body. Its existing `ci-...` session string, missing turn/book fields, and lack of cookie are incompatible with the real API.
+- [ ] **REVIEW-GAP-03 — Durable completion:** I persist successful turn completion before emitting terminal success. I test disconnects, process termination, storage failure during finalization, and cancellation while the engine produces no events. My current writes occur in stream finalization; Python cleanup cannot survive process termination.
+- [ ] **REVIEW-GAP-04 — Lifecycle atomicity:** I make chat deletion, turn reservation, and duplicate-turn reservation transactional across their dependent records. My current existence/read/modify/write steps leave races even though ordinary same-chat contention passes. I test deletion versus generation and repeated IDs after delayed requests.
+- [ ] **REVIEW-GAP-05 — Content and parser policy:** I enforce English input, real-tokenizer boundaries, Unicode-safe token chunk boundaries, malformed XML behavior, parser resource bounds, realistic long-book extraction, and genuine chapter/location metadata. Synthetic page-count fixtures do not establish all of these properties.
+- [ ] **REVIEW-GAP-06 — Frontend behavior:** I browser-test the unguarded await before first-chat submit locking, history evidence mixing, non-ASCII upload filenames in HTTP headers, EOF/error/trailing-frame semantics, stop/retry, and preservation after connection failure. I implement the promised inline citations, responsive drawers, content-aware views, and accessible behavior where absent.
+- [ ] **REVIEW-GAP-07 — Security and budget integration:** I verify private book/vector/source ownership, prompt-injection resistance, spoiler-safe history, public-API abuse/rate limits, bounded requests, secret-safe traces, and budget reservations covering ingestion, generation, evaluation, retries, and CI. Passing local fixture tests does not establish these controls.
+- [ ] **REVIEW-GAP-08 — Release and cloud:** I supply the missing Dockerfile and live suite, test Python 3.13, promote the same tested image digest, deploy matching ingestion jobs, preserve CI evidence, configure OIDC/secrets, and verify rollback, cold start, arbitrary reasonable queries, and external persistence after instance replacement.
+- [ ] **REVIEW-GAP-09 — Submission:** I complete `README.md`, `docs/evaluation.md`, and the 200–300-word four-section `PROCESS_LOG.md`; I package a secret-free archive and verified public URL. My architecture document remains a proposal until it matches the executable product. Exact version pins exist for direct dependencies; I still review unused dependencies and reproducibility.
+- [ ] **REVIEW-GAP-10 — Evaluation:** I establish a fixed sourced question set, run all four required RAGAS metrics, measure retrieval/LLM/total latency and cold/warm TTFT, compare active providers, and report token-based or billed costs. I do not substitute fixture timings for these measurements.
+
+### My stress-test scope and limits
+
+I ran isolated SQLite tests with 16 workers: 1,000 atomic updates; 100 independently owned chats with three turns each; and 300 competing $0.025 Anthropic reservations, of which exactly 100 fit my $2.50 cap. I also exercised 50 concurrent anonymous ASGI clients with three streamed fixture responses each (150 chat requests), checking owner isolation and persisted turn counts. I tested cookie forgery and malformed requests before model invocation. These are bounded local stress tests with fake agents, not provider, Pinecone, Firestore, GCS, browser, or Cloud Run load tests.
+
+I keep exact test results and fixture timings in `reports/offline.xml`, the original failing cases in `reports/robustness_before.xml`, the targeted corrected run in `reports/robustness_after.xml`, and the startup/missing-deliverable probe in `reports/product_readiness.json`. I use Python-level network/write guards and project-local temporary storage; these guards are not a hostile-code OS sandbox. I made no paid provider calls during this audit.
+
+I completed the final audit run with **130 passing tests, zero failures/errors/skips, and no pytest warnings**, in 6.59 seconds on my local Python 3.12 virtual environment. Ruff lint, Ruff formatting, JavaScript syntax (`node --check`), and `git diff --check` passed. My offline release-report gate accepted all 130 cases; my product readiness probe remains blocked.

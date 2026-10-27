@@ -26,6 +26,10 @@ I accept English text-based PDF, EPUB, and TXT. I cap PDF uploads at 500 physica
 
 ## My code standard
 
+I run every project Python command through the project-local `.venv/bin/python`, including pip, the application, ingestion, evaluation, scripts, and pytest. I never install project packages globally. I use `.venv/bin/ruff` for linting. My container uses its own isolated `/app/.venv`, and CI creates a virtual environment inside its checkout.
+
+I sandbox offline tests with project-local temporary directories, isolated databases/indexes, fake credentials, and blocked external network access. I direct `TMPDIR`, pip caches, bytecode caches, and test outputs into Assignment 2. I do not permit tests to modify sibling projects or system configuration. I run explicitly identified live tests separately against the intended service; I do not present those as offline sandbox tests.
+
 I choose the simplest readable implementation that satisfies the requirement. I create a file, function, class, dependency, configuration value, or abstraction only when it has an actual consumer or concrete verification purpose. I keep functions focused and names clear.
 
 I remove unused imports, variables, unreachable code, abandoned implementations, duplicate logic, commented-out code, and unnecessary lines. I do not add speculative scaffolding, empty placeholder modules, or unused dependencies. I use linting to catch unused imports and variables and review manually for unused abstractions and unnecessary files.

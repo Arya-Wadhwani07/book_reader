@@ -161,19 +161,25 @@ def responses():
     return [
         Response(b'{"ready": true}', "application/json"),
         Response(b"<!doctype html><html></html>", "text/html"),
+        Response(b'{"books":[{"id":"book", "status":"ready"}]}', "application/json"),
+        Response(b'{"id":"00000000-0000-0000-0000-000000000001"}', "application/json"),
         Response(stream(valid_events()).read(), "text/event-stream"),
     ]
 
 
 def test_live_uses_post_and_a_unique_session():
-    with patch("scripts.verify_release.urlopen", side_effect=responses()) as opener:
+    with patch("scripts.verify_release.build_opener") as factory:
+        opener = factory.return_value.open
+        opener.side_effect = responses()
         verify_live("https://example.test", "Summarize chapter one")
-    request = opener.call_args_list[2].args[0]
+    request = opener.call_args_list[4].args[0]
     assert request.get_method() == "POST"
     assert request.full_url == "https://example.test/api/chat"
     payload = json.loads(request.data)
     assert payload["query"] == "Summarize chapter one"
-    assert payload["session_id"].startswith("ci-")
+    assert payload["session_id"] == "00000000-0000-0000-0000-000000000001"
+    assert payload["book_id"] == "book"
+    assert payload["turn_id"]
 
 
 @pytest.mark.parametrize(
@@ -181,7 +187,7 @@ def test_live_uses_post_and_a_unique_session():
     ["http://example.test", "file:///etc/passwd", "https://a:b@example.test", "https://x/?key=x"],
 )
 def test_live_rejects_unsafe_base_url(url):
-    with patch("scripts.verify_release.urlopen") as opener:
+    with patch("scripts.verify_release.build_opener") as opener:
         with pytest.raises(ValueError):
             verify_live(url, "query")
     opener.assert_not_called()
@@ -193,19 +199,21 @@ def test_live_rejects_unsafe_base_url(url):
         (0, b'{"ready": false}', "application/json"),
         (1, b"<html></html>", "application/json"),
         (1, b"not a page", "text/html"),
-        (2, b"answer", "application/json"),
+        (4, b"answer", "application/json"),
     ],
 )
 def test_live_rejects_broken_http_contract(index, body, content_type):
     replies = responses()
     replies[index] = Response(body, content_type)
-    with patch("scripts.verify_release.urlopen", side_effect=replies):
+    with patch("scripts.verify_release.build_opener") as factory:
+        factory.return_value.open.side_effect = replies
         with pytest.raises(ValueError):
             verify_live("https://example.test", "query")
 
 
 def test_live_does_not_swallow_http_failure():
     error = HTTPError("https://example.test", 503, "unavailable", {}, None)
-    with patch("scripts.verify_release.urlopen", side_effect=error):
+    with patch("scripts.verify_release.build_opener") as factory:
+        factory.return_value.open.side_effect = error
         with pytest.raises(HTTPError):
             verify_live("https://example.test", "query")

@@ -1,6 +1,6 @@
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "--strict-markers --strict-config"
+addopts = "--strict-markers --strict-config --basetemp=.cache/pytest_tmp"
 xfail_strict = true
 
 [tool.ruff]
