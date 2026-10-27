@@ -166,3 +166,36 @@ def test_health_and_static_assets(setup):
     assert client.get("/static/app.js").status_code == 200
     assert "Content-Security-Policy" in client.get("/").headers
     assert json.loads(client.get("/api/bootstrap").text)["limits"]["pdf_pages"] == 500
+
+
+def test_cloud_https_origin_behind_terminating_proxy(tmp_path):
+    settings = Settings(
+        _env_file=None,
+        app_env="cloud",
+        state_backend="firestore",
+        gcs_bucket="test",
+        data_dir=tmp_path,
+    )
+    app = create_app(
+        settings, SQLiteStore(tmp_path / "state.sqlite3"), EngineFixture(), LibraryFixture()
+    )
+    with TestClient(app, base_url="http://cloud.example") as client:
+        # I check the origin gate before authentication; a permitted request reaches 401.
+        assert (
+            client.post(
+                "/api/chats", json={}, headers={"Origin": "https://cloud.example"}
+            ).status_code
+            == 401
+        )
+        assert (
+            client.post(
+                "/api/chats", json={}, headers={"Origin": "https://attacker.example"}
+            ).status_code
+            == 403
+        )
+        assert (
+            client.post(
+                "/api/chats", json={}, headers={"Origin": "http://cloud.example"}
+            ).status_code
+            == 403
+        )

@@ -37,7 +37,7 @@ def deploy():
         "book-companion-ingest",
         f"--region={REGION}",
         f"--member=serviceAccount:{RUNTIME}",
-        "--role=roles/run.invoker",
+        "--role=roles/run.jobsExecutorWithOverrides",
     )
     gcloud(
         "run",

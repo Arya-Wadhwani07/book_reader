@@ -13,7 +13,7 @@ from scripts.verify_release import read_events, verify_stream
 @pytest.fixture(scope="module")
 def client():
     url = os.environ["BASE_URL"]
-    with httpx.Client(base_url=url, timeout=300) as session:
+    with httpx.Client(base_url=url, timeout=300, headers={"Origin": url.rstrip("/")}) as session:
         response = session.get("/api/bootstrap")
         response.raise_for_status()
         yield session

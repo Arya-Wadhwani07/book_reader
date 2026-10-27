@@ -62,7 +62,8 @@ def create_app(settings=None, store=None, engine=None, library=None):
     async def safe_requests(request, call_next):
         if request.method in {"POST", "PUT", "PATCH", "DELETE"}:
             origin = request.headers.get("origin")
-            expected = f"{request.url.scheme}://{request.url.netloc}"
+            scheme = "https" if settings.app_env == "cloud" else request.url.scheme
+            expected = f"{scheme}://{request.url.netloc}"
             if origin and origin != expected:
                 return Response("Cross-origin request rejected.", status_code=403)
         response = await call_next(request)
