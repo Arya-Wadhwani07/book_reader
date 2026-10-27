@@ -1,0 +1,13 @@
+.git
+.github
+.env
+.env.*
+.venv
+.cache
+**/__pycache__
+.pytest_cache
+.ruff_cache
+.coverage
+reports
+gha-creds-*.json
+.DS_Store
