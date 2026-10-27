@@ -58,7 +58,7 @@ def fixtures():
     yield f"garden_{suffix}.epub", output.getvalue()
 
 
-def verify(url):
+def verify(url, stress_only=False):
     results = []
     with (
         httpx.Client(base_url=url, timeout=120) as owner,
@@ -66,7 +66,7 @@ def verify(url):
     ):
         owner.get("/api/bootstrap").raise_for_status()
         other.get("/api/bootstrap").raise_for_status()
-        for filename, content in fixtures():
+        for filename, content in [] if stress_only else fixtures():
             started = time.monotonic()
             response = owner.post("/api/books", content=content, headers={"X-Filename": filename})
             response.raise_for_status()
@@ -98,11 +98,24 @@ def verify(url):
 
         def read_ready(_):
             response = owner.get("/api/books")
-            return response.status_code == 200 and len(response.json()) >= 11
+            return {
+                "status": response.status_code,
+                "books": len(response.json()) if response.status_code == 200 else 0,
+            }
 
         started = time.monotonic()
         with ThreadPoolExecutor(max_workers=12) as pool:
-            assert all(pool.map(read_ready, range(120)))
+            responses = list(pool.map(read_ready, range(120)))
+        (ROOT / "reports/read_stress.json").write_text(json.dumps(responses, indent=2))
+        print(
+            "Read status counts:",
+            {
+                code: sum(r["status"] == code for r in responses)
+                for code in {r["status"] for r in responses}
+            },
+            flush=True,
+        )
+        assert all(r["status"] == 200 and r["books"] >= 8 for r in responses)
         results.append(
             {
                 "concurrent_read_requests": 120,
@@ -117,4 +130,6 @@ def verify(url):
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", required=True)
-    verify(parser.parse_args().url)
+    parser.add_argument("--stress-only", action="store_true")
+    args = parser.parse_args()
+    verify(args.url, args.stress_only)

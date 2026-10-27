@@ -182,3 +182,19 @@ def test_contents_list_does_not_become_duplicate_chapters(settings):
     book = parse(text.encode(), settings)
     assert [section["title"] for section in book["sections"]] == ["CHAPTER I.", "CHAPTER II."]
     assert [section["number"] for section in book["sections"]] == [1, 2]
+
+
+def test_real_tokenizer_never_splits_unicode_characters():
+    import os
+
+    import tiktoken
+
+    from src.config import ROOT
+
+    os.environ["TIKTOKEN_CACHE_DIR"] = str(ROOT / ".cache/tiktoken")
+    tokenizer = tiktoken.get_encoding("cl100k_base")
+    text = "A café reader 📚 meets Zoë. " * 30
+    extracted = {"sections": [{"number": 1, "title": "Opening", "page": None, "text": text}]}
+    chunks = chunk_book("unicode", extracted, tokenizer, size=9, overlap=0)
+    assert "".join(chunk["text"] for chunk in chunks) == text
+    assert all("\ufffd" not in chunk["text"] for chunk in chunks)

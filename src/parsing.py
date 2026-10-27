@@ -158,8 +158,18 @@ def chunk_book(book_id, extracted, tokenizer, size=800, overlap=120):
     chunks = []
     for section in extracted["sections"]:
         tokens = tokenizer.encode(section["text"], disallowed_special=())
-        for offset in range(0, len(tokens), size - overlap):
-            part = tokens[offset : offset + size]
+        offset = 0
+        while offset < len(tokens):
+            end = min(offset + size, len(tokens))
+            if hasattr(tokenizer, "decode_single_token_bytes"):
+                # I extend a split UTF-8 character by at most its remaining token bytes.
+                while end < len(tokens):
+                    try:
+                        tokenizer.decode(tokens[offset:end], errors="strict")
+                        break
+                    except UnicodeDecodeError:
+                        end += 1
+            part = tokens[offset:end]
             chunk_id = f"{book_id}-s{section['number']}-t{offset}"
             chunks.append(
                 {
@@ -173,6 +183,14 @@ def chunk_book(book_id, extracted, tokenizer, size=800, overlap=120):
                     "text": tokenizer.decode(part),
                 }
             )
-            if offset + size >= len(tokens):
+            if end >= len(tokens):
                 break
+            next_offset = max(offset + 1, end - overlap)
+            if hasattr(tokenizer, "decode_single_token_bytes"):
+                while next_offset < end:
+                    first_byte = tokenizer.decode_single_token_bytes(tokens[next_offset])[0]
+                    if first_byte & 0xC0 != 0x80:
+                        break
+                    next_offset += 1
+            offset = next_offset
     return chunks

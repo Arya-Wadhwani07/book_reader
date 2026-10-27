@@ -43,6 +43,7 @@ jobs:
           test -s tests/test_app.py
           test -s tests/live/test_acceptance.py
           .venv/bin/python -m pip install -r requirements.txt
+          TIKTOKEN_CACHE_DIR="$PWD/.cache/tiktoken" .venv/bin/python -c "import tiktoken; tiktoken.get_encoding('cl100k_base')"
       - name: Run my offline suite without exemptions
         run: |
           .venv/bin/python -m pytest tests --ignore=tests/live --junitxml=reports/offline.xml
@@ -143,7 +144,7 @@ jobs:
             --image "$DEPLOY_IMAGE" --project "$GCP_PROJECT_ID" --region "$GCP_REGION" \
             --service-account "$RUNTIME_SERVICE_ACCOUNT" --allow-unauthenticated \
             --set-secrets "$RUNTIME_SECRETS" --set-env-vars "$RUNTIME_ENV" \
-            --memory 1Gi --cpu 1 --concurrency 4 --timeout 300 \
+            --memory 1Gi --cpu 1 --concurrency 16 --timeout 300 \
             --min-instances 0 --max-instances 2 --no-traffic --tag candidate \
             --revision-suffix "${GITHUB_SHA:0:12}-$GITHUB_RUN_ID-$GITHUB_RUN_ATTEMPT" --quiet
           gcloud run services describe "$CLOUD_RUN_SERVICE" --project "$GCP_PROJECT_ID" \

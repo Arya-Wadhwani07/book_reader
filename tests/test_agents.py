@@ -148,3 +148,29 @@ def test_large_evidence_reduction_includes_every_record(tmp_path):
     assert len(result.encode()) < 60000
     for index in range(8):
         assert sum(f"RECORD-{index}:" in call for call in calls) == 1
+
+
+def test_explicit_retrieval_cannot_be_omitted_by_planner(tmp_path):
+    settings = Settings(_env_file=None, data_dir=tmp_path, session_secret="test-" * 10)
+
+    class IncompletePlanner(ProviderFixture):
+        async def complete(self, system, prompt, task="extract", **kwargs):
+            if task == "plan":
+                return json.dumps({"workers": ["data"], "reason": "Concept query"})
+            return await super().complete(system, prompt, task=task, **kwargs)
+
+    graph = BookGraph(
+        settings, SQLiteStore(tmp_path / "state.sqlite3"), LibraryFixture(), IncompletePlanner()
+    )
+    request = ChatRequest(
+        query="Use semantic retrieval to explain this idea",
+        session_id=uuid.uuid4(),
+        turn_id=uuid.uuid4(),
+        book_id="book",
+    )
+
+    async def run():
+        return [event async for event in graph.stream("owner", request, [])]
+
+    events = asyncio.run(run())
+    assert any(event == "trace" and data.get("type") == "rag_retrieval" for event, data in events)

@@ -115,6 +115,18 @@ class BookGraph:
             roles = list(dict.fromkeys(plan["workers"]))
             if not roles or any(role not in {"research", "summary", "data"} for role in roles):
                 raise ValueError("Invalid roles.")
+            if (
+                any(
+                    term in state["query"].lower()
+                    for term in ("semantic retrieval", "original passages", "research specialist")
+                )
+                and "research" not in roles
+            ):
+                roles.insert(0, "research")
+                plan["reason"] = (
+                    str(plan.get("reason", ""))
+                    + " I require Research for the explicitly requested original-passage retrieval."
+                )
         except (ValueError, KeyError, TypeError):
             raise RuntimeError("The supervisor returned an invalid plan.") from None
         for role in roles:
@@ -381,7 +393,12 @@ class BookGraph:
         async for text in self.providers.stream(
             GUARD + "I am the synthesis supervisor. Answer the reader clearly "
             "at the requested depth, preserve original citations, use headings, disclose unavailable specialists, "
-            "and never claim unsupported book details. Do not expose implementation secrets.",
+            "and never claim unsupported book details. Do not expose implementation secrets. "
+            + {
+                "brief": "Keep the answer concise and limited to the question; omit speculative implications.",
+                "detailed": "Explain the evidence in several clear paragraphs with relevant supporting detail.",
+                "deep": "Explore connections, competing interpretations, and limitations in depth.",
+            }[state["depth"]],
             prompt,
             depth=state["depth"],
             emit=self.emit,

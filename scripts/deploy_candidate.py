@@ -47,7 +47,7 @@ def deploy():
         "--allow-unauthenticated",
         "--memory=1Gi",
         "--cpu=1",
-        "--concurrency=4",
+        "--concurrency=16",
         "--timeout=300",
         "--min-instances=0",
         "--max-instances=2",
