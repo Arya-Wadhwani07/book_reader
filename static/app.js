@@ -50,6 +50,7 @@ function showBook(book) {
 async function selectBook(book) {
   if (state.chat?.book_id && state.chat.book_id !== book.id) await newChat();
   showBook(book);
+  $("library-panel").classList.remove("is-open"); $("toggle-library").setAttribute("aria-expanded", "false");
 }
 async function newChat(force = false) {
   if (state.active && !force) return;
@@ -108,7 +109,7 @@ function renderEvent(event, data, view) {
     const label = document.createElement("div"); label.textContent = [data.agent, data.provider, data.model, data.tool, data.reason || data.message].filter(Boolean).join(" · ");
     row.append(badge, label); $("activity").append(row);
     if (["agent_route", "llm_route"].includes(data.type)) view.summary.append(`${label.textContent}\n`);
-    $("turn-status").textContent = data.message || data.reason || "Working with your sources…";
+    if (state.active) $("turn-status").textContent = data.message || data.reason || "Working with your sources…";
   }
   if (event === "citation") {
     const key = data.chunk_id || data.url;
@@ -174,6 +175,7 @@ async function refreshBooks() {
   state.books = await api("/api/books"); renderBooks();
   $("upload-status").textContent = state.books.filter((b) => b.owner_id !== "public").map((b) => `${b.title}: ${b.status}${b.error ? ` — ${b.error}` : ""}`).join(" · ");
 }
+$("toggle-library").addEventListener("click", () => { const open = $("library-panel").classList.toggle("is-open"); $("toggle-library").setAttribute("aria-expanded", String(open)); });
 $("composer").addEventListener("submit", send);
 $("query").addEventListener("keydown", (event) => { if (event.key === "Enter" && !event.shiftKey && !event.isComposing) { event.preventDefault(); $("composer").requestSubmit(); } });
 $("new-chat").addEventListener("click", () => newChat().catch((e) => notice(e.message)));

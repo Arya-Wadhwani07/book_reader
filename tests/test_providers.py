@@ -42,7 +42,7 @@ def test_provider_recovery_before_first_token_is_visible(tmp_path):
     assert asyncio.run(run()) == ["Recovered answer"]
     assert calls == ["nvidia", "openai"]
     assert events[0]["type"] == "provider_recovery"
-    assert "before producing" in events[0]["reason"]
+    assert "before publishing" in events[0]["reason"]
 
 
 def test_partial_provider_failure_never_switches_models(tmp_path):
@@ -87,3 +87,22 @@ def test_truncated_output_is_not_a_success(tmp_path):
         asyncio.run(run())
     assert len(store.query("usage")) == 1
     assert store.query("usage")[0]["success"] is False
+
+
+def test_buffered_specialist_failure_can_retry_without_mixing_text(tmp_path):
+    calls = []
+
+    class PartialSpecialist(Providers):
+        async def _stream_attempt(self, system, prompt, task, depth, emit, provider, reason):
+            calls.append(provider)
+            if provider == "nvidia":
+                yield "Discarded incomplete evidence"
+                raise RuntimeError("Truncated worker output")
+            yield "Complete replacement evidence"
+
+    providers = PartialSpecialist(configured(tmp_path), SQLiteStore(tmp_path / "state.sqlite3"))
+    assert (
+        asyncio.run(providers.complete("system", "question", task="research"))
+        == "Complete replacement evidence"
+    )
+    assert calls == ["nvidia", "openai"]

@@ -82,7 +82,7 @@ class Providers:
                 }
         return ChatOpenAI(**options)
 
-    async def stream(self, system, prompt, task="answer", depth="brief", emit=None):
+    async def stream(self, system, prompt, task="answer", depth="brief", emit=None, buffered=False):
         preferred, reason = self.route(task, depth)
         alternatives = [
             p
@@ -92,17 +92,23 @@ class Providers:
         providers = [preferred] + alternatives[:1]
         for index, provider in enumerate(providers):
             emitted = False
+            pending = []
             try:
                 async for text in self._stream_attempt(
                     system, prompt, task, depth, emit, provider, reason
                 ):
                     emitted = True
-                    yield text
+                    if buffered:
+                        pending.append(text)
+                    else:
+                        yield text
+                if buffered:
+                    yield "".join(pending)
                 return
             except RuntimeError:
-                if emitted or index + 1 == len(providers):
+                if (emitted and not buffered) or index + 1 == len(providers):
                     raise
-                reason = f"I use {providers[index + 1]} because {provider} failed before producing answer text."
+                reason = f"I use {providers[index + 1]} because {provider} failed before publishing answer text."
                 if emit:
                     emit(
                         "trace",
@@ -113,7 +119,7 @@ class Providers:
         if len((system + prompt).encode()) > 120_000:
             raise ValueError("The bounded evidence context is too large.")
         model_name = getattr(self.settings, f"{provider}_model")
-        output_limit = 4096 if depth == "deep" else 2048 if task == "extract" else 1200
+        output_limit = 4096 if depth == "deep" else 2048
         reservation = None
         if provider in self.budget.limits:
             if model_name not in PRICES:
@@ -203,7 +209,9 @@ class Providers:
                 )
 
     async def complete(self, system, prompt, task="extract", depth="brief", emit=None):
-        return "".join([text async for text in self.stream(system, prompt, task, depth, emit)])
+        return "".join(
+            [text async for text in self.stream(system, prompt, task, depth, emit, buffered=True)]
+        )
 
     def embeddings(self, texts):
         if self.settings.openai_embedding_model != "text-embedding-3-small":

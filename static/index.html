@@ -11,10 +11,10 @@
 </head>
 <body>
   <a class="skip" href="#workspace">Skip to reading workspace</a>
-  <header><a class="brand" href="/">Book Companion<span>A little closer to every story.</span></a><button id="new-chat">＋ New chat</button></header>
+  <header><a class="brand" href="/">Book Companion<span>A little closer to every story.</span></a><button id="toggle-library" aria-expanded="false" aria-controls="library-panel">Library &amp; chats</button><button id="new-chat">＋ New chat</button></header>
   <div id="notice" role="status" aria-live="polite"></div>
   <div class="layout">
-    <aside class="library" aria-label="Library and saved chats">
+    <aside id="library-panel" class="library" aria-label="Library and saved chats">
       <h2>Your library</h2>
       <label for="book-search">Find a book</label><input id="book-search" type="search" placeholder="Title or author">
       <div id="books" class="list"></div>

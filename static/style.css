@@ -5,3 +5,6 @@
 @media(prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
 
 .inline-citation{font:inherit;font-size:13px;min-height:28px;padding:0 5px;border:0;color:var(--accent);background:transparent;text-decoration:underline}
+
+#toggle-library{display:none}
+@media(max-width:767px){header{flex-wrap:wrap;gap:10px}.brand{width:100%}#toggle-library{display:block}.library{display:none}.library.is-open{display:block}header>button{flex:1}}
