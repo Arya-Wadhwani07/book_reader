@@ -35,6 +35,7 @@ class Settings(BaseSettings):
     max_words: int = 125_000
     max_tokens: int = 250_000
     session_days: int = 30
+    response_timeout_seconds: float = Field(default=270, gt=0, le=270)
 
     @model_validator(mode="after")
     def validate_isolation(self):

@@ -79,7 +79,7 @@ I keep scanned/OCR books, non-English books, cross-device account recovery, and 
 
 ## My instructor-clarification regression review
 
-I added explicit off-topic/no-worker handling, per-hop state traces, pre-generation Summary evidence traces, and an inspectable trace-data panel. I added regression cases for silent-provider cancellation, storage failure before completion, expired process leases, ingestion resume/idempotency, owner-scoped retries, malformed EPUB metadata/entities, and hourly admission. My realistic long-book parser check reproduces all Walden chunks with the actual tokenizer and checks its 115,831 words against the deployed snapshot. I distinguish that from my synthetic 300/400/500-page PDF boundary fixtures; I do not claim exhaustive PDF-layout coverage.
+I added explicit off-topic/no-worker handling, per-hop state traces, pre-generation Summary evidence traces, and an inspectable trace-data panel. I added regression cases for silent-provider cancellation, storage failure before completion, expired process leases, ingestion resume/idempotency, owner-scoped retries, malformed EPUB metadata/entities, and hourly admission. My realistic long-book parser check reproduces all Walden chunks with the actual tokenizer and checks its 115,831 words against the deployed snapshot. I also parse generated 300/400/500-page PDFs containing 60,000/80,000/100,000 words from that source with the real tokenizer, alongside minimal boundary fixtures. I do not claim exhaustive PDF-layout coverage.
 
 I requested VS Code-integrated testing, but computer-use access to Code was rejected. I then explicitly authorized Chrome only for Assignment 2 testing. I distinguish those Chrome checks from VS Code verification.
 

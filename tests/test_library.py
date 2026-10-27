@@ -152,3 +152,37 @@ def test_category_correction_cannot_modify_another_owners_book(library):
     with pytest.raises(ValueError):
         library.set_kind("reader", "book", "invented")
     assert library.book("reader", "book")["kind"] == "Nonfiction"
+
+
+def test_api_upload_limit_does_not_charge_duplicate_files(library, monkeypatch):
+    from fastapi.testclient import TestClient
+    from test_app import EngineFixture
+
+    from src.app import create_app
+
+    async def start(identifier):
+        return None
+
+    monkeypatch.setattr(library, "start_ingestion", start)
+    with TestClient(
+        create_app(library.settings, library.store, EngineFixture(), library)
+    ) as client:
+        client.get("/api/bootstrap")
+        for index in range(3):
+            content = f"A distinct English book number {index}.".encode()
+            response = client.post(
+                "/api/books", content=content, headers={"X-Filename": "book.txt"}
+            )
+            assert response.status_code == 202
+            assert (
+                client.post(
+                    "/api/books", content=content, headers={"X-Filename": "book.txt"}
+                ).status_code
+                == 409
+            )
+        assert (
+            client.post(
+                "/api/books", content=b"A fourth distinct book.", headers={"X-Filename": "book.txt"}
+            ).status_code
+            == 429
+        )

@@ -90,12 +90,16 @@ class Library:
             text_key="text",
         )
 
+    @staticmethod
+    def content_id(owner, content):
+        return hashlib.sha256(owner.encode() + content + b"pipeline-v1").hexdigest()[:32]
+
     async def upload(self, owner, filename, content):
         if Path(filename).suffix.lower() not in {".pdf", ".epub", ".txt"}:
             raise ValueError("Only PDF, EPUB and TXT are supported.")
         if not content or len(content) > self.settings.max_upload_bytes:
             raise ValueError("The upload is empty or exceeds 25 MB.")
-        digest = hashlib.sha256(owner.encode() + content + b"pipeline-v1").hexdigest()[:32]
+        digest = self.content_id(owner, content)
         book = {
             "id": digest,
             "owner_id": owner,

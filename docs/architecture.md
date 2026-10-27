@@ -103,7 +103,7 @@ I use a separate Cloud Run Job for cloud ingestion. I use a tracked asynchronous
 
 I reserve an ingestion lease to reject competing jobs, publish readiness only after vector writes and every evidence map succeed, and reuse existing maps when retrying the same pipeline. I expose private-owner retry for failed or expired jobs. The job has a one-hour deadline and 2 GiB memory limit; I do not claim hostile PDF parsing is completely resource-safe. I reject XML entities and malformed EPUB metadata before ebook parsing. My curated snapshot pins pipeline 2 originals/chunks/maps; changes to chunking require explicit corpus migration.
 
-I poll cancellation during otherwise silent generation, close the pending async stream, and never send terminal success before durable turn finalization. A lost process can lose unpublished partial output; an expired lease becomes interrupted on subsequent access. I enforce transactional hourly admission limits separately from exact paid-budget reservations. My anonymous cookie lasts 30 days; clearing it removes access, not an assertion that server-side artifacts were immediately erased.
+I use a 270-second application deadline within Cloud Run's 300-second timeout so failure finalization has time to run. I poll cancellation during otherwise silent generation, close the pending async stream, and never send terminal success before durable turn finalization. A lost process can lose unpublished partial output; an expired lease becomes interrupted on subsequent access. I enforce transactional hourly admission limits separately from exact paid-budget reservations. My anonymous cookie lasts 30 days; clearing it removes access, not an assertion that server-side artifacts were immediately erased.
 
 ## My complete workflow
 

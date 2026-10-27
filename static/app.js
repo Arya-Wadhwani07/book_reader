@@ -59,6 +59,7 @@ function showBook(book) {
   if (!state.active) $("turn-status").textContent = book ? "Ready for your question." : "Select a ready book to begin.";
 }
 async function selectBook(book) {
+  if (state.active) return;
   if (state.chat?.book_id && state.chat.book_id !== book.id) await newChat();
   showBook(book);
   $("library-panel").classList.remove("is-open"); $("toggle-library").setAttribute("aria-expanded", "false");
@@ -71,6 +72,7 @@ async function newChat(force = false) {
   localStorage.setItem("active_chat", chat.id); $("query").focus();
 }
 async function selectChat(id) {
+  if (state.active) return;
   const data = await api(`/api/chats/${id}`);
   state.chat = data.chat;
   showBook(state.books.find((b) => b.id === data.chat.book_id) || null);

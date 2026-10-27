@@ -231,13 +231,16 @@ def create_app(settings=None, store=None, engine=None, library=None):
 
     @app.post("/api/books", status_code=202)
     async def upload(request: Request, identity: Annotated[str, Depends(owner)]):
-        await asyncio.to_thread(admit, identity, "upload", 3, 24)
         content = bytearray()
         async for part in request.stream():
             content.extend(part)
             if len(content) > settings.max_upload_bytes:
                 raise HTTPException(413, "The file exceeds the 25 MB upload limit.")
         filename = Path(unquote(request.headers.get("x-filename", "book.txt"))).name
+        digest = library.content_id(identity, content)
+        if await asyncio.to_thread(store.get, "books", digest):
+            raise Conflict("This book is already uploaded; use its existing library entry.")
+        await asyncio.to_thread(admit, identity, "upload", 3, 24)
         try:
             return await library.upload(identity, filename, bytes(content))
         except ValueError as error:
@@ -272,7 +275,7 @@ def create_app(settings=None, store=None, engine=None, library=None):
             status = "interrupted"
             saved = False
             try:
-                async with asyncio.timeout(300):
+                async with asyncio.timeout(settings.response_timeout_seconds):
                     async for event, payload in interruptible_stream(
                         engine.stream(identity, body, history), store, turn["id"]
                     ):

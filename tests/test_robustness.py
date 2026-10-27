@@ -310,3 +310,28 @@ def test_hourly_admission_rejects_before_model_execution(components):
         assert client.post("/api/chat", json=turn(chat_id)).status_code == 429
         assert len(engine.histories) == histories
         assert len(client.get(f"/api/chats/{chat_id}").json()["turns"]) == 30
+
+
+def test_stream_deadline_emits_terminal_failure_and_releases_lease(components):
+    settings, store = components
+    settings.response_timeout_seconds = 0.02
+    closed = []
+
+    class SlowEngine(EngineFixture):
+        async def stream(self, owner, body, history):
+            try:
+                await asyncio.sleep(60)
+                yield "token", {"text": "Too late"}
+            finally:
+                closed.append(True)
+
+    with TestClient(create_app(settings, store, SlowEngine(), LibraryFixture())) as client:
+        client.get("/api/bootstrap")
+        chat_id = client.post("/api/chats", json={}).json()["id"]
+        response = client.post("/api/chat", json=turn(chat_id))
+        assert '"success": false' in response.text
+        assert '"success": true' not in response.text
+        saved = client.get(f"/api/chats/{chat_id}").json()
+        assert saved["turns"][0]["status"] == "failed"
+        assert saved["chat"]["active_turn"] is None
+    assert closed == [True]
