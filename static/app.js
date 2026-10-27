@@ -38,11 +38,12 @@ function renderChats() {
 function showBook(book) {
   state.book = book;
   $("book-title").textContent = book?.title || "Make room for a good book.";
-  $("book-author").textContent = book ? `${book.author || "Unknown author"} · ${book.kind || "Book"}` : "Choose a book from the library or bring your own.";
+  $("book-author").textContent = book ? `${book.author || "Unknown author"} · ${book.kind || "Book"}${book.words ? ` · ${book.words.toLocaleString()} words` : ""}` : "Choose a book from the library or bring your own.";
   $("spoiler").replaceChildren();
   for (const chapter of book?.chapters || [{ number: 1, title: "Chapter 1" }]) {
     const option = document.createElement("option"); option.value = chapter.number; option.textContent = `Through ${chapter.title}`; $("spoiler").append(option);
   }
+  if (book?.chapters?.length === 1 && book.chapters[0].title === "Full text") { $("spoiler").replaceChildren(); const choice = document.createElement("option"); choice.value = ""; choice.textContent = "Choose scope — no chapter markers"; $("spoiler").append(choice); }
   const all = document.createElement("option"); all.value = "all"; all.textContent = "Whole book — includes the ending"; $("spoiler").append(all);
   renderBooks(); setActive(state.active);
   if (!state.active) $("turn-status").textContent = book ? "Ready for your question." : "Select a ready book to begin.";
@@ -131,7 +132,7 @@ function renderEvent(event, data, view) {
 function setActive(active) {
   state.active = active;
   for (const id of ["new-chat", "delete-chat", "depth", "spoiler", "upload"]) $(id).disabled = active;
-  $("send").disabled = active || !state.book; $("stop").hidden = !active;
+  $("send").disabled = active || !state.book || $("spoiler").value === ""; $("stop").hidden = !active;
   for (const node of document.querySelectorAll("#views button")) node.disabled = active || !state.book;
 }
 async function send(event) {
@@ -183,10 +184,11 @@ $("stop").addEventListener("click", async () => { $("turn-status").textContent =
 $("delete-chat").addEventListener("click", async () => { if (!state.chat || !confirm("Delete this conversation? This cannot be undone.")) return; try { await api(`/api/chats/${state.chat.id}`, { method: "DELETE" }); state.chats = state.chats.filter((c) => c.id !== state.chat.id); state.chat = null; localStorage.removeItem("active_chat"); $("conversation").replaceChildren(); clearEvidence(); renderChats(); } catch (e) { notice(e.message); } });
 $("upload").addEventListener("click", () => upload().catch((e) => notice(e.message)));
 $("book-search").addEventListener("input", renderBooks);
+$("spoiler").addEventListener("change", () => setActive(state.active));
 $("close-passage").addEventListener("click", () => $("passage").close());
 $("latest").addEventListener("click", () => { state.follow = true; $("composer").scrollIntoView({ block: "end" }); $("latest").hidden = true; });
 window.addEventListener("wheel", (e) => { if (e.deltaY < 0 && state.active) state.follow = false; }, { passive: true });
-for (const node of document.querySelectorAll("#views button")) node.addEventListener("click", () => { $("query").value = node.dataset.query; $("query").focus(); });
+for (const node of document.querySelectorAll("#views button")) node.addEventListener("click", () => { $("query").value = node.dataset.query; if (/author|adaptations|purchase/.test(node.dataset.query) && $("spoiler").value !== "all") notice("Web research can reveal plot details. Choose Whole book to enable author, adaptation, or edition searches."); $("query").focus(); });
 async function initialize() {
   const data = await api("/api/bootstrap"); state.books = data.books; state.chats = data.chats;
   renderBooks(); renderChats(); setActive(false);

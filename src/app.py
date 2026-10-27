@@ -1,4 +1,5 @@
 import asyncio
+import hashlib
 import json
 import logging
 import time
@@ -9,7 +10,7 @@ from urllib.parse import unquote
 
 import httpx
 from fastapi import Depends, FastAPI, HTTPException, Request, Response
-from fastapi.responses import FileResponse, StreamingResponse
+from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from itsdangerous import BadSignature, URLSafeTimedSerializer
 from pydantic import BaseModel, ConfigDict, Field
@@ -53,6 +54,10 @@ def create_app(settings=None, store=None, engine=None, library=None):
 
         engine = BookGraph(settings, store, library)
     signer = URLSafeTimedSerializer(settings.session_secret.get_secret_value(), salt="book-owner")
+    index_html = (ROOT / "static/index.html").read_text()
+    for asset in ("style.css", "app.js", "stream.js"):
+        version = hashlib.sha256((ROOT / "static" / asset).read_bytes()).hexdigest()[:12]
+        index_html = index_html.replace(f"/static/{asset}", f"/static/{asset}?v={version}")
     app = FastAPI(title="Book Companion", docs_url=None, redoc_url=None)
     app.state.store = store
     app.state.engine = engine
@@ -254,6 +259,6 @@ def create_app(settings=None, store=None, engine=None, library=None):
 
     @app.get("/")
     def index():
-        return FileResponse(ROOT / "static/index.html")
+        return HTMLResponse(index_html, headers={"Cache-Control": "no-cache"})
 
     return app

@@ -2,6 +2,8 @@
 
 I built this CSCI 599 Assignment 2 project around a LangGraph supervisor, three specialist agents, Pinecone RAG, shared Tavily Remote MCP tools, and a FastAPI-served reading interface. I use eight public-domain fiction/nonfiction books and accept private English PDF, EPUB, and TXT uploads.
 
+My public application is **https://book-companion-a6lyssed7q-uw.a.run.app**. I retain my actual measurements in [docs/evaluation.md](docs/evaluation.md).
+
 I keep my architecture in [docs/architecture.md](docs/architecture.md), design rules in [agent_docs/design.md](agent_docs/design.md), and the complete rubric checklist and verification status in [agent_docs/requirements.md](agent_docs/requirements.md).
 
 ## My local setup
@@ -19,6 +21,8 @@ cp .env.example .env
 ```
 
 I fill `.env` locally with provider keys and a random session secret of at least 32 characters. I never commit it. I use the exact verified IDs `gpt-6-luna`, `claude-sonnet-5`, and `nvidia/nemotron-3-ultra-550b-a55b`. I require funded OpenAI access for embeddings/planning, my NVIDIA student access for ordinary responses, Anthropic for deep responses, Tavily Remote MCP access, and a 1,536-dimensional cosine Pinecone index.
+
+I create the `book-companion` dense cosine index in my Pinecone account with 1,536 dimensions (my Starter deployment uses serverless AWS `us-east-1`) before ingestion. I set `PINECONE_INDEX` if I choose another name.
 
 ```sh
 .venv/bin/python -m scripts.prepare_library
@@ -69,7 +73,7 @@ export CLOUDSDK_PYTHON="$PWD/.venv/bin/python"
 
 I install the official Google Cloud CLI under `.cache/tools/google-cloud-sdk` for this command layout. I create a separate private bucket, application-prefixed Firestore collections, Artifact Registry repository, runtime identity, secret versions, and ingestion job. I migrate the cumulative spending ledger once and stop paid local calls before switching to cloud execution. I never overwrite an existing cloud budget ledger.
 
-I configure repository/main-scoped GitHub Workload Identity Federation with `scripts.github_setup`. My workflow runs on pushes and pull requests and deploys only `main`. I pass the tested container between jobs, deploy its digest, run candidate acceptance, promote it, and test the public URL. A failed post-promotion check restores the previous revision's traffic. I store actual API keys in Secret Manager, not GitHub variables or source.
+For another repository/project, I update `REPOSITORY` in `scripts/github_setup.py` and the workflow’s `GCP_PROJECT_ID`/region before running its setup. I authenticate the project-local GitHub CLI as the repository owner. I configure repository/main-scoped GitHub Workload Identity Federation with `scripts.github_setup`. My workflow runs on pushes and pull requests and deploys only `main`. I pass the tested container between jobs, deploy its digest, run candidate acceptance, promote it, and test the public URL. A failed post-promotion check restores the previous revision's traffic. I store actual API keys in Secret Manager, not GitHub variables or source.
 
 ## My cost and access policy
 

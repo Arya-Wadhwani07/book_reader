@@ -174,3 +174,33 @@ def test_explicit_retrieval_cannot_be_omitted_by_planner(tmp_path):
 
     events = asyncio.run(run())
     assert any(event == "trace" and data.get("type") == "rag_retrieval" for event, data in events)
+
+
+def test_chapter_scope_suppresses_research_and_edition_web_search(tmp_path):
+    settings = Settings(_env_file=None, data_dir=tmp_path, session_secret="test-" * 10)
+    calls = []
+
+    async def search(query, role):
+        calls.append(role)
+        return {"results": []}
+
+    graph = BookGraph(
+        settings,
+        SQLiteStore(tmp_path / "state.sqlite3"),
+        LibraryFixture(),
+        ProviderFixture(),
+        search,
+    )
+    request = ChatRequest(
+        query="Research the author, adaptations, and buy hardcover editions",
+        session_id=uuid.uuid4(),
+        turn_id=uuid.uuid4(),
+        book_id="book",
+        spoiler_limit=1,
+    )
+
+    async def run():
+        return [event async for event in graph.stream("owner", request, [])]
+
+    asyncio.run(run())
+    assert calls == []

@@ -46,7 +46,7 @@ class BudgetedJudge(BaseChatModel):
         )
 
 
-def evaluate_service(url, cloud):
+def evaluate_service(url, cloud, reuse_answers=False):
     os.environ["RAGAS_DO_NOT_TRACK"] = "true"
     os.environ["HF_HOME"] = str(ROOT / ".cache/huggingface")
     os.environ["XDG_CACHE_HOME"] = str(ROOT / ".cache")
@@ -70,7 +70,7 @@ def evaluate_service(url, cloud):
     with httpx.Client(base_url=url, timeout=300) as client:
         client.get("/api/bootstrap").raise_for_status()
         books = client.get("/api/books").json()
-        for item in questions:
+        for item in [] if reuse_answers else questions:
             book = next(book for book in books if book.get("gutenberg_id") == item["gutenberg_id"])
             chat = client.post("/api/chats", json={}).json()
             request = {
@@ -93,9 +93,10 @@ def evaluate_service(url, cloud):
                 raise RuntimeError("An evaluation query did not complete.")
             ids = list(
                 dict.fromkeys(
-                    data["chunk_id"]
+                    identifier
                     for event, data in events
-                    if event == "citation" and data.get("chunk_id")
+                    if event == "trace" and data.get("type") == "rag_retrieval"
+                    for identifier in data["chunk_ids"]
                 )
             )
             rows.append(
@@ -117,6 +118,26 @@ def evaluate_service(url, cloud):
                 }
             )
             print("Generated evaluation answer:", item["question"], flush=True)
+    if reuse_answers:
+        saved = json.loads((ROOT / "reports/evaluation_answers.json").read_text())
+        rows, measurements = saved["rows"], saved["measurements"]
+        if [row["user_input"] for row in rows] != [item["question"] for item in questions]:
+            raise ValueError("Saved answers do not match the fixed question set.")
+        for row, measurement in zip(rows, measurements, strict=True):
+            identifiers = list(
+                dict.fromkeys(
+                    identifier
+                    for trace in measurement["traces"]
+                    if trace.get("type") == "rag_retrieval"
+                    for identifier in trace["chunk_ids"]
+                )
+            )
+            if not identifiers:
+                raise ValueError("The saved answer has no actual retrieval trace.")
+            row["retrieved_contexts"] = [
+                library.chunk(identifier.split("-s")[0], identifier)["text"]
+                for identifier in identifiers
+            ]
     (ROOT / "reports/evaluation_answers.json").write_text(
         json.dumps({"rows": rows, "measurements": measurements}, indent=2)
     )
@@ -137,5 +158,6 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--url", required=True)
     parser.add_argument("--cloud", action="store_true")
+    parser.add_argument("--reuse-answers", action="store_true")
     args = parser.parse_args()
-    evaluate_service(args.url, args.cloud)
+    evaluate_service(args.url, args.cloud, args.reuse_answers)

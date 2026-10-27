@@ -199,3 +199,16 @@ def test_cloud_https_origin_behind_terminating_proxy(tmp_path):
             ).status_code
             == 403
         )
+
+
+def test_html_versions_assets_to_prevent_mixed_revisions(setup):
+    import hashlib
+
+    from src.config import ROOT
+
+    client, _, _, _ = setup
+    response = client.get("/")
+    assert response.headers["cache-control"] == "no-cache"
+    for asset in ("style.css", "app.js", "stream.js"):
+        digest = hashlib.sha256((ROOT / "static" / asset).read_bytes()).hexdigest()[:12]
+        assert f"/static/{asset}?v={digest}" in response.text

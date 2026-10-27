@@ -44,14 +44,14 @@ I budget at most $5 in new OpenAI spending. I account for ingestion embeddings, 
 - [x] **ACCESS-02:** I confirmed that my access is an Anthropic Console API key with credits, not merely a Claude Code subscription. This resolves the account-type question; actual connectivity, usable model IDs, and remaining quota/balance verification stay under AUDIT-14 and DEC-08.
 - [ ] **ACCESS-03:** I verify my Pinecone Starter limits, storage/index configuration, and account availability against the corpus and avoid a paid upgrade without authorization. I verify GCP credit eligibility and remaining balance before deployment.
 - [x] **ACCESS-04:** I target NVIDIA, Anthropic, and OpenAI following my confirmed preference for a three-provider comparison. I verify the OpenAI key before claiming availability and keep all OpenAI embedding/generation/evaluation/live-test usage within $5. I preserve the rubric's distinction: two active generation providers are mandatory, while the third is my project choice. I reserve evaluation/live-test capacity and do not silently exceed any provider budget.
-- [ ] **ACCESS-05:** I validate server-side session restoration, signed identity, message/history recovery, and instance replacement without conflating browser-local history with durable agent state.
+- [x] **ACCESS-05:** I validate server-side session restoration, signed identity, message/history recovery, and instance replacement without conflating browser-local history with durable agent state.
 
 I checked that [Pinecone lists a free Starter plan](https://www.pinecone.io/pricing/). I also checked [Anthropic's API billing guidance](https://support.claude.com/en/articles/8977456-how-do-i-pay-for-my-claude-api-usage): usable Console API credits must be verified; eligible Max/Team plans may supply linked monthly API credits. I do not assume either that a subscription always includes applicable API usage or that it never does.
 
 ## My confirmed multi-chat and upload contract
 
 - [x] **SESSION-01 — My design decision:** I define one anonymous browser owner with multiple isolated chats, no login/logout, and persistent same-chat memory. I distinguish server-derived `owner_id`, chat `session_id`, and request `turn_id` consistently in my guidelines, architecture, and design.
-- [ ] **SESSION-02 — My durable behavior:** I implement chat list/create/select/delete, restore messages and book/preferences after refresh, and prove recovery after Cloud Run instance replacement. I keep graph checkpoints scoped to the authorized owner/chat pair, prevent cross-chat context leakage, and deduplicate retried turns.
+- [x] **SESSION-02 — My durable behavior:** I implement chat list/create/select/delete, restore messages and book/preferences after refresh, and prove recovery after Cloud Run instance replacement. I keep graph checkpoints scoped to the authorized owner/chat pair, prevent cross-chat context leakage, and deduplicate retried turns.
 - [ ] **SESSION-03 — My navigation behavior:** I make New Chat/Reset preserve earlier chats and uploaded books, require explicit confirmation for deletion, and handle switching chats during a response through cancellation. I test simultaneous tabs, another anonymous owner attempting access, and loss of browser identity.
 - [x] **SESSION-04 — My upload design:** I set the initial limit to 25 MB (25,000,000 bytes) per file, at most 500 actual PDF pages, or at most 125,000 extracted words for EPUB/TXT (approximately 500 pages at 250 words/page), plus at most 250,000 extracted tokens for every format. I display every applicable limit before upload and never silently truncate a book. These engineering limits are selected to support the requested 300–400-page target; actual capacity is not yet verified.
 - [ ] **SESSION-05 — My upload acceptance:** I test representative 300–400-page inputs, accepted 500-page/rejected 501-page PDFs, exact word/byte/token boundaries, encrypted/scanned/malformed inputs, EPUB decompression limits, and clear rejection messages. I verify corpus ingestion uses the documented tokenizer and published page-equivalent convention.
@@ -176,7 +176,7 @@ I have selected a book-reading companion for both fiction and nonfiction, with a
 
 - [ ] **BOOK-01:** I support both fiction and nonfiction and adapt the analysis to the book: story/characters for fiction, and arguments, concepts, evidence, real people, or historical events when applicable to nonfiction. I do not invent a fictional plot for a nonfiction book.
 - [x] **BOOK-02:** I provide a substantial curated library with documented sources and a reproducible ingestion path for grading.
-- [ ] **BOOK-03:** I support user uploads with validated formats and size limits, clear extraction/ingestion errors and progress, and isolation between uploaded books/users. I accept English PDF, EPUB, and TXT initially; I enforce the confirmed upload policy under SESSION-04, including a 500-page PDF cap, word-based EPUB/TXT cap, and displayed size/token limits.
+- [x] **BOOK-03:** I support user uploads with validated formats and size limits, clear extraction/ingestion errors and progress, and isolation between uploaded books/users. I accept English PDF, EPUB, and TXT initially; I enforce the confirmed upload policy under SESSION-04, including a 500-page PDF cap, word-based EPUB/TXT cap, and displayed size/token limits.
 - [ ] **BOOK-04:** I provide selectable summary depth, chapter-level expansion, and whole-book synthesis with source citations and measured coverage rather than a lossless-summary promise.
 - [ ] **BOOK-05:** I provide character sketches and deep dives into relationships, motivations, and development, grounded in the text; I label interpretation and uncertainty.
 - [ ] **BOOK-06:** I provide major-event deep dives, chronology, causes, and consequences, retaining references to supporting passages.
@@ -245,7 +245,7 @@ I completed a real CI/CD release at https://github.com/Arya-Wadhwani07/book_read
 
 - [x] **ROUTE-01:** I wire and actually exercise at least two different LLM generation providers. Two models from one provider, NVIDIA-only hosted models, and an embedding provider do not satisfy this floor. [PDF pp. 2–3, 5–6, 15]
 - [x] **ROUTE-02:** I route on cost, capability, or a documented hybrid of both using meaningful query/task characteristics. [PDF pp. 2–3]
-- [ ] **ROUTE-03:** I show the selected agent, provider/model, and rationale per turn in the UI or trace, making it clear why that provider was selected instead of another. [PDF pp. 3–4, 15]
+- [x] **ROUTE-03:** I show the selected agent, provider/model, and rationale per turn in the UI or trace, making it clear why that provider was selected instead of another. [PDF pp. 3–4, 15]
 - [x] **ROUTE-04:** I demonstrate normal queries/tasks that route to different providers; I avoid a router that always selects the same provider or leaves its second provider unexercised. [PDF pp. 3, 15]
 - [x] **ROUTE-05:** I include an LLM routing table in `docs/architecture.md` showing the dimension driving each decision and each agent's provider/model. [PDF pp. 12–13]
 - [x] **ROUTE-06:** I verify exact deployable model IDs before submission and pin them in my source/configuration and `.env.example`; I do not assume the planning examples remain available. [PDF pp. 5–6]
@@ -273,17 +273,17 @@ I choose one qualifying path below. My live-retrieval choice does not automatica
 
 ## My frontend and streaming — 15%
 
-- [ ] **UI-01:** I serve my chat frontend and its static assets from FastAPI alongside the API routes. [PDF pp. 1, 3–5]
-- [ ] **UI-02:** I provide a single-page HTML/CSS/vanilla JavaScript interface, or the explicitly permitted HTMX alternative, without a frontend framework build step or `node_modules` in the container. [PDF pp. 4–5]
-- [ ] **UI-03:** I provide a query input and a response area that renders real incremental SSE/token output before generation finishes. [PDF pp. 3–4, 15]
-- [ ] **UI-04:** I use a streaming consumption method compatible with my HTTP method: for POST, `fetch()` with a streaming reader; for GET, a standards-compatible alternative such as `EventSource`. [PDF pp. 4, 10]
-- [ ] **UI-05:** I show each turn's invoked agent, selected LLM provider, and routing reason visibly. [PDF pp. 4, 15]
-- [ ] **UI-06:** I expose an understandable, inspectable trace showing orchestration state transitions. [PDF pp. 4, 15]
-- [ ] **UI-07:** I render RAG citations linked to source document identifiers and preserve traceability to chunks. [PDF pp. 3–4, 15]
-- [ ] **UI-08:** I connect my frontend to the deployed backend and verify it through the public URL. [PDF p. 15]
+- [x] **UI-01:** I serve my chat frontend and its static assets from FastAPI alongside the API routes. [PDF pp. 1, 3–5]
+- [x] **UI-02:** I provide a single-page HTML/CSS/vanilla JavaScript interface, or the explicitly permitted HTMX alternative, without a frontend framework build step or `node_modules` in the container. [PDF pp. 4–5]
+- [x] **UI-03:** I provide a query input and a response area that renders real incremental SSE/token output before generation finishes. [PDF pp. 3–4, 15]
+- [x] **UI-04:** I use a streaming consumption method compatible with my HTTP method: for POST, `fetch()` with a streaming reader; for GET, a standards-compatible alternative such as `EventSource`. [PDF pp. 4, 10]
+- [x] **UI-05:** I show each turn's invoked agent, selected LLM provider, and routing reason visibly. [PDF pp. 4, 15]
+- [x] **UI-06:** I expose an understandable, inspectable trace showing orchestration state transitions. [PDF pp. 4, 15]
+- [x] **UI-07:** I render RAG citations linked to source document identifiers and preserve traceability to chunks. [PDF pp. 3–4, 15]
+- [x] **UI-08:** I connect my frontend to the deployed backend and verify it through the public URL. [PDF p. 15]
 - [ ] **UI-09 — If I choose HTMX:** I bundle `htmx.min.js` in the static-assets folder, satisfy the same streaming/trace/citation requirements, and explain my choice in the README. [PDF p. 4] **Not applicable:** I selected vanilla JavaScript, not HTMX.
-- [ ] **UI-10 — My reference UI contract:** If I adopt the supplied frontend prompt, I POST `{query, session_id}` to `/api/chat`, consume `text/event-stream`, and parse `token`, `trace`, `citation`, `error`, and `done` events. [frontend_vibecode_prompt.md; reference guidance]
-- [ ] **UI-11 — My reference UI presentation:** If I adopt that prompt, I provide separate trace/citation panels, distinguish `agent_route`, `llm_route`, `rag_retrieval`, and `mcp_tool_call` badges, disable submission during an active stream, and implement Reset. I keep the frontend inspectable and easy to run from FastAPI static files. [frontend_vibecode_prompt.md; reference guidance]
+- [x] **UI-10 — My reference UI contract:** If I adopt the supplied frontend prompt, I POST `{query, session_id}` to `/api/chat`, consume `text/event-stream`, and parse `token`, `trace`, `citation`, `error`, and `done` events. [frontend_vibecode_prompt.md; reference guidance]
+- [x] **UI-11 — My reference UI presentation:** If I adopt that prompt, I provide separate trace/citation panels, distinguish `agent_route`, `llm_route`, `rag_retrieval`, and `mcp_tool_call` badges, disable submission during an active stream, and implement Reset. I keep the frontend inspectable and easy to run from FastAPI static files. [frontend_vibecode_prompt.md; reference guidance]
 
 ## My configuration, container, and deployment — 15%
 
@@ -306,7 +306,7 @@ I choose one qualifying path below. My live-retrieval choice does not automatica
 
 - [x] **STATE-01:** I document my actual state model and avoid claiming persistence guarantees that my implementation does not provide. [PDF pp. 4, 10–11]
 - [x] **STATE-02 — If I claim durable multi-turn state:** I implement and document Firestore, GCS/GCSFuse, Cloud SQL, or an equivalent external durable store. Process memory or local container storage alone does not satisfy this requirement. [PDF pp. 10–11, 15–16]
-- [ ] **STATE-03 — If I claim durable multi-turn state:** I prove state survives actual instance replacement/restart, rather than just consecutive requests to the same process, and account for scaling. [PDF pp. 4, 12]
+- [x] **STATE-03 — If I claim durable multi-turn state:** I prove state survives actual instance replacement/restart, rather than just consecutive requests to the same process, and account for scaling. [PDF pp. 4, 12]
 - [ ] **STATE-04 — If I choose GCS/GCSFuse:** I configure `GCS_STATE_BUCKET`, `GCS_STATE_MOUNT`, a native Cloud Run volume mount, and service-identity bucket access; my application actually reads/writes its claimed state through the mount. [alternative_gcs_persistence.md] **Not applicable:** I use Firestore and the GCS client API, not GCSFuse.
 - [x] **STATE-05:** I distinguish local development SQLite/in-memory checkpointers from deployment durability, and distinguish my vector index from conversation checkpoints. [PDF p. 11]
 - [ ] **STATE-06 — If I choose stateless/single-turn:** I explicitly document that scope and confirm that neither my UI nor my reports claim durable memory. I record the durable-store items as not applicable with that rationale. [PDF pp. 4, 11] **Not applicable:** I implement durable multi-turn state.
@@ -314,13 +314,13 @@ I choose one qualifying path below. My live-retrieval choice does not automatica
 ## My evaluation, latency, and cost evidence
 
 - [x] **EVAL-01:** I define and retain a fixed test-question set and the inputs/reference answers needed to reproduce my selected RAGAS metrics. [PDF pp. 3, 12, 15]
-- [ ] **EVAL-02:** I run RAGAS and report concrete **faithfulness, answer relevance, context precision, and context recall** values in `docs/evaluation.md`; I do not substitute qualitative claims or another evaluator. [PDF pp. 3, 12, 15]
+- [x] **EVAL-02:** I run RAGAS and report concrete **faithfulness, answer relevance, context precision, and context recall** values in `docs/evaluation.md`; I do not substitute qualitative claims or another evaluator. [PDF pp. 3, 12, 15]
 - [x] **EVAL-03:** I provide a reproducible evaluation entry point. If I follow the supporting layout, I retain `src/eval/ragas_eval.py` as my canonical RAGAS path. [alternative_deepeval_pattern.md]
-- [ ] **EVAL-04:** I report per-query wall-clock latency broken down into retrieval, LLM call, and total, plus time to first token (TTFT). [PDF pp. 12–13]
-- [ ] **EVAL-05:** I separately measure cold-start and warm latency, present warm steady-state numbers as representative, and state the cold-start result separately. I do not present the PDF's approximately 20–25 s cold / 1.5–2 s warm TTFT examples as my own results or required targets. [PDF pp. 12–13]
-- [ ] **EVAL-06:** I report per-query costs measured from actual API bills or estimated from token counts, identifying my estimation method. [PDF p. 13]
-- [ ] **EVAL-07:** I compare the providers I actually route to, covering cost, latency, and answer quality using inspectable measurements. [PDF pp. 5, 13]
-- [ ] **EVAL-08:** I record provider and exact model ID, available input/output token usage, and the current provider price used for each verification query or evaluation batch. [cost_analysis.md]
+- [x] **EVAL-04:** I report per-query wall-clock latency broken down into retrieval, LLM call, and total, plus time to first token (TTFT). [PDF pp. 12–13]
+- [x] **EVAL-05:** I separately measure cold-start and warm latency, present warm steady-state numbers as representative, and state the cold-start result separately. I do not present the PDF's approximately 20–25 s cold / 1.5–2 s warm TTFT examples as my own results or required targets. [PDF pp. 12–13]
+- [x] **EVAL-06:** I report per-query costs measured from actual API bills or estimated from token counts, identifying my estimation method. [PDF p. 13]
+- [x] **EVAL-07:** I compare the providers I actually route to, covering cost, latency, and answer quality using inspectable measurements. [PDF pp. 5, 13]
+- [x] **EVAL-08:** I record provider and exact model ID, available input/output token usage, and the current provider price used for each verification query or evaluation batch. [cost_analysis.md]
 - [ ] **EVAL-09:** I account for ingestion embedding tokens/cost, Tavily usage/plan terms, Cloud Run compute, and material persistence costs. [cost_analysis.md]
 - [ ] **EVAL-10:** I verify official provider pricing and service/account terms when budgeting and before publishing estimates, date-stamp my estimates, and distinguish eligible GCP credits from separately billed LLM usage. [PDF p. 6; cost_analysis.md]
 - [ ] **EVAL-11 — If I add DeepEval:** I keep it separate from my mandatory RAGAS results, pin its version, and document evaluator-model costs; I replace RAGAS only if I obtain an explicit instructor change to the assignment contract. [alternative_deepeval_pattern.md] **Not applicable:** I use required RAGAS and have not added DeepEval.
@@ -341,7 +341,7 @@ I add the checks below to satisfy my requested engineering standard. These are m
 - [ ] **TEST-10 — My retrieval tests:** I check stable source/chunk IDs, embedding compatibility, configurable top-k, re-ingestion behavior, citation preservation through summarization, and answers unsupported by the corpus.
 - [x] **TEST-11 — My sharing tests:** I retain evidence of the same MCP tool invoked by two agents in different contexts, or complete qualifying A2A discovery/message/lifecycle/streaming evidence.
 - [ ] **TEST-12 — My deployment tests:** I test cold and warm starts, a nondefault injected `PORT`, non-root file/dependency access, concurrent requests, session isolation where relevant, stream timeout behavior, and reasonable unrehearsed queries.
-- [ ] **TEST-13 — My conditional persistence tests:** If I claim durable state, I test replacement/restart recovery and multiple sessions/instances; I do not use a same-process test as proof of durability.
+- [x] **TEST-13 — My conditional persistence tests:** If I claim durable state, I test replacement/restart recovery and multiple sessions/instances; I do not use a same-process test as proof of durability.
 - [ ] **TEST-14 — My security and boundary checks:** I check that source/archive/logs/traces do not reveal credentials, including Tavily URL query keys, and that my project/test tooling writes only within Assignment 2.
 - [ ] **TEST-15 — My regression review:** I review each change against affected requirements, rerun relevant tests, and resolve failures before marking the associated items complete.
 - [ ] **TEST-16 — My reproducibility review:** I verify setup, ingestion, evaluation, container startup, and documented deployment instructions from a clean project environment within this folder; I record actual commands, outcomes, and limitations.
@@ -353,7 +353,7 @@ I add the checks below to satisfy my requested engineering standard. These are m
 - [ ] **SUBMIT-02:** I prepare a source-code ZIP including exact-pinned `requirements.txt` and placeholder `.env.example`, excluding `.env`, secrets, and generated vector-index artifacts where appropriate. I ensure excluded artifacts remain reproducible or available through my documented deployment/index setup. [PDF p. 12]
 - [x] **SUBMIT-03:** I write `docs/architecture.md` with an orchestration diagram (Mermaid or embedded image), agents/nodes, communication paths, relevant state schema, responsibilities/tool access, per-agent provider/model choices, and routing dimensions. [PDF pp. 12–14]
 - [x] **SUBMIT-04:** I include corpus source, chunking strategy, retrieval k, augmentation prompt template, selected sharing/protocol rationale, and conditional durable-state design in `docs/architecture.md`. [PDF pp. 12, 16]
-- [ ] **SUBMIT-05:** I write `docs/evaluation.md` with the fixed question set, all four concrete RAGAS metrics, retrieval/LLM/total latency, TTFT, separate cold/warm results, per-query cost, and provider comparison. [PDF pp. 12–13]
+- [x] **SUBMIT-05:** I write `docs/evaluation.md` with the fixed question set, all four concrete RAGAS metrics, retrieval/LLM/total latency, TTFT, separate cold/warm results, per-query cost, and provider comparison. [PDF pp. 12–13]
 - [ ] **SUBMIT-06:** I write a **200–300 word** `PROCESS_LOG.md` with exactly the four requested sections: AI tools used (including versions where known), development narrative (successes, failures, and blockers encountered), verification narrative (testing beyond simply running code), and what I learned that AI tools could not do for me. I base personal claims on my actual experience. [PDF p. 13]
 - [x] **SUBMIT-07:** I write `README.md` covering setup, local run instructions, deploy instructions, provider requirements, and current implementation-specific cost/access information, plus my HTMX choice if applicable. [PDF pp. 4, 13, 15]
 - [ ] **SUBMIT-08:** I review the ZIP and all written deliverables for completeness, valid links, consistency with deployed behavior, first-person prose, and absence of secrets or unfinished-step lists outside this file.
@@ -439,9 +439,9 @@ I completed the final audit run with **130 passing tests, zero failures/errors/s
 
 ## My current acceptance evidence — released implementation
 
-I passed 138 offline Python cases and 90 JavaScript stream-parser cases with no failures or skips. I verified all three providers on identical book evidence. I passed three live API tests, including real RAG, original citations, saved turns, duplicate rejection, owner isolation, and the same Tavily tool invoked by Research and Data. My initial six-question RAGAS run measured faithfulness 0.8611, answer relevance 0.9357, context precision 0.6944, and context recall 1.0000. I retain numeric results and revision context in my evaluation report.
+I passed 142 offline Python cases and 90 JavaScript stream-parser cases with no failures or skips. I verified all three providers on identical book evidence. I passed three live API tests, including real RAG, original citations, saved turns, duplicate rejection, owner isolation, and the same Tavily tool invoked by Research and Data. My initial six-question RAGAS run measured faithfulness 0.8611, answer relevance 0.9357, context precision 0.6944, and context recall 1.0000. I retain numeric results and revision context in my evaluation report.
 
-I reproduced and fixed browser-origin rejection behind HTTPS termination, omission of explicitly requested semantic retrieval, a missing ingestion-job override permission, and Unicode token-boundary corruption. My first 120-read stress run had three HTTP 429 responses; I retain that failure and verify the concurrency correction separately.
+I reproduced and fixed browser-origin rejection behind HTTPS termination, omission of explicitly requested semantic retrieval, a missing ingestion-job override permission, and Unicode token-boundary corruption. My first 120-read stress run had three HTTP 429 responses; I retained that failure; after increasing concurrency to 16, all 120 reads passed in 3.515 seconds. I verified PDF, EPUB, and TXT cloud ingestion and exact saved-answer recovery through a separate revision.
 
 - [ ] **FINAL-REFLECTION:** I explicitly deferred my personal process-log reflection until later on October 27. I do not invent my learning narrative or mark PROCESS_LOG.md complete without my contribution.
 - [ ] **FINAL-RELEASE:** I finish browser/source/refresh, cross-revision recovery, cold/warm timing, final stress reruns, evaluation reporting, and secret-free packaging before declaring submission readiness.

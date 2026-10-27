@@ -354,7 +354,7 @@ class BookGraph:
                 for f in facts
                 for identifier in f["chunk_ids"]
             ]
-            if any(
+            if state["spoiler_limit"] is None and any(
                 word in query for word in ("buy", "purchase", "edition", "hardcover", "retailer")
             ):
                 book = self.library.book(state["owner_id"], state["book_id"])
