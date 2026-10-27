@@ -83,11 +83,37 @@ class Providers:
         return ChatOpenAI(**options)
 
     async def stream(self, system, prompt, task="answer", depth="brief", emit=None):
+        preferred, reason = self.route(task, depth)
+        alternatives = [
+            p
+            for p in ("openai", "nvidia", "anthropic")
+            if p != preferred and p in self.settings.available_providers()
+        ]
+        providers = [preferred] + alternatives[:1]
+        for index, provider in enumerate(providers):
+            emitted = False
+            try:
+                async for text in self._stream_attempt(
+                    system, prompt, task, depth, emit, provider, reason
+                ):
+                    emitted = True
+                    yield text
+                return
+            except RuntimeError:
+                if emitted or index + 1 == len(providers):
+                    raise
+                reason = f"I use {providers[index + 1]} because {provider} failed before producing answer text."
+                if emit:
+                    emit(
+                        "trace",
+                        {"type": "provider_recovery", "provider": provider, "reason": reason},
+                    )
+
+    async def _stream_attempt(self, system, prompt, task, depth, emit, provider, reason):
         if len((system + prompt).encode()) > 120_000:
             raise ValueError("The bounded evidence context is too large.")
-        provider, reason = self.route(task, depth)
         model_name = getattr(self.settings, f"{provider}_model")
-        output_limit = 2048 if depth == "deep" or task == "extract" else 1200
+        output_limit = 4096 if depth == "deep" else 2048 if task == "extract" else 1200
         reservation = None
         if provider in self.budget.limits:
             if model_name not in PRICES:
@@ -106,11 +132,19 @@ class Providers:
                     "task": task,
                 },
             )
-        started, usage, success = time.monotonic(), None, False
+        started, usage, success, received = time.monotonic(), None, False, False
+        truncated = False
         try:
             async for chunk in self.model(provider, output_limit, task).astream(
                 [SystemMessage(content=system), HumanMessage(content=prompt)]
             ):
+                metadata = chunk.response_metadata
+                truncated = (
+                    truncated
+                    or metadata.get("finish_reason") in {"length", "max_tokens"}
+                    or metadata.get("stop_reason") == "max_tokens"
+                    or metadata.get("status") == "incomplete"
+                )
                 if chunk.usage_metadata:
                     usage = chunk.usage_metadata
                 content = chunk.content
@@ -124,7 +158,12 @@ class Providers:
                     )
                 )
                 if text:
+                    received = True
                     yield text
+            if truncated:
+                raise RuntimeError("The provider reached its output limit before completion.")
+            if not received:
+                raise RuntimeError("The provider returned no answer text.")
             success = True
         except Exception as error:
             # I sanitize third-party errors, which can contain URLs or request credentials.
@@ -159,6 +198,7 @@ class Providers:
                         "seconds": record["seconds"],
                         "cost_usd": record["cost_usd"],
                         "usage": usage,
+                        "success": success,
                     },
                 )
 

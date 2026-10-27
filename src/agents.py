@@ -393,7 +393,10 @@ class BookGraph:
         async for text in self.providers.stream(
             GUARD + "I am the synthesis supervisor. Answer the reader clearly "
             "at the requested depth, preserve original citations, use headings, disclose unavailable specialists, "
-            "and never claim unsupported book details. Do not expose implementation secrets. "
+            "and never claim unsupported book details. Write directly to the reader about the book, "
+            "not about specialist reports. Never abbreviate source IDs: preserve the full book-sN-tN identifier "
+            "inside square brackets. Limit deep responses to 650 words and finish every sentence. "
+            "Do not expose implementation secrets. "
             + {
                 "brief": "Keep the answer concise and limited to the question; omit speculative implications.",
                 "detailed": "Explain the evidence in several clear paragraphs with relevant supporting detail.",

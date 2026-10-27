@@ -36,7 +36,7 @@ I give each specialist a separate system prompt and a different tool surface. My
 | Deep cross-section synthesis | Anthropic `claude-sonnet-5` | I use the selected Sonnet model for detailed interpretation. |
 | Embeddings | OpenAI `text-embedding-3-small`, 1,536 dimensions | I use one compatible embedding space for indexing and queries; this does not count as a generation provider. |
 
-I route by task and requested depth. I emit provider, exact model, task, and reason in `llm_route` events. I select another configured provider only when the preferred provider is unconfigured; I expose service failures rather than silently changing a deep response after generation begins.
+I route by task and requested depth. I emit provider, exact model, task, and reason in `llm_route` events. I select another configured provider when the preferred provider is unconfigured. If a configured provider fails before producing text, I attempt at most one alternative with a visible recovery reason and a separate budget reservation. I never mix providers after text starts, and I treat provider-reported output truncation as an incomplete response.
 
 I reserve a conservative cost bound before each OpenAI/Anthropic call. I settle actual token costs when available and retain the reservation when billing is uncertain. My separate limits are $5 OpenAI and $2.50 Anthropic. I record embedding costs as conservative byte-token estimates. My cloud ledger is shared across workers and instances.
 

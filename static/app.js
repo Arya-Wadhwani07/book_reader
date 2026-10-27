@@ -78,11 +78,11 @@ async function selectChat(id) {
 }
 function linkCitations(view) {
   const text = view.answer.textContent;
-  const expression = /\[([a-f0-9]{32}-s\d+-t\d+)\]/g;
+  const expression = /[\[【]((?:[a-f0-9]{32}-)?s\d+-t\d+)[\]】]/g;
   let last = 0; view.answer.replaceChildren();
   for (const match of text.matchAll(expression)) {
     view.answer.append(text.slice(last, match.index));
-    const source = [...$("sources").children].find((node) => node.dataset.key === match[1]);
+    const source = [...$("sources").children].find((node) => node.dataset.key === match[1] || node.dataset.key?.endsWith(`-${match[1]}`));
     if (source) {
       const link = button("[Source]", () => source.querySelector("button").click());
       link.className = "inline-citation"; view.answer.append(link);
