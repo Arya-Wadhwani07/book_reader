@@ -80,7 +80,7 @@ All three answers identified curiosity and the pocket watch. OpenAI was shortest
 
 My indexed corpus contains eight complete public-domain books: 425,982 extracted words, 570,802 tokens, and 864 original chunks. My largest source, Walden with Civil Disobedience, contains 115,831 words and 153,361 tokens. I preserve source URLs and original files.
 
-- My offline suite passed 171 Python tests and 98 JavaScript stream/Markdown tests without failures or skips. My offline tests block external socket access and writes outside Assignment 2; I do not describe Python guards as an OS security sandbox.
+- My offline suite passed 171 Python tests and 102 JavaScript stream/Markdown tests without failures or skips. My offline tests block external socket access and writes outside Assignment 2; I do not describe Python guards as an OS security sandbox.
 - **Uploads:** Live checks covered PDF, EPUB, and TXT ingestion, duplicate rejection, private-book listing isolation, and original-source authorization. My synthetic files completed in approximately 28.6, 31.6, and 32.3 seconds respectively.
 - **Load:** An earlier 120-read/12-worker stress test produced three HTTP 429 responses. After increasing Cloud Run request concurrency to 16, all 120 reads passed in 3.515 seconds. My final 120-read/12-worker rerun also passed, taking 21.847 seconds; latency varies under concurrent verification. I do not claim an unbounded production load capacity.
 - **Agent cooperation:** Research and Data invoked the same Tavily MCP tool with different queries. A separate deep query exercised all three specialists plus OpenAI/Sonnet routing (98.171 s TTFT; 113.421 s total). I show activity during that wait, because a deep response can take much longer than a brief answer.

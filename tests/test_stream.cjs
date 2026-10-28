@@ -76,3 +76,40 @@ test('quotes in link attributes remain escaped', () => {
   assert.ok(!html.includes('"onmouseover='));
   assert.match(html, /<a href="https:\/\/example.test\//);
 });
+
+test('grouped citations render a separate button for each original passage', () => {
+  const first = '3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360';
+  const second = '3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t2040';
+  for (const text of [`[${first}, ${second}]`, `【 ${first}; ${second} 】`, `[${first},\n${second}]`]) {
+    const html = Markdown.render(text, [first,second]);
+    assert.equal((html.match(/<button /g) || []).length, 2);
+    assert.match(html, new RegExp(`data-source="${first}"`));
+    assert.match(html, new RegExp(`data-source="${second}"`));
+    assert.ok(!html.includes(`[${first}`));
+  }
+});
+test('grouped citations do not turn unknown or ambiguous IDs into links', () => {
+  const first = `${'a'.repeat(32)}-s1-t0`, second = `${'b'.repeat(32)}-s1-t0`;
+  const html = Markdown.render(`[${first}, s1-t0, s9-t99]`, [first,second]);
+  assert.equal((html.match(/<button /g) || []).length, 1);
+  assert.match(html, /\[s1-t0\]/);
+  assert.match(html, /\[s9-t99\]/);
+});
+test('grouped citation examples inside code stay literal', () => {
+  const id = `${'a'.repeat(32)}-s1-t0`;
+  for (const text of [`\`[${id}, ${id}]\``, `\`\`\`\n[${id}, ${id}]\n\`\`\``]) {
+    const html = Markdown.render(text, [id]);
+    assert.ok(!html.includes('<button'));
+    assert.match(html, /<code>/);
+  }
+});
+test('grouped citations tolerate every streamed split point', () => {
+  const ids = [`${'a'.repeat(32)}-s1-t1360`,`${'a'.repeat(32)}-s1-t2040`];
+  const text = `She shrinks to ten inches [${ids.join(', ')}].`;
+  for (let split=0;split<=text.length;split++) {
+    assert.doesNotThrow(()=>Markdown.render(text.slice(0,split),ids));
+    const html=Markdown.render(text.slice(0,split)+text.slice(split),ids);
+    assert.equal((html.match(/<button /g)||[]).length,2);
+    assert.ok(html.endsWith('.</p>'));
+  }
+});

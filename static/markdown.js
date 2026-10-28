@@ -8,7 +8,7 @@ const BookMarkdown = (() => {
   }
   function inline(text, sources, depth = 0) {
     if (depth > 12) return escape(text);
-    const pattern = /`([^`\n]+)`|\[([^\]\n]+)\]\(([^\s)]+)\)|[\[【]((?:[a-f0-9]{32}-)?s\d+-t\d+)[\]】]|\*\*([^\n]+?)\*\*|__([^\n]+?)__|\*([^*\n]+)\*|_([^_\n]+)_/g;
+    const pattern = /`([^`\n]+)`|\[([^\]\n]+)\]\(([^\s)]+)\)|[\[【]\s*((?:[a-f0-9]{32}-)?s\d+-t\d+(?:\s*[,;]\s*(?:[a-f0-9]{32}-)?s\d+-t\d+)*)\s*[\]】]|\*\*([^\n]+?)\*\*|__([^\n]+?)__|\*([^*\n]+)\*|_([^_\n]+)_/g;
     let html = "", last = 0;
     for (const match of text.matchAll(pattern)) {
       html += escape(text.slice(last, match.index));
@@ -17,8 +17,10 @@ const BookMarkdown = (() => {
         const url = safeUrl(match[3]);
         html += url ? `<a href="${escape(url)}" target="_blank" rel="noopener noreferrer">${inline(match[2], sources, depth + 1)}</a>` : escape(match[0]);
       } else if (match[4] !== undefined) {
-        const matches = sources.filter((id) => id === match[4] || id.endsWith(`-${match[4]}`));
-        html += matches.length === 1 ? `<button type="button" class="inline-citation" data-source="${escape(matches[0])}" aria-label="Open source passage">Source ↗</button>` : escape(match[0]);
+        html += match[4].split(/\s*[,;]\s*/).map((identifier) => {
+          const matches = sources.filter((id) => id === identifier || id.endsWith(`-${identifier}`));
+          return matches.length === 1 ? `<button type="button" class="inline-citation" data-source="${escape(matches[0])}" aria-label="Open source passage">Source ↗</button>` : escape(`[${identifier}]`);
+        }).join(" ");
       } else {
         const strong = match[5] !== undefined || match[6] !== undefined;
         const value = match[5] ?? match[6] ?? match[7] ?? match[8];
