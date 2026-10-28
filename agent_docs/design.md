@@ -75,7 +75,7 @@ Text badges distinguish Agent, Model, Retrieval, and Tool activity without relyi
 
 For predictable rendering and interaction, my design uses these rules:
 
-- **Text safety:** Untrusted book/model/web content renders through text nodes, never executable HTML. Unsupported formatting remains readable plain text.
+- **Text safety:** My local Markdown renderer escapes untrusted content and creates only supported headings, emphasis, lists, quotes, code, tables, safe HTTP(S) links, and authorized source buttons. Raw HTML remains literal text; source passages and interface labels still use text nodes.
 - **Links and sources:** HTTP(S) links use `noopener noreferrer`; Book/Web labels and retrieval timestamps make the evidence type clear.
 - **During a response:** Book/depth/scope stay locked, and overlapping submissions are blocked. Stop cancels the backend request and aborts the browser stream.
 - **Retry:** The question stays available, but another paid call needs an explicit retry.
@@ -86,3 +86,5 @@ For predictable rendering and interaction, my design uses these rules:
 Accessibility is part of my interface structure: semantic landmarks, labelled controls, keyboard-operable disclosures, a skip link, native dialog focus, and polite status announcements. Text accompanies color, while announcements avoid reading every token. My evaluation report records the layouts and contrast pairs checked against WCAG targets.
 
 Distinct messages cover no selection, processing, no evidence, partial specialist failure, provider recovery, incomplete streams, and successful completion. I keep deployment/storage details in the activity view and technical documentation. I do not promise lossless summaries, perfect factuality, or guaranteed retailer stock.
+
+My answer cards retain the existing cream/green palette, with clearer heading spacing and compact source buttons. Per-answer model badges show the provider and readable model name; “How this answer was made” exposes exact model IDs, tasks, agents, and routing reasons. Repeated model events do not duplicate badges.

@@ -80,42 +80,75 @@ async function selectChat(id) {
   $("spoiler").value = data.chat.spoiler_limit === null ? "all" : String(data.chat.spoiler_limit);
   $("conversation").replaceChildren(); clearEvidence();
   for (const turn of data.turns) {
-    const view = createTurn(turn.query); view.answer.textContent = turn.answer;
+    const view = createTurn(turn.query); view.text = turn.answer;
     clearEvidence();
-    for (const event of turn.events) renderEvent(event.event, event.data, view);
+    for (const event of turn.events) if (event.event !== "token") renderEvent(event.event, event.data, view);
     linkCitations(view);
-    if (turn.status !== "complete") view.summary.append(`\n${turn.status === "running" ? "Interrupted or still running" : turn.status}`);
-    const inspect = button("Inspect this answer’s evidence", () => { clearEvidence(); for (const event of turn.events) renderEvent(event.event, event.data, { ...view, summary: document.createElement("div") }); });
+    if (turn.status !== "complete") view.status.textContent = turn.status === "running" ? "Interrupted or still running" : turn.status;
+    const inspect = button("Inspect this answer’s evidence", () => { clearEvidence(); for (const event of turn.events) renderEvent(event.event, event.data, view, true); });
     view.root.append(inspect);
   }
   localStorage.setItem("active_chat", id); renderChats();
 }
 function linkCitations(view) {
-  const text = view.answer.textContent;
-  const expression = /[\[【]((?:[a-f0-9]{32}-)?s\d+-t\d+)[\]】]/g;
-  let last = 0; view.answer.replaceChildren();
-  for (const match of text.matchAll(expression)) {
-    view.answer.append(text.slice(last, match.index));
-    const source = [...$("sources").children].find((node) => node.dataset.key === match[1] || node.dataset.key?.endsWith(`-${match[1]}`));
-    if (source) {
-      const link = button("[Source]", () => source.querySelector("button").click());
-      link.className = "inline-citation"; view.answer.append(link);
-    } else view.answer.append(match[0]);
-    last = match.index + match[0].length;
-  }
-  view.answer.append(text.slice(last));
+  if (view.renderFrame) cancelAnimationFrame(view.renderFrame);
+  view.renderFrame = null;
+  view.answer.innerHTML = BookMarkdown.render(view.text, [...view.citations.keys()]);
+}
+async function openPassage(data) {
+  const source = await api(`/api/books/${encodeURIComponent(data.source_id)}/sources/${encodeURIComponent(data.chunk_id)}`);
+  $("passage-label").textContent = source.label || source.id;
+  $("passage-text").textContent = source.text; $("passage").showModal();
 }
 function createTurn(query) {
   const root = document.createElement("article"); root.className = "turn";
   const question = document.createElement("div"); question.className = "question"; question.textContent = query;
-  const summary = document.createElement("div"); summary.className = "route-summary";
+  const routing = document.createElement("div"); routing.className = "route-summary";
+  const models = document.createElement("div"); models.className = "model-chips";
+  const details = document.createElement("details"); details.className = "routing-details";
+  const heading = document.createElement("summary"); heading.textContent = "How this answer was made";
+  const summary = document.createElement("div"); summary.className = "routing-steps";
+  details.append(heading, summary); routing.append(models, details);
   const answer = document.createElement("div"); answer.className = "answer";
-  root.append(question, summary, answer); $("conversation").append(root);
-  return { root, summary, answer };
+  const status = document.createElement("div"); status.className = "answer-status"; status.setAttribute("role", "status");
+  root.append(question, routing, status, answer); $("conversation").append(root);
+  const view = { root, summary, models, status, answer, text: "", citations: new Map(), routeKeys: new Set(), modelKeys: new Set(), renderFrame: null };
+  answer.addEventListener("click", (event) => {
+    const key = event.target.closest("button[data-source]")?.dataset.source;
+    if (key && view.citations.has(key)) openPassage(view.citations.get(key)).catch((e) => notice(e.message));
+  });
+  return view;
+}
+function renderRoute(data, view) {
+  if (data.type === "llm_route") {
+    const key = `${data.provider}:${data.model}`;
+    const provider = ({ openai: "OpenAI", anthropic: "Anthropic", nvidia: "NVIDIA" })[data.provider] || data.provider;
+    if (!view.modelKeys.has(key)) {
+      const chip = document.createElement("span"); chip.className = "model-chip";
+      const name = document.createElement("strong"); name.textContent = provider;
+      const model = document.createElement("span"); model.textContent = ({ "gpt-6-luna": "GPT-6 Luna", "claude-sonnet-5": "Claude Sonnet 5", "nvidia/nemotron-3-ultra-550b-a55b": "Nemotron 3 Ultra" })[data.model] || data.model; chip.title = data.model;
+      chip.append(name, model); view.models.append(chip); view.modelKeys.add(key);
+    }
+  }
+  const key = JSON.stringify([data.type, data.agent, data.task, data.provider, data.model, data.reason]);
+  if (view.routeKeys.has(key)) return;
+  view.routeKeys.add(key);
+  const row = document.createElement("div"); row.className = "routing-step";
+  const title = document.createElement("strong");
+  const task = ({ plan: "Planning", research: "Research", summary: "Summary", data: "Structured analysis", answer: "Final answer", reduce: "Evidence reduction" })[data.task] || data.task || "Generation";
+  title.textContent = data.type === "agent_route" ? `Agent · ${data.agent}` : `${task} · ${data.model}`;
+  const reason = document.createElement("span"); reason.textContent = data.reason || "";
+  row.append(title, reason); view.summary.append(row);
 }
 function safeUrl(value) { try { const url = new URL(value); return ["https:", "http:"].includes(url.protocol) ? url.href : null; } catch { return null; } }
-function renderEvent(event, data, view) {
-  if (event === "token") { view.answer.append(data.text); if (state.follow) view.answer.scrollIntoView({ block: "end" }); else $("latest").hidden = false; }
+function renderEvent(event, data, view, evidenceOnly = false) {
+  if (event === "token" && !evidenceOnly) {
+    view.text += data.text;
+    if (!view.renderFrame) view.renderFrame = requestAnimationFrame(() => {
+      view.renderFrame = null; linkCitations(view);
+      if (state.follow) view.answer.scrollIntoView({ block: "end" }); else $("latest").hidden = false;
+    });
+  }
   if (event === "trace") {
     const row = document.createElement("div"); row.className = `trace ${data.type || ""}`;
     const badge = document.createElement("span"); badge.className = "badge"; badge.textContent = ({ agent_route: "AGENT", llm_route: "MODEL", rag_retrieval: "RETRIEVAL", mcp_tool_call: "TOOL" })[data.type] || "STATUS";
@@ -125,25 +158,23 @@ function renderEvent(event, data, view) {
     const heading = document.createElement("summary"); heading.textContent = "Inspect trace data";
     const payload = document.createElement("pre"); payload.textContent = JSON.stringify(data, null, 2);
     details.append(heading, payload); row.append(details);
-    if (["agent_route", "llm_route"].includes(data.type)) view.summary.append(`${label.textContent}\n`);
+    if (!evidenceOnly && ["agent_route", "llm_route"].includes(data.type)) renderRoute(data, view);
     if (state.active) $("turn-status").textContent = data.message || data.reason || "Working with your sources…";
   }
   if (event === "citation") {
     const key = data.chunk_id || data.url;
+    if (data.chunk_id) view.citations.set(data.chunk_id, data);
     if ([...$("sources").children].some((n) => n.dataset.key === key)) return;
     const card = document.createElement("div"); card.className = "source-card"; card.dataset.key = key;
     if (data.chunk_id) {
-      card.append(button(`${data.label || data.chunk_id} · Book`, async () => {
-        const source = await api(`/api/books/${encodeURIComponent(data.source_id)}/sources/${encodeURIComponent(data.chunk_id)}`);
-        $("passage-label").textContent = source.label || source.id; $("passage-text").textContent = source.text; $("passage").showModal();
-      }));
+      card.append(button(`${data.label || data.chunk_id} · Book`, () => openPassage(data)));
     } else if (safeUrl(data.url)) {
       const link = document.createElement("a"); link.href = safeUrl(data.url); link.target = "_blank"; link.rel = "noopener noreferrer"; link.textContent = `${data.title || data.url} · Web`; card.append(link);
       const date = document.createElement("p"); date.textContent = data.retrieved_at ? `Retrieved ${data.retrieved_at}` : "External source"; card.append(date);
     } else return;
     $("sources").append(card); $("source-count").textContent = $("sources").children.length;
   }
-  if (event === "error") { view.summary.classList.add("error"); view.summary.append(`\n${data.message}`); }
+  if (event === "error" && !evidenceOnly) view.status.textContent = data.message;
 }
 function setActive(active) {
   state.active = active;
@@ -176,8 +207,8 @@ async function send(event) {
     linkCitations(view);
     if (!complete) throw new Error("The response did not complete. Any partial answer is marked incomplete.");
     $("query").value = "";
-  } catch (error) { $("turn-status").textContent = error.name === "AbortError" ? "Stopped" : "Response incomplete"; if (error.name !== "AbortError") notice(error.message); }
-  finally { setActive(false); state.controller = null; state.chats = await api("/api/chats").catch(() => state.chats); state.chat = state.chats.find((c) => c.id === state.chat.id) || state.chat; renderChats(); renderBooks(); }
+  } catch (error) { view.status.textContent = error.name === "AbortError" ? "Stopped · partial answer" : "Response incomplete"; $("turn-status").textContent = view.status.textContent; if (error.name !== "AbortError") notice(error.message); }
+  finally { linkCitations(view); setActive(false); state.controller = null; state.chats = await api("/api/chats").catch(() => state.chats); state.chat = state.chats.find((c) => c.id === state.chat.id) || state.chat; renderChats(); renderBooks(); }
 }
 async function upload() {
   const file = $("file").files[0]; if (!file) throw new Error("Choose a file first.");

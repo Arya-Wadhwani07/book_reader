@@ -152,7 +152,7 @@ I use shared Tavily MCP calls as my protocol evidence, separately from the live-
 ## Engineering and release checks
 
 - [x] **WORK-REVIEW:** Reviewed imports, module consumers, executable scripts, static assets, and dependencies. Ruff and formatting checks passed; I found no unused imports or orphaned source files in that review.
-- [x] **TEST-OFFLINE:** Passed 171 Python tests and 90 JavaScript tests with no failures, errors, or skips. I isolate offline state, credentials, network access, and temporary files inside the project.
+- [x] **TEST-OFFLINE:** Passed 171 Python tests and 98 JavaScript tests with no failures, errors, or skips. I isolate offline state, credentials, network access, and temporary files inside the project.
 - [x] **TEST-FAILURES:** Cover invalid input, worker/provider failures, truncation, stream framing, silent cancellation, ownership, duplicate turns, expired leases, storage failure, and ingestion retry/idempotency.
 - [x] **TEST-LONG-BOOKS:** Checked real-tokenizer Walden chunks and substantial 300/400/500-page PDF fixtures, plus over-limit, malformed, encrypted, and unsafe EPUB inputs.
 - [x] **TEST-LIVE:** Verified PDF/EPUB/TXT ingestion, source isolation, multi-provider answers, shared MCP tools, unrehearsed fiction/nonfiction questions, off-topic redirects, and exact saved-answer recovery through another revision.
@@ -201,3 +201,8 @@ My two-pass submission review checks document content against the required secti
 - [x] **INTEGRITY-02:** Confirmed in conversation on October 27 that I followed the no-source-sharing rules.
 - [x] **INTEGRITY-03:** Document AI assistance accurately and understand the system I submit; I use AI to help write/debug/refactor rather than to replace my understanding. [PDF p. 13]
 - [x] **INTEGRITY-04:** Document frameworks and per-agent provider/model choices in README and architecture, and retain the supplied USC integrity rules as my submission obligations. I confirmed following the course rules in conversation.
+
+## Answer-formatting review
+
+- [x] **UI-MARKDOWN:** Render supported Markdown during streaming and when restoring saved chats; retain source links and reject executable HTML/unsafe URL schemes. Eight new automated cases and a real-browser fixture check cover the reported formatting bug.
+- [x] **UI-MODELS:** Show deduplicated provider/model badges and expandable exact model IDs, tasks, agents, and routing reasons. Keep full trace data available.

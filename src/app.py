@@ -86,7 +86,7 @@ def create_app(settings=None, store=None, engine=None, library=None):
         engine = BookGraph(settings, store, library)
     signer = URLSafeTimedSerializer(settings.session_secret.get_secret_value(), salt="book-owner")
     index_html = (ROOT / "static/index.html").read_text()
-    for asset in ("style.css", "app.js", "stream.js"):
+    for asset in ("style.css", "app.js", "stream.js", "markdown.js"):
         version = hashlib.sha256((ROOT / "static" / asset).read_bytes()).hexdigest()[:12]
         index_html = index_html.replace(f"/static/{asset}", f"/static/{asset}?v={version}")
     app = FastAPI(title="Book Companion", docs_url=None, redoc_url=None)

@@ -209,6 +209,6 @@ def test_html_versions_assets_to_prevent_mixed_revisions(setup):
     client, _, _, _ = setup
     response = client.get("/")
     assert response.headers["cache-control"] == "no-cache"
-    for asset in ("style.css", "app.js", "stream.js"):
+    for asset in ("style.css", "app.js", "stream.js", "markdown.js"):
         digest = hashlib.sha256((ROOT / "static" / asset).read_bytes()).hexdigest()[:12]
         assert f"/static/{asset}?v={digest}" in response.text

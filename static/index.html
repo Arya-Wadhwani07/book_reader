@@ -7,6 +7,7 @@
   <title>Book Companion</title>
   <link rel="stylesheet" href="/static/style.css">
   <script src="/static/stream.js" defer></script>
+  <script src="/static/markdown.js" defer></script>
   <script src="/static/app.js" defer></script>
 </head>
 <body>
@@ -52,7 +53,7 @@
     </main>
     <aside class="evidence" aria-label="Answer evidence">
       <details open><summary>Sources <span id="source-count">0</span></summary><div id="sources"><p class="small">Book passages and web references appear here.</p></div></details>
-      <details open><summary>Activity</summary><div id="activity"><p class="small">See which agents and models handled your question, and why.</p></div></details>
+      <details><summary>Activity</summary><div id="activity"><p class="small">See which agents and models handled your question, and why.</p></div></details>
     </aside>
   </div>
   <dialog id="passage"><div class="section-title"><h2>Source passage</h2><button id="close-passage">Close</button></div><p id="passage-label"></p><div id="passage-text" class="serif"></div></dialog>
