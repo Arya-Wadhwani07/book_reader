@@ -11,7 +11,7 @@ The entries below are acceptance criteria for my implementation. Checked items h
 - I do not need the unselected Hierarchical, Codex-worktree, Code Agent, Chroma, Vertex AI Search, A2A, HTMX, GCSFuse, stateless, or optional DeepEval alternatives.
 - I keep all local work inside Assignment 2, use its Python virtual environment, and follow the professor's required submission paths.
 - I confirmed my deadline as **October 27, 2026, 11:59 PM Los Angeles / Pacific Time**.
-- I keep paid usage within **$5 OpenAI** and **$2.50 Anthropic**, with shared reservations across ingestion, generation, evaluation, retries, and CI. I monitor other service quotas and cloud credits separately.
+- I keep paid usage within **$5 OpenAI** and **$5 Anthropic**, with shared reservations across ingestion, generation, evaluation, retries, and CI. I monitor other service quotas and cloud credits separately.
 
 | Rubric area | Weight | Evidence |
 | --- | ---: | --- |
@@ -152,7 +152,7 @@ I use shared Tavily MCP calls as my protocol evidence, separately from the live-
 ## Engineering and release checks
 
 - [x] **WORK-REVIEW:** Reviewed imports, module consumers, executable scripts, static assets, and dependencies. Ruff and formatting checks passed; I found no unused imports or orphaned source files in that review.
-- [x] **TEST-OFFLINE:** Passed 171 Python tests and 102 JavaScript tests with no failures, errors, or skips. I isolate offline state, credentials, network access, and temporary files inside the project.
+- [x] **TEST-OFFLINE:** Passed 173 Python tests and 102 JavaScript tests with no failures, errors, or skips. I isolate offline state, credentials, network access, and temporary files inside the project.
 - [x] **TEST-FAILURES:** Cover invalid input, worker/provider failures, truncation, stream framing, silent cancellation, ownership, duplicate turns, expired leases, storage failure, and ingestion retry/idempotency.
 - [x] **TEST-LONG-BOOKS:** Checked real-tokenizer Walden chunks and substantial 300/400/500-page PDF fixtures, plus over-limit, malformed, encrypted, and unsafe EPUB inputs.
 - [x] **TEST-LIVE:** Verified PDF/EPUB/TXT ingestion, source isolation, multi-provider answers, shared MCP tools, unrehearsed fiction/nonfiction questions, off-topic redirects, and exact saved-answer recovery through another revision.
@@ -208,3 +208,5 @@ My two-pass submission review checks document content against the required secti
 - [x] **UI-MODELS:** Show deduplicated provider/model badges and expandable exact model IDs, tasks, agents, and routing reasons. Keep full trace data available.
 
 - [x] **UI-GROUPED-CITATIONS:** Convert comma/semicolon-separated source IDs inside one bracket pair into individual source buttons. Keep unknown or ambiguous IDs unlinked, preserve code examples, and test all streamed split points.
+
+- [x] **UPLOAD-BUDGET:** My upload/retry allowance is 10 per browser per hour and 80 service-wide. My Anthropic lifetime project budget is $5, including existing spend; boundary, reset, duplicate, and concurrent reservation tests verify these limits.

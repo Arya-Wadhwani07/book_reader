@@ -29,7 +29,7 @@ class Settings(BaseSettings):
     pinecone_api_key: SecretStr = SecretStr("")
     pinecone_index: str = "book-companion"
     openai_budget_usd: float = Field(default=5, gt=0, le=5)
-    generation_budget_usd: float = Field(default=2.5, gt=0, le=2.5)
+    generation_budget_usd: float = Field(default=5, gt=0, le=5)
     max_upload_bytes: int = 25_000_000
     max_pdf_pages: int = 500
     max_words: int = 125_000

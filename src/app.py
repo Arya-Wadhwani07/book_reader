@@ -240,7 +240,7 @@ def create_app(settings=None, store=None, engine=None, library=None):
         digest = library.content_id(identity, content)
         if await asyncio.to_thread(store.get, "books", digest):
             raise Conflict("This book is already uploaded; use its existing library entry.")
-        await asyncio.to_thread(admit, identity, "upload", 3, 24)
+        await asyncio.to_thread(admit, identity, "upload", 10, 80)
         try:
             return await library.upload(identity, filename, bytes(content))
         except ValueError as error:
@@ -251,7 +251,7 @@ def create_app(settings=None, store=None, engine=None, library=None):
     @app.post("/api/books/{book_id}/retry", status_code=202)
     async def retry_book(book_id: str, identity: Annotated[str, Depends(owner)]):
         await asyncio.to_thread(library.book, identity, book_id)
-        await asyncio.to_thread(admit, identity, "upload", 3, 24)
+        await asyncio.to_thread(admit, identity, "upload", 10, 80)
         try:
             return await library.retry(identity, book_id)
         except RuntimeError:

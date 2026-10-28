@@ -145,7 +145,7 @@ def provision():
         "ANTHROPIC_MODEL": values["ANTHROPIC_MODEL"],
         "PINECONE_INDEX": values["PINECONE_INDEX"],
         "OPENAI_BUDGET_USD": "5",
-        "GENERATION_BUDGET_USD": "2.5",
+        "GENERATION_BUDGET_USD": "5",
     }
     output = {
         "project": PROJECT,

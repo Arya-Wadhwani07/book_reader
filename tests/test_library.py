@@ -168,7 +168,7 @@ def test_api_upload_limit_does_not_charge_duplicate_files(library, monkeypatch):
         create_app(library.settings, library.store, EngineFixture(), library)
     ) as client:
         client.get("/api/bootstrap")
-        for index in range(3):
+        for index in range(10):
             content = f"A distinct English book number {index}.".encode()
             response = client.post(
                 "/api/books", content=content, headers={"X-Filename": "book.txt"}
@@ -182,7 +182,9 @@ def test_api_upload_limit_does_not_charge_duplicate_files(library, monkeypatch):
             )
         assert (
             client.post(
-                "/api/books", content=b"A fourth distinct book.", headers={"X-Filename": "book.txt"}
+                "/api/books",
+                content=b"An eleventh distinct book.",
+                headers={"X-Filename": "book.txt"},
             ).status_code
             == 429
         )

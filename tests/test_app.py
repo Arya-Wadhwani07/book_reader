@@ -147,7 +147,7 @@ def test_offline_filesystem_blocks_outside_writes():
         Path("/tmp/book-companion-forbidden-test.txt").write_text("blocked")
 
 
-@pytest.mark.parametrize("budget", [2.51, 5, -1, 0])
+@pytest.mark.parametrize("budget", [5.01, 6, -1, 0])
 def test_anthropic_budget_cannot_exceed_authorization(budget):
     with pytest.raises(ValueError):
         Settings(_env_file=None, generation_budget_usd=budget)

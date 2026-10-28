@@ -9,7 +9,10 @@ from src.store import SQLiteStore
 
 @pytest.fixture
 def budget(tmp_path):
-    return Budget(SQLiteStore(tmp_path / "budget.sqlite3"), Settings(_env_file=None))
+    return Budget(
+        SQLiteStore(tmp_path / "budget.sqlite3"),
+        Settings(_env_file=None, generation_budget_usd=2.5),
+    )
 
 
 def test_concurrent_reservations_cannot_overspend(budget):
@@ -27,7 +30,9 @@ def test_concurrent_reservations_cannot_overspend(budget):
 def test_unknown_billing_retains_full_cost_across_restart(budget):
     reservation = budget.reserve("anthropic", 2.5)
     budget.settle("anthropic", reservation)
-    restored = Budget(SQLiteStore(budget.store.path), Settings(_env_file=None))
+    restored = Budget(
+        SQLiteStore(budget.store.path), Settings(_env_file=None, generation_budget_usd=2.5)
+    )
     with pytest.raises(BudgetExceeded):
         restored.reserve("anthropic", 0.000001)
     assert restored.reserve("openai", 5)
@@ -61,3 +66,12 @@ def test_invalid_cost_rejected(amount):
 def test_conservative_rounding_and_token_cost():
     assert microdollars("0.0000001") == 1
     assert microdollars(Budget.upper_bound(1000, 100, 3, 15)) == 4500
+
+
+def test_increased_budget_preserves_existing_spend(budget):
+    reservation = budget.reserve("anthropic", 2.5)
+    budget.settle("anthropic", reservation, 2.5)
+    increased = Budget(budget.store, Settings(_env_file=None))
+    assert increased.reserve("anthropic", 2.5)
+    with pytest.raises(BudgetExceeded):
+        increased.reserve("anthropic", 0.000001)

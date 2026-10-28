@@ -52,7 +52,7 @@ Task and requested depth drive my provider selection, with the provider, model, 
 - If a call fails before publishing text, I try at most one alternative, with a visible reason and a separate budget reservation. I discard any unpublished incomplete draft first.
 - Once final-answer text starts, I do not switch providers. I report provider-side output truncation as an incomplete response.
 
-Before each OpenAI/Anthropic call, my shared ledger reserves a conservative cost estimate. Reported token costs settle that reservation; uncertain billing leaves it reserved. My separate limits are $5 OpenAI and $2.50 Anthropic. I record embedding costs as conservative byte-token estimates. My cloud ledger is shared across workers and instances.
+Before each OpenAI/Anthropic call, my shared ledger reserves a conservative cost estimate. Reported token costs settle that reservation; uncertain billing leaves it reserved. My separate limits are $5 OpenAI and $5 Anthropic. I record embedding costs as conservative byte-token estimates. My cloud ledger is shared across workers and instances.
 
 ## Ingestion and RAG
 

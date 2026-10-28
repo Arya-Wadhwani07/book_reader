@@ -202,8 +202,8 @@ def test_stress_paid_request_reservations(components):
 
     with ThreadPoolExecutor(max_workers=16) as pool:
         reservations = list(pool.map(reserve, range(300)))
-    assert sum(value is not None for value in reservations) == 100
-    assert sum(store.get("budgets", "anthropic")["reservations"].values()) == 2_500_000
+    assert sum(value is not None for value in reservations) == 200
+    assert sum(store.get("budgets", "anthropic")["reservations"].values()) == 5_000_000
 
 
 def test_partial_answer_survives_expected_failure(components):
@@ -344,3 +344,32 @@ def test_stream_deadline_emits_terminal_failure_and_releases_lease(components):
         assert saved["turns"][0]["status"] == "failed"
         assert saved["chat"]["active_turn"] is None
     assert closed == [True]
+
+
+def test_upload_and_retry_share_increased_hourly_allowance(components, monkeypatch):
+    settings, store = components
+    clock = [1800000000]
+    monkeypatch.setattr("src.app.time.time", lambda: clock[0])
+
+    class UploadLibrary(LibraryFixture):
+        def content_id(self, owner, content):
+            return "new-book"
+
+        async def upload(self, owner, filename, content):
+            return {"id": "new-book"}
+
+        async def retry(self, owner, book_id):
+            return {"id": book_id}
+
+    with TestClient(create_app(settings, store, EngineFixture(), UploadLibrary())) as client:
+        client.get("/api/bootstrap")
+        for _ in range(5):
+            assert client.post("/api/books", content=b"book").status_code == 202
+            assert client.post("/api/books/public-book/retry").status_code == 202
+        assert client.post("/api/books", content=b"book").status_code == 429
+        assert client.post("/api/books/public-book/retry").status_code == 429
+        clock[0] += 3600
+        assert client.post("/api/books", content=b"book").status_code == 202
+        window = clock[0] // 3600
+        store.put("admission", f"upload:{window}:global", {"count": 80, "window": window})
+        assert client.post("/api/books", content=b"book").status_code == 429

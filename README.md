@@ -59,7 +59,7 @@ My curated library contains eight complete public-domain books from a Project Gu
 - **Recovery:** Completed chats survive refresh. After process loss, an expired 330-second turn lease becomes interrupted rather than complete. Stop can cancel silent generation without waiting for another token.
 - **Private books:** Retry handles failed processing, and a category selector allows correction of fiction/nonfiction classification.
 - **Scope:** Unrelated requests receive a book-focused redirect and an off-topic/no-worker trace. Book-related creative questions and follow-ups remain supported.
-- **Admission:** Hourly limits are 30 chat attempts per owner and 600 service-wide, plus 3 uploads/retries per owner and 24 service-wide. Clearing the anonymous cookie changes identity, so these limits are not a substitute for authenticated abuse prevention.
+- **Admission:** Hourly limits are 30 chat attempts per owner and 600 service-wide, plus 10 uploads/retries per owner and 80 service-wide. Clearing the anonymous cookie changes identity, so these limits are not a substitute for authenticated abuse prevention.
 
 ### Rebuilding the curated library
 
@@ -118,7 +118,7 @@ For another repository/project, I update `REPOSITORY` in `scripts/github_setup.p
 
 ## Cost and access policy
 
-My total project budgets are **$5 OpenAI** and **$2.50 Anthropic**, enforced through transactional reservations before paid requests. The standard rates I verified on October 27, 2026 are:
+My total project budgets are **$5 OpenAI** and **$5 Anthropic**, enforced through transactional reservations before paid requests. The standard rates I verified on October 27, 2026 are:
 
 | Model | Input per million tokens | Output per million tokens |
 | --- | ---: | ---: |
