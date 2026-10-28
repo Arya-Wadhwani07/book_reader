@@ -769,36 +769,1300 @@
   "uploads": [
     {
       "format": "txt",
-      "seconds": 39.94807895796839,
+      "seconds": 32.27575266605709,
       "status": "passed",
-      "book_id": "3effab41f4b8bd54f7d14e017cc24402"
+      "book_id": "dc8e8d72779eb59eb71d2b4e5663d2fa"
     },
     {
       "format": "pdf",
-      "seconds": 32.768683500005864,
+      "seconds": 28.612401082995348,
       "status": "passed",
-      "book_id": "7a23903bef663e50fe6714cbf5712768"
+      "book_id": "e8156ad4ab4670d873a30b863131de14"
     },
     {
       "format": "epub",
-      "seconds": 28.724868208053522,
+      "seconds": 31.60821350000333,
       "status": "passed",
-      "book_id": "ea44bb1d91b9c30eda0c7e68533a9fb3"
+      "book_id": "7e61d7334221149e9242bce3b2a7e361"
     },
     {
       "concurrent_read_requests": 120,
       "workers": 12,
-      "seconds": 3.5146308329422027,
+      "seconds": 21.847021333058365,
       "status": "passed"
     }
   ],
   "recovery": {
     "passed": true,
-    "from_url": "https://candidate---book-companion-a6lyssed7q-uw.a.run.app",
+    "from_url": "https://book-companion-a6lyssed7q-uw.a.run.app",
     "to_url": "https://recovery---book-companion-a6lyssed7q-uw.a.run.app",
-    "turn_id": "b274752a-c1df-413a-892d-2304302d80d5"
+    "turn_id": "9468022a-abf5-4bdf-af8b-96039eb1eee7"
   },
   "released_evaluation": {
+    "code_commit": "d21cf5d459101978799e18713614f2432bc0d49f",
+    "ragas": [
+      {
+        "user_input": "Why does Alice follow the White Rabbit at the beginning of the story?",
+        "retrieved_contexts": [
+          "\n\n\n\nCHAPTER I.\nDown the Rabbit-Hole\n\n\nAlice was beginning to get very tired of sitting by her sister on the\nbank, and of having nothing to do: once or twice she had peeped into\nthe book her sister was reading, but it had no pictures or\nconversations in it, \u201cand what is the use of a book,\u201d thought Alice\n\u201cwithout pictures or conversations?\u201d\n\nSo she was considering in her own mind (as well as she could, for the\nhot day made her feel very sleepy and stupid), whether the pleasure of\nmaking a daisy-chain would be worth the trouble of getting up and\npicking the daisies, when suddenly a White Rabbit with pink eyes ran\nclose by her.\n\nThere was nothing so _very_ remarkable in that; nor did Alice think it\nso _very_ much out of the way to hear the Rabbit say to itself, \u201cOh\ndear! Oh dear! I shall be late!\u201d (when she thought it over afterwards,\nit occurred to her that she ought to have wondered at this, but at the\ntime it all seemed quite natural); but when the Rabbit actually _took a\nwatch out of its waistcoat-pocket_, and looked at it, and then hurried\non, Alice started to her feet, for it flashed across her mind that she\nhad never before seen a rabbit with either a waistcoat-pocket, or a\nwatch to take out of it, and burning with curiosity, she ran across the\nfield after it, and fortunately was just in time to see it pop down a\nlarge rabbit-hole under the hedge.\n\nIn another moment down went Alice after it, never once considering how\nin the world she was to get out again.\n\nThe rabbit-hole went straight on like a tunnel for some way, and then\ndipped suddenly down, so suddenly that Alice had not a moment to think\nabout stopping herself before she found herself falling down a very\ndeep well.\n\nEither the well was very deep, or she fell very slowly, for she had\nplenty of time as she went down to look about her and to wonder what\nwas going to happen next. First, she tried to look down and make out\nwhat she was coming to, but it was too dark to see anything; then she\nlooked at the sides of the well, and noticed that they were filled with\ncupboards and book-shelves; here and there she saw maps and pictures\nhung upon pegs. She took down a jar from one of the shelves as she\npassed; it was labelled \u201cORANGE MARMALADE\u201d, but to her great\ndisappointment it was empty: she did not like to drop the jar for fear\nof killing somebody underneath, so managed to put it into one of the\ncupboards as she fell past it.\n\n\u201cWell!\u201d thought Alice to herself, \u201cafter such a fall as this, I shall\nthink nothing of tumbling down stairs! How brave they\u2019ll all think me\nat home! Why, I wouldn\u2019t say anything about it, even if I fell off the\ntop of the house!\u201d (Which was very likely true.)\n\nDown, down, down. Would the fall _never_ come to an end? \u201cI wonder how\nmany miles I\u2019ve fallen by this time?\u201d she said aloud. \u201cI must be\ngetting somewhere near the centre of the earth. Let me see: that would\nbe four thousand miles down, I think\u2014\u201d (for, you see, Alice had learnt\nseveral things of this sort in her lessons in the schoolroom, and\nthough this was not a _very_ good opportunity for showing off her\nknowledge, as there was no one to listen to her, still it was good\npractice to say it over) \u201c\u2014yes, that\u2019s about the right distance\u2014but\nthen I wonder what Latitude or Longitude I\u2019ve got to?\u201d",
+          "\u2019t take this child away with me,\u201d\nthought Alice, \u201cthey\u2019re sure to kill it in a day or two: wouldn\u2019t it be\nmurder to leave it behind?\u201d She said the last words out loud, and the\nlittle thing grunted in reply (it had left off sneezing by this time).\n\u201cDon\u2019t grunt,\u201d said Alice; \u201cthat\u2019s not at all a proper way of\nexpressing yourself.\u201d\n\nThe baby grunted again, and Alice looked very anxiously into its face\nto see what was the matter with it. There could be no doubt that it had\na _very_ turn-up nose, much more like a snout than a real nose; also\nits eyes were getting extremely small for a baby: altogether Alice did\nnot like the look of the thing at all. \u201cBut perhaps it was only\nsobbing,\u201d she thought, and looked into its eyes again, to see if there\nwere any tears.\n\nNo, there were no tears. \u201cIf you\u2019re going to turn into a pig, my dear,\u201d\nsaid Alice, seriously, \u201cI\u2019ll have nothing more to do with you. Mind\nnow!\u201d The poor little thing sobbed again (or grunted, it was impossible\nto say which), and they went on for some while in silence.\n\nAlice was just beginning to think to herself, \u201cNow, what am I to do\nwith this creature when I get it home?\u201d when it grunted again, so\nviolently, that she looked down into its face in some alarm. This time\nthere could be _no_ mistake about it: it was neither more nor less than\na pig, and she felt that it would be quite absurd for her to carry it\nfurther.\n\nSo she set the little creature down, and felt quite relieved to see it\ntrot away quietly into the wood. \u201cIf it had grown up,\u201d she said to\nherself, \u201cit would have made a dreadfully ugly child: but it makes\nrather a handsome pig, I think.\u201d And she began thinking over other\nchildren she knew, who might do very well as pigs, and was just saying\nto herself, \u201cif one only knew the right way to change them\u2014\u201d when she\nwas a little startled by seeing the Cheshire Cat sitting on a bough of\na tree a few yards off.\n\nThe Cat only grinned when it saw Alice. It looked good-natured, she\nthought: still it had _very_ long claws and a great many teeth, so she\nfelt that it ought to be treated with respect.\n\n\u201cCheshire Puss,\u201d she began, rather timidly, as she did not at all know\nwhether it would like the name: however, it only grinned a little\nwider. \u201cCome, it\u2019s pleased so far,\u201d thought Alice, and she went on.\n\u201cWould you tell me, please, which way I ought to go from here?\u201d\n\n\u201cThat depends a good deal on where you want to get to,\u201d said the Cat.\n\n\u201cI don\u2019t much care where\u2014\u201d said Alice.\n\n\u201cThen it doesn\u2019t matter which way you go,\u201d said the Cat.\n\n\u201c\u2014so long as I get _somewhere_,\u201d Alice added as an explanation.\n\n\u201cOh, you\u2019re sure to do that,\u201d said the Cat, \u201cif you only walk long\nenough.\u201d\n\nAlice felt that this could not be denied, so she tried another\nquestion. \u201cWhat sort of people live about here?\u201d\n\n\u201cIn _that_ direction,\u201d the Cat said, waving its right paw round, \u201clives\na Hatter: and in _that_ direction,\u201d waving the other paw, \u201clives a\nMarch Hare. Visit either you like: they\u2019re both mad.\u201d\n\n\u201cBut I don\u2019t want to go among mad people,\u201d Alice remarked.\n\n\u201cOh, you can\u2019t help that,\u201d said the Cat:",
+          " said the Cat, \u201cif you only walk long\nenough.\u201d\n\nAlice felt that this could not be denied, so she tried another\nquestion. \u201cWhat sort of people live about here?\u201d\n\n\u201cIn _that_ direction,\u201d the Cat said, waving its right paw round, \u201clives\na Hatter: and in _that_ direction,\u201d waving the other paw, \u201clives a\nMarch Hare. Visit either you like: they\u2019re both mad.\u201d\n\n\u201cBut I don\u2019t want to go among mad people,\u201d Alice remarked.\n\n\u201cOh, you can\u2019t help that,\u201d said the Cat: \u201cwe\u2019re all mad here. I\u2019m mad.\nYou\u2019re mad.\u201d\n\n\u201cHow do you know I\u2019m mad?\u201d said Alice.\n\n\u201cYou must be,\u201d said the Cat, \u201cor you wouldn\u2019t have come here.\u201d\n\nAlice didn\u2019t think that proved it at all; however, she went on \u201cAnd how\ndo you know that you\u2019re mad?\u201d\n\n\u201cTo begin with,\u201d said the Cat, \u201ca dog\u2019s not mad. You grant that?\u201d\n\n\u201cI suppose so,\u201d said Alice.\n\n\u201cWell, then,\u201d the Cat went on, \u201cyou see, a dog growls when it\u2019s angry,\nand wags its tail when it\u2019s pleased. Now _I_ growl when I\u2019m pleased,\nand wag my tail when I\u2019m angry. Therefore I\u2019m mad.\u201d\n\n\u201c_I_ call it purring, not growling,\u201d said Alice.\n\n\u201cCall it what you like,\u201d said the Cat. \u201cDo you play croquet with the\nQueen to-day?\u201d\n\n\u201cI should like it very much,\u201d said Alice, \u201cbut I haven\u2019t been invited\nyet.\u201d\n\n\u201cYou\u2019ll see me there,\u201d said the Cat, and vanished.\n\nAlice was not much surprised at this, she was getting so used to queer\nthings happening. While she was looking at the place where it had been,\nit suddenly appeared again.\n\n\u201cBy-the-bye, what became of the baby?\u201d said the Cat. \u201cI\u2019d nearly\nforgotten to ask.\u201d\n\n\u201cIt turned into a pig,\u201d Alice quietly said, just as if it had come back\nin a natural way.\n\n\u201cI thought it would,\u201d said the Cat, and vanished again.\n\nAlice waited a little, half expecting to see it again, but it did not\nappear, and after a minute or two she walked on in the direction in\nwhich the March Hare was said to live. \u201cI\u2019ve seen hatters before,\u201d she\nsaid to herself; \u201cthe March Hare will be much the most interesting, and\nperhaps as this is May it won\u2019t be raving mad\u2014at least not so mad as it\nwas in March.\u201d As she said this, she looked up, and there was the Cat\nagain, sitting on a branch of a tree.\n\n\u201cDid you say pig, or fig?\u201d said the Cat.\n\n\u201cI said pig,\u201d replied Alice; \u201cand I wish you wouldn\u2019t keep appearing\nand vanishing so suddenly: you make one quite giddy.\u201d\n\n\u201cAll right,\u201d said the Cat; and this time it vanished quite slowly,\nbeginning with the end of the tail, and ending with the grin, which\nremained some time after the rest of it had gone.\n\n\u201cWell! I\u2019ve often seen a cat without a grin,\u201d thought Alice; \u201cbut a\ngrin without a cat! It\u2019s the most curious thing I ever saw in my life!\u201d\n\nShe had not gone much farther before she came in sight of the house of\nthe March Hare: she thought it must be the right house, because the\nchimneys were shaped like ears and the roof was thatched with fur. It\nwas so large a house, that she did not like to go nearer till she had\nnibbled some more of the lefthand bit of mushroom, and raised herself\nto about two feet high: even then she walked up towards it rather\ntimidly, saying to herself \u201c",
+          " was immediately suppressed by the officers of the\ncourt,\u201d and I never understood what it meant till now.\u201d\n\n\u201cIf that\u2019s all you know about it, you may stand down,\u201d continued the\nKing.\n\n\u201cI can\u2019t go no lower,\u201d said the Hatter: \u201cI\u2019m on the floor, as it is.\u201d\n\n\u201cThen you may _sit_ down,\u201d the King replied.\n\nHere the other guinea-pig cheered, and was suppressed.\n\n\u201cCome, that finished the guinea-pigs!\u201d thought Alice. \u201cNow we shall get\non better.\u201d\n\n\u201cI\u2019d rather finish my tea,\u201d said the Hatter, with an anxious look at\nthe Queen, who was reading the list of singers.\n\n\u201cYou may go,\u201d said the King, and the Hatter hurriedly left the court,\nwithout even waiting to put his shoes on.\n\n\u201c\u2014and just take his head off outside,\u201d the Queen added to one of the\nofficers: but the Hatter was out of sight before the officer could get\nto the door.\n\n\u201cCall the next witness!\u201d said the King.\n\nThe next witness was the Duchess\u2019s cook. She carried the pepper-box in\nher hand, and Alice guessed who it was, even before she got into the\ncourt, by the way the people near the door began sneezing all at once.\n\n\u201cGive your evidence,\u201d said the King.\n\n\u201cShan\u2019t,\u201d said the cook.\n\nThe King looked anxiously at the White Rabbit, who said in a low voice,\n\u201cYour Majesty must cross-examine _this_ witness.\u201d\n\n\u201cWell, if I must, I must,\u201d the King said, with a melancholy air, and,\nafter folding his arms and frowning at the cook till his eyes were\nnearly out of sight, he said in a deep voice, \u201cWhat are tarts made of?\u201d\n\n\u201cPepper, mostly,\u201d said the cook.\n\n\u201cTreacle,\u201d said a sleepy voice behind her.\n\n\u201cCollar that Dormouse,\u201d the Queen shrieked out. \u201cBehead that Dormouse!\nTurn that Dormouse out of court! Suppress him! Pinch him! Off with his\nwhiskers!\u201d\n\nFor some minutes the whole court was in confusion, getting the Dormouse\nturned out, and, by the time they had settled down again, the cook had\ndisappeared.\n\n\u201cNever mind!\u201d said the King, with an air of great relief. \u201cCall the\nnext witness.\u201d And he added in an undertone to the Queen, \u201cReally, my\ndear, _you_ must cross-examine the next witness. It quite makes my\nforehead ache!\u201d\n\nAlice watched the White Rabbit as he fumbled over the list, feeling\nvery curious to see what the next witness would be like, \u201c\u2014for they\nhaven\u2019t got much evidence _yet_,\u201d she said to herself. Imagine her\nsurprise, when the White Rabbit read out, at the top of his shrill\nlittle voice, the name \u201cAlice!\u201d\n",
+          ". \u201cI must be\ngetting somewhere near the centre of the earth. Let me see: that would\nbe four thousand miles down, I think\u2014\u201d (for, you see, Alice had learnt\nseveral things of this sort in her lessons in the schoolroom, and\nthough this was not a _very_ good opportunity for showing off her\nknowledge, as there was no one to listen to her, still it was good\npractice to say it over) \u201c\u2014yes, that\u2019s about the right distance\u2014but\nthen I wonder what Latitude or Longitude I\u2019ve got to?\u201d (Alice had no\nidea what Latitude was, or Longitude either, but thought they were nice\ngrand words to say.)\n\nPresently she began again. \u201cI wonder if I shall fall right _through_\nthe earth! How funny it\u2019ll seem to come out among the people that walk\nwith their heads downward! The Antipathies, I think\u2014\u201d (she was rather\nglad there _was_ no one listening, this time, as it didn\u2019t sound at all\nthe right word) \u201c\u2014but I shall have to ask them what the name of the\ncountry is, you know. Please, Ma\u2019am, is this New Zealand or Australia?\u201d\n(and she tried to curtsey as she spoke\u2014fancy _curtseying_ as you\u2019re\nfalling through the air! Do you think you could manage it?) \u201cAnd what\nan ignorant little girl she\u2019ll think me for asking! No, it\u2019ll never do\nto ask: perhaps I shall see it written up somewhere.\u201d\n\nDown, down, down. There was nothing else to do, so Alice soon began\ntalking again. \u201cDinah\u2019ll miss me very much to-night, I should think!\u201d\n(Dinah was the cat.) \u201cI hope they\u2019ll remember her saucer of milk at\ntea-time. Dinah my dear! I wish you were down here with me! There are\nno mice in the air, I\u2019m afraid, but you might catch a bat, and that\u2019s\nvery like a mouse, you know. But do cats eat bats, I wonder?\u201d And here\nAlice began to get rather sleepy, and went on saying to herself, in a\ndreamy sort of way, \u201cDo cats eat bats? Do cats eat bats?\u201d and\nsometimes, \u201cDo bats eat cats?\u201d for, you see, as she couldn\u2019t answer\neither question, it didn\u2019t much matter which way she put it. She felt\nthat she was dozing off, and had just begun to dream that she was\nwalking hand in hand with Dinah, and saying to her very earnestly,\n\u201cNow, Dinah, tell me the truth: did you ever eat a bat?\u201d when suddenly,\nthump! thump! down she came upon a heap of sticks and dry leaves, and\nthe fall was over.\n\nAlice was not a bit hurt, and she jumped up on to her feet in a moment:\nshe looked up, but it was all dark overhead; before her was another\nlong passage, and the White Rabbit was still in sight, hurrying down\nit. There was not a moment to be lost: away went Alice like the wind,\nand was just in time to hear it say, as it turned a corner, \u201cOh my ears\nand whiskers, how late it\u2019s getting!\u201d She was close behind it when she\nturned the corner, but the Rabbit was no longer to be seen: she found\nherself in a long, low hall, which was lit up by a row of lamps hanging\nfrom the roof.\n\nThere were doors all round the hall, but they were all locked; and when\nAlice had been all the way down one side and up the other, trying every\ndoor, she walked sadly down the middle, wondering how she was ever to\nget",
+          "!\u201d said Alice loudly. \u201cThe idea of having the\nsentence first!\u201d\n\n\u201cHold your tongue!\u201d said the Queen, turning purple.\n\n\u201cI won\u2019t!\u201d said Alice.\n\n\u201cOff with her head!\u201d the Queen shouted at the top of her voice. Nobody\nmoved.\n\n\u201cWho cares for you?\u201d said Alice, (she had grown to her full size by\nthis time.) \u201cYou\u2019re nothing but a pack of cards!\u201d\n\nAt this the whole pack rose up into the air, and came flying down upon\nher: she gave a little scream, half of fright and half of anger, and\ntried to beat them off, and found herself lying on the bank, with her\nhead in the lap of her sister, who was gently brushing away some dead\nleaves that had fluttered down from the trees upon her face.\n\n\u201cWake up, Alice dear!\u201d said her sister; \u201cWhy, what a long sleep you\u2019ve\nhad!\u201d\n\n\u201cOh, I\u2019ve had such a curious dream!\u201d said Alice, and she told her\nsister, as well as she could remember them, all these strange\nAdventures of hers that you have just been reading about; and when she\nhad finished, her sister kissed her, and said, \u201cIt _was_ a curious\ndream, dear, certainly: but now run in to your tea; it\u2019s getting late.\u201d\nSo Alice got up and ran off, thinking while she ran, as well she might,\nwhat a wonderful dream it had been.\n\n\nBut her sister sat still just as she left her, leaning her head on her\nhand, watching the setting sun, and thinking of little Alice and all\nher wonderful Adventures, till she too began dreaming after a fashion,\nand this was her dream:\u2014\n\nFirst, she dreamed of little Alice herself, and once again the tiny\nhands were clasped upon her knee, and the bright eager eyes were\nlooking up into hers\u2014she could hear the very tones of her voice, and\nsee that queer little toss of her head to keep back the wandering hair\nthat _would_ always get into her eyes\u2014and still as she listened, or\nseemed to listen, the whole place around her became alive with the\nstrange creatures of her little sister\u2019s dream.\n\nThe long grass rustled at her feet as the White Rabbit hurried by\u2014the\nfrightened Mouse splashed his way through the neighbouring pool\u2014she\ncould hear the rattle of the teacups as the March Hare and his friends\nshared their never-ending meal, and the shrill voice of the Queen\nordering off her unfortunate guests to execution\u2014once more the pig-baby\nwas sneezing on the Duchess\u2019s knee, while plates and dishes crashed\naround it\u2014once more the shriek of the Gryphon, the squeaking of the\nLizard\u2019s slate-pencil, and the choking of the suppressed guinea-pigs,\nfilled the air, mixed up with the distant sobs of the miserable Mock\nTurtle.\n\nSo she sat on, with closed eyes, and half believed herself in\nWonderland, though she knew she had but to open them again, and all\nwould change to dull reality\u2014the grass would be only rustling in the\nwind, and the pool rippling to the waving of the reeds\u2014the rattling\nteacups would change to tinkling sheep-bells, and the Queen\u2019s shrill\ncries to the voice of the shepherd boy\u2014and the sneeze of the baby, the\nshriek of the Gryphon, and all the other queer noises, would change\n(she knew) to the confused clamour of the busy farm-yard\u2014while the\nlowing of the cattle in the distance would take the place of the Mock\nTurtle\u2019s heavy sobs.\n\nLastly, she pictured to herself how this same little sister of hers\nwould, in the after-time, be herself a"
+        ],
+        "response": "Alice follows the White Rabbit because she is surprised to see it pull a watch from its waistcoat pocket. She has \u201cnever before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it,\u201d and this sight leaves her \u201cburning with curiosity\u201d [3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0].",
+        "reference": "Alice is curious when the White Rabbit takes a watch out of its waistcoat pocket. She runs after it and follows it down a rabbit hole.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.950244778107877,
+        "context_precision": 0.9999999999,
+        "context_recall": 1.0
+      },
+      {
+        "user_input": "What happens when Alice drinks from the bottle labelled DRINK ME?",
+        "retrieved_contexts": [
+          " turned a corner, \u201cOh my ears\nand whiskers, how late it\u2019s getting!\u201d She was close behind it when she\nturned the corner, but the Rabbit was no longer to be seen: she found\nherself in a long, low hall, which was lit up by a row of lamps hanging\nfrom the roof.\n\nThere were doors all round the hall, but they were all locked; and when\nAlice had been all the way down one side and up the other, trying every\ndoor, she walked sadly down the middle, wondering how she was ever to\nget out again.\n\nSuddenly she came upon a little three-legged table, all made of solid\nglass; there was nothing on it except a tiny golden key, and Alice\u2019s\nfirst thought was that it might belong to one of the doors of the hall;\nbut, alas! either the locks were too large, or the key was too small,\nbut at any rate it would not open any of them. However, on the second\ntime round, she came upon a low curtain she had not noticed before, and\nbehind it was a little door about fifteen inches high: she tried the\nlittle golden key in the lock, and to her great delight it fitted!\n\nAlice opened the door and found that it led into a small passage, not\nmuch larger than a rat-hole: she knelt down and looked along the\npassage into the loveliest garden you ever saw. How she longed to get\nout of that dark hall, and wander about among those beds of bright\nflowers and those cool fountains, but she could not even get her head\nthrough the doorway; \u201cand even if my head would go through,\u201d thought\npoor Alice, \u201cit would be of very little use without my shoulders. Oh,\nhow I wish I could shut up like a telescope! I think I could, if I only\nknew how to begin.\u201d For, you see, so many out-of-the-way things had\nhappened lately, that Alice had begun to think that very few things\nindeed were really impossible.\n\nThere seemed to be no use in waiting by the little door, so she went\nback to the table, half hoping she might find another key on it, or at\nany rate a book of rules for shutting people up like telescopes: this\ntime she found a little bottle on it, (\u201cwhich certainly was not here\nbefore,\u201d said Alice,) and round the neck of the bottle was a paper\nlabel, with the words \u201cDRINK ME,\u201d beautifully printed on it in large\nletters.\n\nIt was all very well to say \u201cDrink me,\u201d but the wise little Alice was\nnot going to do _that_ in a hurry. \u201cNo, I\u2019ll look first,\u201d she said,\n\u201cand see whether it\u2019s marked \u2018_poison_\u2019 or not\u201d; for she had read\nseveral nice little histories about children who had got burnt, and\neaten up by wild beasts and other unpleasant things, all because they\n_would_ not remember the simple rules their friends had taught them:\nsuch as, that a red-hot poker will burn you if you hold it too long;\nand that if you cut your finger _very_ deeply with a knife, it usually\nbleeds; and she had never forgotten that, if you drink much from a\nbottle marked \u201cpoison,\u201d it is almost certain to disagree with you,\nsooner or later.\n\nHowever, this bottle was _not_ marked \u201cpoison,\u201d so Alice ventured to\ntaste it, and finding it very nice, (it had, in fact, a sort of mixed\nflavour of cherry-tart, custard, pine-apple, roast turkey, toffee, and\nhot buttered toast,) she very soon finished it off.\n\n*      *      *      *      *      *      *\n\n",
+          "\n\n\n\nCHAPTER IV.\nThe Rabbit Sends in a Little Bill\n\n\nIt was the White Rabbit, trotting slowly back again, and looking\nanxiously about as it went, as if it had lost something; and she heard\nit muttering to itself \u201cThe Duchess! The Duchess! Oh my dear paws! Oh\nmy fur and whiskers! She\u2019ll get me executed, as sure as ferrets are\nferrets! Where _can_ I have dropped them, I wonder?\u201d Alice guessed in a\nmoment that it was looking for the fan and the pair of white kid\ngloves, and she very good-naturedly began hunting about for them, but\nthey were nowhere to be seen\u2014everything seemed to have changed since\nher swim in the pool, and the great hall, with the glass table and the\nlittle door, had vanished completely.\n\nVery soon the Rabbit noticed Alice, as she went hunting about, and\ncalled out to her in an angry tone, \u201cWhy, Mary Ann, what _are_ you\ndoing out here? Run home this moment, and fetch me a pair of gloves and\na fan! Quick, now!\u201d And Alice was so much frightened that she ran off\nat once in the direction it pointed to, without trying to explain the\nmistake it had made.\n\n\u201cHe took me for his housemaid,\u201d she said to herself as she ran. \u201cHow\nsurprised he\u2019ll be when he finds out who I am! But I\u2019d better take him\nhis fan and gloves\u2014that is, if I can find them.\u201d As she said this, she\ncame upon a neat little house, on the door of which was a bright brass\nplate with the name \u201cW. RABBIT,\u201d engraved upon it. She went in without\nknocking, and hurried upstairs, in great fear lest she should meet the\nreal Mary Ann, and be turned out of the house before she had found the\nfan and gloves.\n\n\u201cHow queer it seems,\u201d Alice said to herself, \u201cto be going messages for\na rabbit! I suppose Dinah\u2019ll be sending me on messages next!\u201d And she\nbegan fancying the sort of thing that would happen: \u201c\u2018Miss Alice! Come\nhere directly, and get ready for your walk!\u2019 \u2018Coming in a minute,\nnurse! But I\u2019ve got to see that the mouse doesn\u2019t get out.\u2019 Only I\ndon\u2019t think,\u201d Alice went on, \u201cthat they\u2019d let Dinah stop in the house\nif it began ordering people about like that!\u201d\n\nBy this time she had found her way into a tidy little room with a table\nin the window, and on it (as she had hoped) a fan and two or three\npairs of tiny white kid gloves: she took up the fan and a pair of the\ngloves, and was just going to leave the room, when her eye fell upon a\nlittle bottle that stood near the looking-glass. There was no label\nthis time with the words \u201cDRINK ME,\u201d but nevertheless she uncorked it\nand put it to her lips. \u201cI know _something_ interesting is sure to\nhappen,\u201d she said to herself, \u201cwhenever I eat or drink anything; so\nI\u2019ll just see what this bottle does. I do hope it\u2019ll make me grow large\nagain, for really I\u2019m quite tired of being such a tiny little thing!\u201d\n\nIt did so indeed, and much sooner than she had expected: before she had\ndrunk half the bottle, she found her head pressing against the ceiling,\nand had to stoop to save her neck from being broken. She hastily put\ndown the bottle, saying to herself \u201cThat\u2019s quite enough\u2014I hope I shan\u2019t\ngrow any more\u2014As it is, I can\u2019t get out at the door\u2014I do wish I hadn\u2019t\ndrunk quite so",
+          " had never forgotten that, if you drink much from a\nbottle marked \u201cpoison,\u201d it is almost certain to disagree with you,\nsooner or later.\n\nHowever, this bottle was _not_ marked \u201cpoison,\u201d so Alice ventured to\ntaste it, and finding it very nice, (it had, in fact, a sort of mixed\nflavour of cherry-tart, custard, pine-apple, roast turkey, toffee, and\nhot buttered toast,) she very soon finished it off.\n\n*      *      *      *      *      *      *\n\n    *      *      *      *      *      *\n\n*      *      *      *      *      *      *\n\n\n\u201cWhat a curious feeling!\u201d said Alice; \u201cI must be shutting up like a\ntelescope.\u201d\n\nAnd so it was indeed: she was now only ten inches high, and her face\nbrightened up at the thought that she was now the right size for going\nthrough the little door into that lovely garden. First, however, she\nwaited for a few minutes to see if she was going to shrink any further:\nshe felt a little nervous about this; \u201cfor it might end, you know,\u201d\nsaid Alice to herself, \u201cin my going out altogether, like a candle. I\nwonder what I should be like then?\u201d And she tried to fancy what the\nflame of a candle is like after the candle is blown out, for she could\nnot remember ever having seen such a thing.\n\nAfter a while, finding that nothing more happened, she decided on going\ninto the garden at once; but, alas for poor Alice! when she got to the\ndoor, she found she had forgotten the little golden key, and when she\nwent back to the table for it, she found she could not possibly reach\nit: she could see it quite plainly through the glass, and she tried her\nbest to climb up one of the legs of the table, but it was too slippery;\nand when she had tired herself out with trying, the poor little thing\nsat down and cried.\n\n\u201cCome, there\u2019s no use in crying like that!\u201d said Alice to herself,\nrather sharply; \u201cI advise you to leave off this minute!\u201d She generally\ngave herself very good advice, (though she very seldom followed it),\nand sometimes she scolded herself so severely as to bring tears into\nher eyes; and once she remembered trying to box her own ears for having\ncheated herself in a game of croquet she was playing against herself,\nfor this curious child was very fond of pretending to be two people.\n\u201cBut it\u2019s no use now,\u201d thought poor Alice, \u201cto pretend to be two\npeople! Why, there\u2019s hardly enough of me left to make _one_ respectable\nperson!\u201d\n\nSoon her eye fell on a little glass box that was lying under the table:\nshe opened it, and found in it a very small cake, on which the words\n\u201cEAT ME\u201d were beautifully marked in currants. \u201cWell, I\u2019ll eat it,\u201d said\nAlice, \u201cand if it makes me grow larger, I can reach the key; and if it\nmakes me grow smaller, I can creep under the door; so either way I\u2019ll\nget into the garden, and I don\u2019t care which happens!\u201d\n\nShe ate a little bit, and said anxiously to herself, \u201cWhich way? Which\nway?\u201d, holding her hand on the top of her head to feel which way it was\ngrowing, and she was quite surprised to find that she remained the same\nsize: to be sure, this generally happens when one eats cake, but Alice\nhad got so much into the way of expecting nothing but out-of-the-way\nthings to happen, that it seemed quite dull and stupid for life to go\non in the common way.\n\nSo she set to work",
+          "\n\n\n\nCHAPTER VII.\nA Mad Tea-Party\n\n\nThere was a table set out under a tree in front of the house, and the\nMarch Hare and the Hatter were having tea at it: a Dormouse was sitting\nbetween them, fast asleep, and the other two were using it as a\ncushion, resting their elbows on it, and talking over its head. \u201cVery\nuncomfortable for the Dormouse,\u201d thought Alice; \u201conly, as it\u2019s asleep,\nI suppose it doesn\u2019t mind.\u201d\n\nThe table was a large one, but the three were all crowded together at\none corner of it: \u201cNo room! No room!\u201d they cried out when they saw\nAlice coming. \u201cThere\u2019s _plenty_ of room!\u201d said Alice indignantly, and\nshe sat down in a large arm-chair at one end of the table.\n\n\u201cHave some wine,\u201d the March Hare said in an encouraging tone.\n\nAlice looked all round the table, but there was nothing on it but tea.\n\u201cI don\u2019t see any wine,\u201d she remarked.\n\n\u201cThere isn\u2019t any,\u201d said the March Hare.\n\n\u201cThen it wasn\u2019t very civil of you to offer it,\u201d said Alice angrily.\n\n\u201cIt wasn\u2019t very civil of you to sit down without being invited,\u201d said\nthe March Hare.\n\n\u201cI didn\u2019t know it was _your_ table,\u201d said Alice; \u201cit\u2019s laid for a great\nmany more than three.\u201d\n\n\u201cYour hair wants cutting,\u201d said the Hatter. He had been looking at\nAlice for some time with great curiosity, and this was his first\nspeech.\n\n\u201cYou should learn not to make personal remarks,\u201d Alice said with some\nseverity; \u201cit\u2019s very rude.\u201d\n\nThe Hatter opened his eyes very wide on hearing this; but all he _said_\nwas, \u201cWhy is a raven like a writing-desk?\u201d\n\n\u201cCome, we shall have some fun now!\u201d thought Alice. \u201cI\u2019m glad they\u2019ve\nbegun asking riddles.\u2014I believe I can guess that,\u201d she added aloud.\n\n\u201cDo you mean that you think you can find out the answer to it?\u201d said\nthe March Hare.\n\n\u201cExactly so,\u201d said Alice.\n\n\u201cThen you should say what you mean,\u201d the March Hare went on.\n\n\u201cI do,\u201d Alice hastily replied; \u201cat least\u2014at least I mean what I\nsay\u2014that\u2019s the same thing, you know.\u201d\n\n\u201cNot the same thing a bit!\u201d said the Hatter. \u201cYou might just as well\nsay that \u2018I see what I eat\u2019 is the same thing as \u2018I eat what I see\u2019!\u201d\n\n\u201cYou might just as well say,\u201d added the March Hare, \u201cthat \u2018I like what\nI get\u2019 is the same thing as \u2018I get what I like\u2019!\u201d\n\n\u201cYou might just as well say,\u201d added the Dormouse, who seemed to be\ntalking in his sleep, \u201cthat \u2018I breathe when I sleep\u2019 is the same thing\nas \u2018I sleep when I breathe\u2019!\u201d\n\n\u201cIt _is_ the same thing with you,\u201d said the Hatter, and here the\nconversation dropped, and the party sat silent for a minute, while\nAlice thought over all she could remember about ravens and\nwriting-desks, which wasn\u2019t much.\n\nThe Hatter was the first to break the silence. \u201cWhat day of the month\nis it?\u201d he said, turning to Alice: he had taken his watch out of his\npocket, and was looking at it uneasily, shaking it every now and then,\nand holding it to his ear.\n\nAlice considered a little, and then said \u201cThe fourth.\u201d\n\n\u201cTwo days wrong!\u201d sighed the Hatter. \u201cI told you butter wouldn\u2019t suit\nthe works!\u201d he added looking angrily at the March Hare.\n\n\u201cIt was the _best_ butter,\u201d the March Hare meekly replied.\n\n\u201cYes, but some crumbs must have",
+          "Once upon a time there were three little sisters,\u201d the Dormouse began\nin a great hurry; \u201cand their names were Elsie, Lacie, and Tillie; and\nthey lived at the bottom of a well\u2014\u201d\n\n\u201cWhat did they live on?\u201d said Alice, who always took a great interest\nin questions of eating and drinking.\n\n\u201cThey lived on treacle,\u201d said the Dormouse, after thinking a minute or\ntwo.\n\n\u201cThey couldn\u2019t have done that, you know,\u201d Alice gently remarked;\n\u201cthey\u2019d have been ill.\u201d\n\n\u201cSo they were,\u201d said the Dormouse; \u201c_very_ ill.\u201d\n\nAlice tried to fancy to herself what such an extraordinary way of\nliving would be like, but it puzzled her too much, so she went on: \u201cBut\nwhy did they live at the bottom of a well?\u201d\n\n\u201cTake some more tea,\u201d the March Hare said to Alice, very earnestly.\n\n\u201cI\u2019ve had nothing yet,\u201d Alice replied in an offended tone, \u201cso I can\u2019t\ntake more.\u201d\n\n\u201cYou mean you can\u2019t take _less_,\u201d said the Hatter: \u201cit\u2019s very easy to\ntake _more_ than nothing.\u201d\n\n\u201cNobody asked _your_ opinion,\u201d said Alice.\n\n\u201cWho\u2019s making personal remarks now?\u201d the Hatter asked triumphantly.\n\nAlice did not quite know what to say to this: so she helped herself to\nsome tea and bread-and-butter, and then turned to the Dormouse, and\nrepeated her question. \u201cWhy did they live at the bottom of a well?\u201d\n\nThe Dormouse again took a minute or two to think about it, and then\nsaid, \u201cIt was a treacle-well.\u201d\n\n\u201cThere\u2019s no such thing!\u201d Alice was beginning very angrily, but the\nHatter and the March Hare went \u201cSh! sh!\u201d and the Dormouse sulkily\nremarked, \u201cIf you can\u2019t be civil, you\u2019d better finish the story for\nyourself.\u201d\n\n\u201cNo, please go on!\u201d Alice said very humbly; \u201cI won\u2019t interrupt again. I\ndare say there may be _one_.\u201d\n\n\u201cOne, indeed!\u201d said the Dormouse indignantly. However, he consented to\ngo on. \u201cAnd so these three little sisters\u2014they were learning to draw,\nyou know\u2014\u201d\n\n\u201cWhat did they draw?\u201d said Alice, quite forgetting her promise.\n\n\u201cTreacle,\u201d said the Dormouse, without considering at all this time.\n\n\u201cI want a clean cup,\u201d interrupted the Hatter: \u201clet\u2019s all move one place\non.\u201d\n\nHe moved on as he spoke, and the Dormouse followed him: the March Hare\nmoved into the Dormouse\u2019s place, and Alice rather unwillingly took the\nplace of the March Hare. The Hatter was the only one who got any\nadvantage from the change: and Alice was a good deal worse off than\nbefore, as the March Hare had just upset the milk-jug into his plate.\n\nAlice did not wish to offend the Dormouse again, so she began very\ncautiously: \u201cBut I don\u2019t understand. Where did they draw the treacle\nfrom?\u201d\n\n\u201cYou can draw water out of a water-well,\u201d said the Hatter; \u201cso I should\nthink you could draw treacle out of a treacle-well\u2014eh, stupid?\u201d\n\n\u201cBut they were _in_ the well,\u201d Alice said to the Dormouse, not choosing\nto notice this last remark.\n\n\u201cOf course they were,\u201d said the Dormouse; \u201c\u2014well in.\u201d\n\nThis answer so confused poor Alice, that she let the Dormouse go on for\nsome time without interrupting it.\n\n\u201cThey were learning to draw,\u201d the Dormouse went on, yawning and rubbing\nits eyes, for it was getting very sleepy; \u201cand they drew all manner of\nthings\u2014everything that begins with an M\u2014\u201d\n\n\u201cWhy with an M",
+          "\u2014eh, stupid?\u201d\n\n\u201cBut they were _in_ the well,\u201d Alice said to the Dormouse, not choosing\nto notice this last remark.\n\n\u201cOf course they were,\u201d said the Dormouse; \u201c\u2014well in.\u201d\n\nThis answer so confused poor Alice, that she let the Dormouse go on for\nsome time without interrupting it.\n\n\u201cThey were learning to draw,\u201d the Dormouse went on, yawning and rubbing\nits eyes, for it was getting very sleepy; \u201cand they drew all manner of\nthings\u2014everything that begins with an M\u2014\u201d\n\n\u201cWhy with an M?\u201d said Alice.\n\n\u201cWhy not?\u201d said the March Hare.\n\nAlice was silent.\n\nThe Dormouse had closed its eyes by this time, and was going off into a\ndoze; but, on being pinched by the Hatter, it woke up again with a\nlittle shriek, and went on: \u201c\u2014that begins with an M, such as\nmouse-traps, and the moon, and memory, and muchness\u2014you know you say\nthings are \u201cmuch of a muchness\u201d\u2014did you ever see such a thing as a\ndrawing of a muchness?\u201d\n\n\u201cReally, now you ask me,\u201d said Alice, very much confused, \u201cI don\u2019t\nthink\u2014\u201d\n\n\u201cThen you shouldn\u2019t talk,\u201d said the Hatter.\n\nThis piece of rudeness was more than Alice could bear: she got up in\ngreat disgust, and walked off; the Dormouse fell asleep instantly, and\nneither of the others took the least notice of her going, though she\nlooked back once or twice, half hoping that they would call after her:\nthe last time she saw them, they were trying to put the Dormouse into\nthe teapot.\n\n\u201cAt any rate I\u2019ll never go _there_ again!\u201d said Alice as she picked her\nway through the wood. \u201cIt\u2019s the stupidest tea-party I ever was at in\nall my life!\u201d\n\nJust as she said this, she noticed that one of the trees had a door\nleading right into it. \u201cThat\u2019s very curious!\u201d she thought. \u201cBut\neverything\u2019s curious today. I think I may as well go in at once.\u201d And\nin she went.\n\nOnce more she found herself in the long hall, and close to the little\nglass table. \u201cNow, I\u2019ll manage better this time,\u201d she said to herself,\nand began by taking the little golden key, and unlocking the door that\nled into the garden. Then she went to work nibbling at the mushroom\n(she had kept a piece of it in her pocket) till she was about a foot\nhigh: then she walked down the little passage: and _then_\u2014she found\nherself at last in the beautiful garden, among the bright flower-beds\nand the cool fountains.\n"
+        ],
+        "response": "When Alice drinks from the bottle labelled **DRINK ME**, she shrinks until she is only ten inches high, making her the right size to go through the little door into the garden [3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t2040].",
+        "reference": "Alice becomes smaller, shrinking to about ten inches high, and hopes she can now pass through the small door into the garden.",
+        "faithfulness": 0.6666666666666666,
+        "answer_relevancy": 0.8380917225568179,
+        "context_precision": 0.3333333333,
+        "context_recall": 1.0
+      },
+      {
+        "user_input": "What does the Time Traveller say the fourth dimension is?",
+        "retrieved_contexts": [
+          " moves intermittently in one direction along the latter\nfrom the beginning to the end of our lives.\u201d\n\n\u201cThat,\u201d said a very young man, making spasmodic efforts to relight his\ncigar over the lamp; \u201cthat . . . very clear indeed.\u201d\n\n\u201cNow, it is very remarkable that this is so extensively overlooked,\u201d\ncontinued the Time Traveller, with a slight accession of cheerfulness.\n\u201cReally this is what is meant by the Fourth Dimension, though some\npeople who talk about the Fourth Dimension do not know they mean it. It\nis only another way of looking at Time. _There is no difference between\nTime and any of the three dimensions of Space except that our\nconsciousness moves along it_. But some foolish people have got hold of\nthe wrong side of that idea. You have all heard what they have to say\nabout this Fourth Dimension?\u201d\n\n\u201c_I_ have not,\u201d said the Provincial Mayor.\n\n\u201cIt is simply this. That Space, as our mathematicians have it, is\nspoken of as having three dimensions, which one may call Length,\nBreadth, and Thickness, and is always definable by reference to three\nplanes, each at right angles to the others. But some philosophical\npeople have been asking why _three_ dimensions particularly\u2014why not\nanother direction at right angles to the other three?\u2014and have even\ntried to construct a Four-Dimensional geometry. Professor Simon Newcomb\nwas expounding this to the New York Mathematical Society only a month\nor so ago. You know how on a flat surface, which has only two\ndimensions, we can represent a figure of a three-dimensional solid, and\nsimilarly they think that by models of three dimensions they could\nrepresent one of four\u2014if they could master the perspective of the\nthing. See?\u201d\n\n\u201cI think so,\u201d murmured the Provincial Mayor; and, knitting his brows,\nhe lapsed into an introspective state, his lips moving as one who\nrepeats mystic words. \u201cYes, I think I see it now,\u201d he said after some\ntime, brightening in a quite transitory manner.\n\n\u201cWell, I do not mind telling you I have been at work upon this geometry\nof Four Dimensions for some time. Some of my results are curious. For\ninstance, here is a portrait of a man at eight years old, another at\nfifteen, another at seventeen, another at twenty-three, and so on. All\nthese are evidently sections, as it were, Three-Dimensional\nrepresentations of his Four-Dimensioned being, which is a fixed and\nunalterable thing.\u201d\n\n\u201cScientific people,\u201d proceeded the Time Traveller, after the pause\nrequired for the proper assimilation of this, \u201cknow very well that Time\nis only a kind of Space. Here is a popular scientific diagram, a\nweather record. This line I trace with my finger shows the movement of\nthe barometer. Yesterday it was so high, yesterday night it fell, then\nthis morning it rose again, and so gently upward to here. Surely the\nmercury did not trace this line in any of the dimensions of Space\ngenerally recognised? But certainly it traced such a line, and that\nline, therefore, we must conclude, was along the Time-Dimension.\u201d\n\n\u201cBut,\u201d said the Medical Man, staring hard at a coal in the fire, \u201cif\nTime is really only a fourth dimension of Space, why is it, and why has\nit always been, regarded as something different? And why cannot we move\nabout in Time as we move about in the other dimensions of Space?\u201d\n\nThe Time Traveller smiled. \u201cAre you so sure we can move freely in\nSpace? Right and left we can go, backward and forward freely enough,\nand men always have done so. I admit we move freely in two dimensions.\nBut how about up and down?",
+          ",\u201d said the Medical Man, staring hard at a coal in the fire, \u201cif\nTime is really only a fourth dimension of Space, why is it, and why has\nit always been, regarded as something different? And why cannot we move\nabout in Time as we move about in the other dimensions of Space?\u201d\n\nThe Time Traveller smiled. \u201cAre you so sure we can move freely in\nSpace? Right and left we can go, backward and forward freely enough,\nand men always have done so. I admit we move freely in two dimensions.\nBut how about up and down? Gravitation limits us there.\u201d\n\n\u201cNot exactly,\u201d said the Medical Man. \u201cThere are balloons.\u201d\n\n\u201cBut before the balloons, save for spasmodic jumping and the\ninequalities of the surface, man had no freedom of vertical movement.\u201d\n\n\u201cStill they could move a little up and down,\u201d said the Medical Man.\n\n\u201cEasier, far easier down than up.\u201d\n\n\u201cAnd you cannot move at all in Time, you cannot get away from the\npresent moment.\u201d\n\n\u201cMy dear sir, that is just where you are wrong. That is just where the\nwhole world has gone wrong. We are always getting away from the present\nmoment. Our mental existences, which are immaterial and have no\ndimensions, are passing along the Time-Dimension with a uniform\nvelocity from the cradle to the grave. Just as we should travel _down_\nif we began our existence fifty miles above the earth\u2019s surface.\u201d\n\n\u201cBut the great difficulty is this,\u201d interrupted the Psychologist. \u201cYou\n_can_ move about in all directions of Space, but you cannot move about\nin Time.\u201d\n\n\u201cThat is the germ of my great discovery. But you are wrong to say that\nwe cannot move about in Time. For instance, if I am recalling an\nincident very vividly I go back to the instant of its occurrence: I\nbecome absent-minded, as you say. I jump back for a moment. Of course\nwe have no means of staying back for any length of Time, any more than\na savage or an animal has of staying six feet above the ground. But a\ncivilised man is better off than the savage in this respect. He can go\nup against gravitation in a balloon, and why should he not hope that\nultimately he may be able to stop or accelerate his drift along the\nTime-Dimension, or even turn about and travel the other way?\u201d\n\n\u201cOh, _this_,\u201d began Filby, \u201cis all\u2014\u201d\n\n\u201cWhy not?\u201d said the Time Traveller.\n\n\u201cIt\u2019s against reason,\u201d said Filby.\n\n\u201cWhat reason?\u201d said the Time Traveller.\n\n\u201cYou can show black is white by argument,\u201d said Filby, \u201cbut you will\nnever convince me.\u201d\n\n\u201cPossibly not,\u201d said the Time Traveller. \u201cBut now you begin to see the\nobject of my investigations into the geometry of Four Dimensions. Long\nago I had a vague inkling of a machine\u2014\u201d\n\n\u201cTo travel through Time!\u201d exclaimed the Very Young Man.\n\n\u201cThat shall travel indifferently in any direction of Space and Time, as\nthe driver determines.\u201d\n\nFilby contented himself with laughter.\n\n\u201cBut I have experimental verification,\u201d said the Time Traveller.\n\n\u201cIt would be remarkably convenient for the historian,\u201d the Psychologist\nsuggested. \u201cOne might travel back and verify the accepted account of\nthe Battle of Hastings, for instance!\u201d\n\n\u201cDon\u2019t you think you would attract attention?\u201d said the Medical Man.\n\u201cOur ancestors had no great tolerance for anachronisms.\u201d\n\n\u201cOne might get one\u2019s Greek from the very lips of Homer and Plato,\u201d the\nVery Young Man thought.\n\n\u201cIn which case they would certainly plough you for the Little-go. The\nGerman scholars have improved Greek so much.\u201d\n\n\u201cThen there is the future,\u201d said the Very Young Man. \u201cJust think! One\nmight invest all one\u2019s money, leave",
+          "*** START OF THE PROJECT GUTENBERG EBOOK 35 ***\n\n\n\n\nThe Time Machine\n\nAn Invention\n\nby H. G. Wells\n\n\nCONTENTS\n\n I Introduction\n II The Machine\n III The Time Traveller Returns\n IV Time Travelling\n V In the Golden Age\n VI The Sunset of Mankind\n VII A Sudden Shock\n VIII Explanation\n IX The Morlocks\n X When Night Came\n XI The Palace of Green Porcelain\n XII In the Darkness\n XIII The Trap of the White Sphinx\n XIV The Further Vision\n XV The Time Traveller\u2019s Return\n XVI After the Story\n Epilogue\n\n\n\n\n I.\n Introduction\n\n\nThe Time Traveller (for so it will be convenient to speak of him)\nwas expounding a recondite matter to us. His grey eyes shone and\ntwinkled, and his usually pale face was flushed and animated. The\nfire burnt brightly, and the soft radiance of the incandescent\nlights in the lilies of silver caught the bubbles that flashed and\npassed in our glasses. Our chairs, being his patents, embraced and\ncaressed us rather than submitted to be sat upon, and there was that\nluxurious after-dinner atmosphere, when thought runs gracefully free\nof the trammels of precision. And he put it to us in this way\u2014marking\nthe points with a lean forefinger\u2014as we sat and lazily admired his\nearnestness over this new paradox (as we thought it) and his fecundity.\n\n\u201cYou must follow me carefully. I shall have to controvert one or two\nideas that are almost universally accepted. The geometry, for instance,\nthey taught you at school is founded on a misconception.\u201d\n\n\u201cIs not that rather a large thing to expect us to begin upon?\u201d said\nFilby, an argumentative person with red hair.\n\n\u201cI do not mean to ask you to accept anything without reasonable ground\nfor it. You will soon admit as much as I need from you. You know of\ncourse that a mathematical line, a line of thickness _nil_, has no real\nexistence. They taught you that? Neither has a mathematical plane.\nThese things are mere abstractions.\u201d\n\n\u201cThat is all right,\u201d said the Psychologist.\n\n\u201cNor, having only length, breadth, and thickness, can a cube have a\nreal existence.\u201d\n\n\u201cThere I object,\u201d said Filby. \u201cOf course a solid body may exist. All\nreal things\u2014\u201d\n\n\u201cSo most people think. But wait a moment. Can an _instantaneous_ cube\nexist?\u201d\n\n\u201cDon\u2019t follow you,\u201d said Filby.\n\n\u201cCan a cube that does not last for any time at all, have a real\nexistence?\u201d\n\nFilby became pensive. \u201cClearly,\u201d the Time Traveller proceeded, \u201cany\nreal body must have extension in _four_ directions: it must have\nLength, Breadth, Thickness, and\u2014Duration. But through a natural\ninfirmity of the flesh, which I will explain to you in a moment, we\nincline to overlook this fact. There are really four dimensions, three\nwhich we call the three planes of Space, and a fourth, Time. There is,\nhowever, a tendency to draw an unreal distinction between the former\nthree dimensions and the latter, because it happens that our\nconsciousness moves intermittently in one direction along the latter\nfrom the beginning to the end of our lives.\u201d\n\n\u201cThat,\u201d said a very young man, making spasmodic efforts to relight his\ncigar over the lamp; \u201cthat . . . very clear indeed.\u201d\n\n\u201cNow, it is very remarkable that this is so extensively overlooked,\u201d\ncontinued the Time Traveller, with a slight accession of cheerfulness.\n\u201cReally this is what is meant by the Fourth Dimension, though some\npeople who talk about the Fourth Dimension do not know they mean it. It\nis only another way of looking at",
+          ", to look at the Psychologist\u2019s\nface. (The Psychologist, to show that he was not unhinged, helped\nhimself to a cigar and tried to light it uncut.) \u201cWhat is more, I have\na big machine nearly finished in there\u201d\u2014he indicated the\nlaboratory\u2014\u201cand when that is put together I mean to have a journey on\nmy own account.\u201d\n\n\u201cYou mean to say that that machine has travelled into the future?\u201d said\nFilby.\n\n\u201cInto the future or the past\u2014I don\u2019t, for certain, know which.\u201d\n\nAfter an interval the Psychologist had an inspiration. \u201cIt must have\ngone into the past if it has gone anywhere,\u201d he said.\n\n\u201cWhy?\u201d said the Time Traveller.\n\n\u201cBecause I presume that it has not moved in space, and if it travelled\ninto the future it would still be here all this time, since it must\nhave travelled through this time.\u201d\n\n\u201cBut,\u201d said I, \u201cIf it travelled into the past it would have been\nvisible when we came first into this room; and last Thursday when we\nwere here; and the Thursday before that; and so forth!\u201d\n\n\u201cSerious objections,\u201d remarked the Provincial Mayor, with an air of\nimpartiality, turning towards the Time Traveller.\n\n\u201cNot a bit,\u201d said the Time Traveller, and, to the Psychologist: \u201cYou\nthink. _You_ can explain that. It\u2019s presentation below the threshold,\nyou know, diluted presentation.\u201d\n\n\u201cOf course,\u201d said the Psychologist, and reassured us. \u201cThat\u2019s a simple\npoint in psychology. I should have thought of it. It\u2019s plain enough,\nand helps the paradox delightfully. We cannot see it, nor can we\nappreciate this machine, any more than we can the spoke of a wheel\nspinning, or a bullet flying through the air. If it is travelling\nthrough time fifty times or a hundred times faster than we are, if it\ngets through a minute while we get through a second, the impression it\ncreates will of course be only one-fiftieth or one-hundredth of what it\nwould make if it were not travelling in time. That\u2019s plain enough.\u201d He\npassed his hand through the space in which the machine had been. \u201cYou\nsee?\u201d he said, laughing.\n\nWe sat and stared at the vacant table for a minute or so. Then the Time\nTraveller asked us what we thought of it all.\n\n\u201cIt sounds plausible enough tonight,\u201d said the Medical Man; \u201cbut wait\nuntil tomorrow. Wait for the common sense of the morning.\u201d\n\n\u201cWould you like to see the Time Machine itself?\u201d asked the Time\nTraveller. And therewith, taking the lamp in his hand, he led the way\ndown the long, draughty corridor to his laboratory. I remember vividly\nthe flickering light, his queer, broad head in silhouette, the dance of\nthe shadows, how we all followed him, puzzled but incredulous, and how\nthere in the laboratory we beheld a larger edition of the little\nmechanism which we had seen vanish from before our eyes. Parts were of\nnickel, parts of ivory, parts had certainly been filed or sawn out of\nrock crystal. The thing was generally complete, but the twisted\ncrystalline bars lay unfinished upon the bench beside some sheets of\ndrawings, and I took one up for a better look at it. Quartz it seemed\nto be.\n\n\u201cLook here,\u201d said the Medical Man, \u201care you perfectly serious? Or is\nthis a trick\u2014like that ghost you showed us last Christmas?\u201d\n\n\u201cUpon that machine,\u201d said the Time Traveller, holding the lamp aloft,\n\u201cI intend to explore time. Is that plain? I was never more serious in\nmy life.\u201d\n\nNone of us quite knew how to",
+          " was generally complete, but the twisted\ncrystalline bars lay unfinished upon the bench beside some sheets of\ndrawings, and I took one up for a better look at it. Quartz it seemed\nto be.\n\n\u201cLook here,\u201d said the Medical Man, \u201care you perfectly serious? Or is\nthis a trick\u2014like that ghost you showed us last Christmas?\u201d\n\n\u201cUpon that machine,\u201d said the Time Traveller, holding the lamp aloft,\n\u201cI intend to explore time. Is that plain? I was never more serious in\nmy life.\u201d\n\nNone of us quite knew how to take it.\n\nI caught Filby\u2019s eye over the shoulder of the Medical Man, and he\nwinked at me solemnly.\n\n\n\n\n III.\n The Time Traveller Returns\n\n\nI think that at that time none of us quite believed in the Time\nMachine. The fact is, the Time Traveller was one of those men who are\ntoo clever to be believed: you never felt that you saw all round him;\nyou always suspected some subtle reserve, some ingenuity in ambush,\nbehind his lucid frankness. Had Filby shown the model and explained the\nmatter in the Time Traveller\u2019s words, we should have shown _him_ far\nless scepticism. For we should have perceived his motives: a\npork-butcher could understand Filby. But the Time Traveller had more\nthan a touch of whim among his elements, and we distrusted him. Things\nthat would have made the fame of a less clever man seemed tricks in his\nhands. It is a mistake to do things too easily. The serious people who\ntook him seriously never felt quite sure of his deportment; they were\nsomehow aware that trusting their reputations for judgment with him was\nlike furnishing a nursery with eggshell china. So I don\u2019t think any of\nus said very much about time travelling in the interval between that\nThursday and the next, though its odd potentialities ran, no doubt, in\nmost of our minds: its plausibility, that is, its practical\nincredibleness, the curious possibilities of anachronism and of utter\nconfusion it suggested. For my own part, I was particularly preoccupied\nwith the trick of the model. That I remember discussing with the\nMedical Man, whom I met on Friday at the Linn\u00e6an. He said he had seen a\nsimilar thing at T\u00fcbingen, and laid considerable stress on the\nblowing-out of the candle. But how the trick was done he could not\nexplain.\n\nThe next Thursday I went again to Richmond\u2014I suppose I was one of the\nTime Traveller\u2019s most constant guests\u2014and, arriving late, found four or\nfive men already assembled in his drawing-room. The Medical Man was\nstanding before the fire with a sheet of paper in one hand and his\nwatch in the other. I looked round for the Time Traveller, and\u2014\u201cIt\u2019s\nhalf-past seven now,\u201d said the Medical Man. \u201cI suppose we\u2019d better have\ndinner?\u201d\n\n\u201cWhere\u2019s\u2014\u2014?\u201d said I, naming our host.\n\n\u201cYou\u2019ve just come? It\u2019s rather odd. He\u2019s unavoidably detained. He asks\nme in this note to lead off with dinner at seven if he\u2019s not back. Says\nhe\u2019ll explain when he comes.\u201d\n\n\u201cIt seems a pity to let the dinner spoil,\u201d said the Editor of a\nwell-known daily paper; and thereupon the Doctor rang the bell.\n\nThe Psychologist was the only person besides the Doctor and myself who\nhad attended the previous dinner. The other men were Blank, the Editor\naforementioned, a certain journalist, and another\u2014a quiet, shy man with\na beard\u2014whom I didn\u2019t know, and who, as far as my observation went,\nnever opened his mouth all the evening. There was some speculation at",
+          " have been played upon us under these conditions.\n\nThe Time Traveller looked at us, and then at the mechanism. \u201cWell?\u201d\nsaid the Psychologist.\n\n\u201cThis little affair,\u201d said the Time Traveller, resting his elbows upon\nthe table and pressing his hands together above the apparatus, \u201cis only\na model. It is my plan for a machine to travel through time. You will\nnotice that it looks singularly askew, and that there is an odd\ntwinkling appearance about this bar, as though it was in some way\nunreal.\u201d He pointed to the part with his finger. \u201cAlso, here is one\nlittle white lever, and here is another.\u201d\n\nThe Medical Man got up out of his chair and peered into the thing.\n\u201cIt\u2019s beautifully made,\u201d he said.\n\n\u201cIt took two years to make,\u201d retorted the Time Traveller. Then, when we\nhad all imitated the action of the Medical Man, he said: \u201cNow I want\nyou clearly to understand that this lever, being pressed over, sends\nthe machine gliding into the future, and this other reverses the\nmotion. This saddle represents the seat of a time traveller. Presently\nI am going to press the lever, and off the machine will go. It will\nvanish, pass into future Time, and disappear. Have a good look at the\nthing. Look at the table too, and satisfy yourselves there is no\ntrickery. I don\u2019t want to waste this model, and then be told I\u2019m a\nquack.\u201d\n\nThere was a minute\u2019s pause perhaps. The Psychologist seemed about to\nspeak to me, but changed his mind. Then the Time Traveller put forth\nhis finger towards the lever. \u201cNo,\u201d he said suddenly. \u201cLend me your\nhand.\u201d And turning to the Psychologist, he took that individual\u2019s hand\nin his own and told him to put out his forefinger. So that it was the\nPsychologist himself who sent forth the model Time Machine on its\ninterminable voyage. We all saw the lever turn. I am absolutely certain\nthere was no trickery. There was a breath of wind, and the lamp flame\njumped. One of the candles on the mantel was blown out, and the little\nmachine suddenly swung round, became indistinct, was seen as a ghost\nfor a second perhaps, as an eddy of faintly glittering brass and ivory;\nand it was gone\u2014vanished! Save for the lamp the table was bare.\n\nEveryone was silent for a minute. Then Filby said he was damned.\n\nThe Psychologist recovered from his stupor, and suddenly looked under\nthe table. At that the Time Traveller laughed cheerfully. \u201cWell?\u201d he\nsaid, with a reminiscence of the Psychologist. Then, getting up, he\nwent to the tobacco jar on the mantel, and with his back to us began to\nfill his pipe.\n\nWe stared at each other. \u201cLook here,\u201d said the Medical Man, \u201care you in\nearnest about this? Do you seriously believe that that machine has\ntravelled into time?\u201d\n\n\u201cCertainly,\u201d said the Time Traveller, stooping to light a spill at the\nfire. Then he turned, lighting his pipe, to look at the Psychologist\u2019s\nface. (The Psychologist, to show that he was not unhinged, helped\nhimself to a cigar and tried to light it uncut.) \u201cWhat is more, I have\na big machine nearly finished in there\u201d\u2014he indicated the\nlaboratory\u2014\u201cand when that is put together I mean to have a journey on\nmy own account.\u201d\n\n\u201cYou mean to say that that machine has travelled into the future?\u201d said\nFilby.\n\n\u201cInto the future or the past\u2014I don\u2019t, for certain, know which.\u201d\n\nAfter an"
+        ],
+        "response": "According to the Time Traveller, the fourth dimension is **Time**.\n\nHe explains that \u201cthere is no difference between Time and any of the three dimensions of Space except that our consciousness moves along it,\u201d and that \u201cReally this is what is meant by the Fourth Dimension\u2026 It is only another way of looking at Time.\u201d He further argues that any real body must have extension in four directions\u2014Length, Breadth, Thickness, and Duration\u2014identifying Time as the fourth dimension [217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t0][217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t680].",
+        "reference": "He identifies Time as the fourth dimension and argues that a real body has duration as well as length, breadth and thickness.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.94365869487571,
+        "context_precision": 0.8333333332916666,
+        "context_recall": 1.0
+      },
+      {
+        "user_input": "What does Mr Enfield see Hyde do to a little girl?",
+        "retrieved_contexts": [
+          " over, it was but to see it glide\nmore stealthily through sleeping houses, or move the more swiftly and\nstill the more swiftly, even to dizziness, through wider labyrinths of\nlamplighted city, and at every street corner crush a child and leave\nher screaming. And still the figure had no face by which he might know\nit; even in his dreams, it had no face, or one that baffled him and\nmelted before his eyes; and thus it was that there sprang up and grew\napace in the lawyer\u2019s mind a singularly strong, almost an inordinate,\ncuriosity to behold the features of the real Mr. Hyde. If he could but\nonce set eyes on him, he thought the mystery would lighten and perhaps\nroll altogether away, as was the habit of mysterious things when well\nexamined. He might see a reason for his friend\u2019s strange preference or\nbondage (call it which you please) and even for the startling clauses\nof the will. At least it would be a face worth seeing: the face of\na man who was without bowels of mercy: a face which had but to show\nitself to raise up, in the mind of the unimpressionable Enfield, a\nspirit of enduring hatred.\n\nFrom that time forward, Mr. Utterson began to haunt the door in the\nby-street of shops. In the morning before office hours, at noon when\nbusiness was plenty and time scarce, at night under the face of the\nfogged city moon, by all lights and at all hours of solitude or\nconcourse, the lawyer was to be found on his chosen post.\n\n\u201cIf he be Mr. Hyde,\u201d he had thought, \u201cI shall be Mr. Seek.\u201d\n\nAnd at last his patience was rewarded. It was a fine dry night; frost\nin the air; the streets as clean as a ballroom floor; the lamps,\nunshaken by any wind, drawing a regular pattern of light and shadow. By\nten o\u2019clock, when the shops were closed, the by-street was very\nsolitary and, in spite of the low growl of London from all round, very\nsilent. Small sounds carried far; domestic sounds out of the houses\nwere clearly audible on either side of the roadway; and the rumour of\nthe approach of any passenger preceded him by a long time. Mr. Utterson\nhad been some minutes at his post, when he was aware of an odd light\nfootstep drawing near. In the course of his nightly patrols, he had\nlong grown accustomed to the quaint effect with which the footfalls of\na single person, while he is still a great way off, suddenly spring out\ndistinct from the vast hum and clatter of the city. Yet his attention\nhad never before been so sharply and decisively arrested; and it was\nwith a strong, superstitious prevision of success that he withdrew into\nthe entry of the court.\n\nThe steps drew swiftly nearer, and swelled out suddenly louder as they\nturned the end of the street. The lawyer, looking forth from the entry,\ncould soon see what manner of man he had to deal with. He was small and\nvery plainly dressed and the look of him, even at that distance, went\nsomehow strongly against the watcher\u2019s inclination. But he made\nstraight for the door, crossing the roadway to save time; and as he\ncame, he drew a key from his pocket like one approaching home.\n\nMr. Utterson stepped out and touched him on the shoulder as he passed.\n\u201cMr. Hyde, I think?\u201d\n\nMr. Hyde shrank back with a hissing intake of the breath. But his fear\nwas only momentary; and though he did not look the lawyer in the face,\nhe answered coolly enough: \u201cThat is my name",
+          " on the court on the first\nfloor; none below; the windows are always shut but they\u2019re clean. And\nthen there is a chimney which is generally smoking; so somebody must\nlive there. And yet it\u2019s not so sure; for the buildings are so packed\ntogether about the court, that it\u2019s hard to say where one ends and\nanother begins.\u201d\n\nThe pair walked on again for a while in silence; and then \u201cEnfield,\u201d\nsaid Mr. Utterson, \u201cthat\u2019s a good rule of yours.\u201d\n\n\u201cYes, I think it is,\u201d returned Enfield.\n\n\u201cBut for all that,\u201d continued the lawyer, \u201cthere\u2019s one point I want to\nask. I want to ask the name of that man who walked over the child.\u201d\n\n\u201cWell,\u201d said Mr. Enfield, \u201cI can\u2019t see what harm it would do. It was a\nman of the name of Hyde.\u201d\n\n\u201cHm,\u201d said Mr. Utterson. \u201cWhat sort of a man is he to see?\u201d\n\n\u201cHe is not easy to describe. There is something wrong with his\nappearance; something displeasing, something down-right detestable. I\nnever saw a man I so disliked, and yet I scarce know why. He must be\ndeformed somewhere; he gives a strong feeling of deformity, although I\ncouldn\u2019t specify the point. He\u2019s an extraordinary looking man, and yet\nI really can name nothing out of the way. No, sir; I can make no hand\nof it; I can\u2019t describe him. And it\u2019s not want of memory; for I declare\nI can see him this moment.\u201d\n\nMr. Utterson again walked some way in silence and obviously under a\nweight of consideration. \u201cYou are sure he used a key?\u201d he inquired at\nlast.\n\n\u201cMy dear sir...\u201d began Enfield, surprised out of himself.\n\n\u201cYes, I know,\u201d said Utterson; \u201cI know it must seem strange. The fact\nis, if I do not ask you the name of the other party, it is because I\nknow it already. You see, Richard, your tale has gone home. If you have\nbeen inexact in any point you had better correct it.\u201d\n\n\u201cI think you might have warned me,\u201d returned the other with a touch of\nsullenness. \u201cBut I have been pedantically exact, as you call it. The\nfellow had a key; and what\u2019s more, he has it still. I saw him use it\nnot a week ago.\u201d\n\nMr. Utterson sighed deeply but said never a word; and the young man\npresently resumed. \u201cHere is another lesson to say nothing,\u201d said he. \u201cI\nam ashamed of my long tongue. Let us make a bargain never to refer to\nthis again.\u201d\n\n\u201cWith all my heart,\u201d said the lawyer. \u201cI shake hands on that, Richard.\u201d\n\n\n\nSEARCH FOR MR. HYDE\n\nThat evening Mr. Utterson came home to his bachelor house in sombre\nspirits and sat down to dinner without relish. It was his custom of a\nSunday, when this meal was over, to sit close by the fire, a volume of\nsome dry divinity on his reading desk, until the clock of the\nneighbouring church rang out the hour of twelve, when he would go\nsoberly and gratefully to bed. On this night however, as soon as the\ncloth was taken away, he took up a candle and went into his business\nroom. There he opened his safe, took from the most private part of it a\ndocument endorsed on the envelope as Dr. Jekyll\u2019s Will and sat down\nwith a clouded brow to study its contents. The will was holograph, for\nMr. Utterson though he took charge of it now that it was made, had\nrefused to lend the least assistance in the making of it",
+          " is a private matter, and I beg of you to let it sleep.\u201d\n\nUtterson reflected a little, looking in the fire.\n\n\u201cI have no doubt you are perfectly right,\u201d he said at last, getting to\nhis feet.\n\n\u201cWell, but since we have touched upon this business, and for the last\ntime I hope,\u201d continued the doctor, \u201cthere is one point I should like\nyou to understand. I have really a very great interest in poor Hyde. I\nknow you have seen him; he told me so; and I fear he was rude. But I do\nsincerely take a great, a very great interest in that young man; and if\nI am taken away, Utterson, I wish you to promise me that you will bear\nwith him and get his rights for him. I think you would, if you knew\nall; and it would be a weight off my mind if you would promise.\u201d\n\n\u201cI can\u2019t pretend that I shall ever like him,\u201d said the lawyer.\n\n\u201cI don\u2019t ask that,\u201d pleaded Jekyll, laying his hand upon the other\u2019s\narm; \u201cI only ask for justice; I only ask you to help him for my sake,\nwhen I am no longer here.\u201d\n\nUtterson heaved an irrepressible sigh. \u201cWell,\u201d said he, \u201cI promise.\u201d\n\n\n\nTHE CAREW MURDER CASE\n\nNearly a year later, in the month of October, 18\u2014, London was startled\nby a crime of singular ferocity and rendered all the more notable by\nthe high position of the victim. The details were few and startling. A\nmaid servant living alone in a house not far from the river, had gone\nupstairs to bed about eleven. Although a fog rolled over the city in\nthe small hours, the early part of the night was cloudless, and the\nlane, which the maid\u2019s window overlooked, was brilliantly lit by the\nfull moon. It seems she was romantically given, for she sat down upon\nher box, which stood immediately under the window, and fell into a\ndream of musing. Never (she used to say, with streaming tears, when she\nnarrated that experience), never had she felt more at peace with all\nmen or thought more kindly of the world. And as she so sat she became\naware of an aged beautiful gentleman with white hair, drawing near\nalong the lane; and advancing to meet him, another and very small\ngentleman, to whom at first she paid less attention. When they had come\nwithin speech (which was just under the maid\u2019s eyes) the older man\nbowed and accosted the other with a very pretty manner of politeness.\nIt did not seem as if the subject of his address were of great\nimportance; indeed, from his pointing, it sometimes appeared as if he\nwere only inquiring his way; but the moon shone on his face as he\nspoke, and the girl was pleased to watch it, it seemed to breathe such\nan innocent and old-world kindness of disposition, yet with something\nhigh too, as of a well-founded self-content. Presently her eye wandered\nto the other, and she was surprised to recognise in him a certain Mr.\nHyde, who had once visited her master and for whom she had conceived a\ndislike. He had in his hand a heavy cane, with which he was trifling;\nbut he answered never a word, and seemed to listen with an\nill-contained impatience. And then all of a sudden he broke out in a\ngreat flame of anger, stamping with his foot, brandishing the cane, and\ncarrying on (as the maid described it) like a madman. The old gentleman\ntook a step back, with the air of one very much surprised and a trifle\nhurt; and at that Mr.",
+          " at that distance, went\nsomehow strongly against the watcher\u2019s inclination. But he made\nstraight for the door, crossing the roadway to save time; and as he\ncame, he drew a key from his pocket like one approaching home.\n\nMr. Utterson stepped out and touched him on the shoulder as he passed.\n\u201cMr. Hyde, I think?\u201d\n\nMr. Hyde shrank back with a hissing intake of the breath. But his fear\nwas only momentary; and though he did not look the lawyer in the face,\nhe answered coolly enough: \u201cThat is my name. What do you want?\u201d\n\n\u201cI see you are going in,\u201d returned the lawyer. \u201cI am an old friend of\nDr. Jekyll\u2019s\u2014Mr. Utterson of Gaunt Street\u2014you must have heard of my\nname; and meeting you so conveniently, I thought you might admit me.\u201d\n\n\u201cYou will not find Dr. Jekyll; he is from home,\u201d replied Mr. Hyde,\nblowing in the key. And then suddenly, but still without looking up,\n\u201cHow did you know me?\u201d he asked.\n\n\u201cOn your side,\u201d said Mr. Utterson \u201cwill you do me a favour?\u201d\n\n\u201cWith pleasure,\u201d replied the other. \u201cWhat shall it be?\u201d\n\n\u201cWill you let me see your face?\u201d asked the lawyer.\n\nMr. Hyde appeared to hesitate, and then, as if upon some sudden\nreflection, fronted about with an air of defiance; and the pair stared\nat each other pretty fixedly for a few seconds. \u201cNow I shall know you\nagain,\u201d said Mr. Utterson. \u201cIt may be useful.\u201d\n\n\u201cYes,\u201d returned Mr. Hyde, \u201cit is as well we have met; and _\u00e0 propos_,\nyou should have my address.\u201d And he gave a number of a street in Soho.\n\n\u201cGood God!\u201d thought Mr. Utterson, \u201ccan he, too, have been thinking of\nthe will?\u201d But he kept his feelings to himself and only grunted in\nacknowledgment of the address.\n\n\u201cAnd now,\u201d said the other, \u201chow did you know me?\u201d\n\n\u201cBy description,\u201d was the reply.\n\n\u201cWhose description?\u201d\n\n\u201cWe have common friends,\u201d said Mr. Utterson.\n\n\u201cCommon friends,\u201d echoed Mr. Hyde, a little hoarsely. \u201cWho are they?\u201d\n\n\u201cJekyll, for instance,\u201d said the lawyer.\n\n\u201cHe never told you,\u201d cried Mr. Hyde, with a flush of anger. \u201cI did not\nthink you would have lied.\u201d\n\n\u201cCome,\u201d said Mr. Utterson, \u201cthat is not fitting language.\u201d\n\nThe other snarled aloud into a savage laugh; and the next moment, with\nextraordinary quickness, he had unlocked the door and disappeared into\nthe house.\n\nThe lawyer stood awhile when Mr. Hyde had left him, the picture of\ndisquietude. Then he began slowly to mount the street, pausing every\nstep or two and putting his hand to his brow like a man in mental\nperplexity. The problem he was thus debating as he walked, was one of a\nclass that is rarely solved. Mr. Hyde was pale and dwarfish, he gave an\nimpression of deformity without any nameable malformation, he had a\ndispleasing smile, he had borne himself to the lawyer with a sort of\nmurderous mixture of timidity and boldness, and he spoke with a husky,\nwhispering and somewhat broken voice; all these were points against\nhim, but not all of these together could explain the hitherto unknown\ndisgust, loathing and fear with which Mr. Utterson regarded him. \u201cThere\nmust be something else,\u201d said the perplexed gentleman. \u201cThere _is_\nsomething more, if I could find a name for it. God bless me, the man\nseems hardly human! Something troglodytic, shall",
+          " whom she had conceived a\ndislike. He had in his hand a heavy cane, with which he was trifling;\nbut he answered never a word, and seemed to listen with an\nill-contained impatience. And then all of a sudden he broke out in a\ngreat flame of anger, stamping with his foot, brandishing the cane, and\ncarrying on (as the maid described it) like a madman. The old gentleman\ntook a step back, with the air of one very much surprised and a trifle\nhurt; and at that Mr. Hyde broke out of all bounds and clubbed him to\nthe earth. And next moment, with ape-like fury, he was trampling his\nvictim under foot and hailing down a storm of blows, under which the\nbones were audibly shattered and the body jumped upon the roadway. At\nthe horror of these sights and sounds, the maid fainted.\n\nIt was two o\u2019clock when she came to herself and called for the police.\nThe murderer was gone long ago; but there lay his victim in the middle\nof the lane, incredibly mangled. The stick with which the deed had been\ndone, although it was of some rare and very tough and heavy wood, had\nbroken in the middle under the stress of this insensate cruelty; and\none splintered half had rolled in the neighbouring gutter\u2014the other,\nwithout doubt, had been carried away by the murderer. A purse and gold\nwatch were found upon the victim: but no cards or papers, except a\nsealed and stamped envelope, which he had been probably carrying to the\npost, and which bore the name and address of Mr. Utterson.\n\nThis was brought to the lawyer the next morning, before he was out of\nbed; and he had no sooner seen it and been told the circumstances, than\nhe shot out a solemn lip. \u201cI shall say nothing till I have seen the\nbody,\u201d said he; \u201cthis may be very serious. Have the kindness to wait\nwhile I dress.\u201d And with the same grave countenance he hurried through\nhis breakfast and drove to the police station, whither the body had\nbeen carried. As soon as he came into the cell, he nodded.\n\n\u201cYes,\u201d said he, \u201cI recognise him. I am sorry to say that this is Sir\nDanvers Carew.\u201d\n\n\u201cGood God, sir,\u201d exclaimed the officer, \u201cis it possible?\u201d And the next\nmoment his eye lighted up with professional ambition. \u201cThis will make a\ndeal of noise,\u201d he said. \u201cAnd perhaps you can help us to the man.\u201d And\nhe briefly narrated what the maid had seen, and showed the broken\nstick.\n\nMr. Utterson had already quailed at the name of Hyde; but when the\nstick was laid before him, he could doubt no longer; broken and\nbattered as it was, he recognised it for one that he had himself\npresented many years before to Henry Jekyll.\n\n\u201cIs this Mr. Hyde a person of small stature?\u201d he inquired.\n\n\u201cParticularly small and particularly wicked-looking, is what the maid\ncalls him,\u201d said the officer.\n\nMr. Utterson reflected; and then, raising his head, \u201cIf you will come\nwith me in my cab,\u201d he said, \u201cI think I can take you to his house.\u201d\n\nIt was by this time about nine in the morning, and the first fog of the\nseason. A great chocolate-coloured pall lowered over heaven, but the\nwind was continually charging and routing these embattled vapours; so\nthat as the cab crawled from street to street, Mr. Utterson beheld a\nmarvelous number of degrees and hues of twilight; for here it would be\ndark like the back-end of evening; and there would be a glow of a rich,\nl",
+          " the calls of business, that they might enjoy them\nuninterrupted.\n\nIt chanced on one of these rambles that their way led them down a\nby-street in a busy quarter of London. The street was small and what is\ncalled quiet, but it drove a thriving trade on the weekdays. The\ninhabitants were all doing well, it seemed, and all emulously hoping to\ndo better still, and laying out the surplus of their gains in coquetry;\nso that the shop fronts stood along that thoroughfare with an air of\ninvitation, like rows of smiling saleswomen. Even on Sunday, when it\nveiled its more florid charms and lay comparatively empty of passage,\nthe street shone out in contrast to its dingy neighbourhood, like a fire\nin a forest; and with its freshly painted shutters, well-polished\nbrasses, and general cleanliness and gaiety of note, instantly caught\nand pleased the eye of the passenger.\n\nTwo doors from one corner, on the left hand going east the line was\nbroken by the entry of a court; and just at that point a certain\nsinister block of building thrust forward its gable on the street. It\nwas two storeys high; showed no window, nothing but a door on the lower\nstorey and a blind forehead of discoloured wall on the upper; and bore\nin every feature, the marks of prolonged and sordid negligence. The\ndoor, which was equipped with neither bell nor knocker, was blistered\nand distained. Tramps slouched into the recess and struck matches on\nthe panels; children kept shop upon the steps; the schoolboy had tried\nhis knife on the mouldings; and for close on a generation, no one had\nappeared to drive away these random visitors or to repair their\nravages.\n\nMr. Enfield and the lawyer were on the other side of the by-street; but\nwhen they came abreast of the entry, the former lifted up his cane and\npointed.\n\n\u201cDid you ever remark that door?\u201d he asked; and when his companion had\nreplied in the affirmative, \u201cIt is connected in my mind,\u201d added he,\n\u201cwith a very odd story.\u201d\n\n\u201cIndeed?\u201d said Mr. Utterson, with a slight change of voice, \u201cand what\nwas that?\u201d\n\n\u201cWell, it was this way,\u201d returned Mr. Enfield: \u201cI was coming home from\nsome place at the end of the world, about three o\u2019clock of a black\nwinter morning, and my way lay through a part of town where there was\nliterally nothing to be seen but lamps. Street after street and all the\nfolks asleep\u2014street after street, all lighted up as if for a procession\nand all as empty as a church\u2014till at last I got into that state of mind\nwhen a man listens and listens and begins to long for the sight of a\npoliceman. All at once, I saw two figures: one a little man who was\nstumping along eastward at a good walk, and the other a girl of maybe\neight or ten who was running as hard as she was able down a cross\nstreet. Well, sir, the two ran into one another naturally enough at the\ncorner; and then came the horrible part of the thing; for the man\ntrampled calmly over the child\u2019s body and left her screaming on the\nground. It sounds nothing to hear, but it was hellish to see. It wasn\u2019t\nlike a man; it was like some damned Juggernaut. I gave a few halloa,\ntook to my heels, collared my gentleman, and brought him back to where\nthere was already quite a group about the screaming child. He was\nperfectly cool and made no resistance, but gave me one look"
+        ],
+        "response": "Mr Enfield tells Mr Utterson that on a black winter morning around three o\u2019clock he saw a small man \u201ctrampled calmly over the child\u2019s body and left her screaming on the ground\u201d after the two collided at a street corner [a5d768f28fd4799803f3f03eeef0fa5a-s1-t680]. Enfield adds that the sight was \u201chellish\u2026 It wasn\u2019t like a man; it was like some damned Juggernaut\u201d [a5d768f28fd4799803f3f03eeef0fa5a-s1-t680].",
+        "reference": "Enfield sees Hyde collide with a little girl and trample calmly over her, leaving her screaming on the ground.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.6267870785624935,
+        "context_precision": 0.4166666666458333,
+        "context_recall": 1.0
+      },
+      {
+        "user_input": "What five constant factors does Sun Tzu say govern the art of war?",
+        "retrieved_contexts": [
+          ", the gradations of rank among the\nofficers, the maintenance of roads by which supplies may reach the\narmy, and the control of military expenditure.\n\n11. These five heads should be familiar to every general: he who knows\nthem will be victorious; he who knows them not will fail.\n\n12. Therefore, in your deliberations, when seeking to determine the\nmilitary conditions, let them be made the basis of a comparison, in\nthis wise:\u2014\n\n13. (1) Which of the two sovereigns is imbued with the Moral law?\n\n\n[I.e., \"is in harmony with his subjects.\" Cf. \u00a7 5.]\n\n\n    (2) Which of the two generals has most ability?\n    (3) With whom lie the advantages derived from Heaven and Earth?\n\n[See \u00a7\u00a7 7, 8]\n\n\n(4) On which side is discipline most rigorously enforced?\n\n[Tu Mu alludes to the remarkable story of Ts\u2019ao Ts\u2019ao (A.D. 155-220),\nwho was such a strict disciplinarian that once, in accordance with his\nown severe regulations against injury to standing crops, he condemned\nhimself to death for having allowed his horse to shy into a field of\ncorn! However, in lieu of losing his head, he was persuaded to satisfy\nhis sense of justice by cutting off his hair. Ts\u2019ao Ts\u2019ao\u2019s own comment\non the present passage is characteristically curt: \"when you lay down a\nlaw, see that it is not disobeyed; if it is disobeyed the offender must\nbe put to death.\"]\n\n\n(5) Which army is the stronger?\n\n[Morally as well as physically. As Mei Yao-ch\u2019en puts it, freely\nrendered, \"_esprit de corps_ and \u2018big battalions.\u2019\"]\n\n\n(6) On which side are officers and men more highly trained?\n\n[Tu Yu quotes Wang Tz\u016d as saying: \"Without constant practice, the\nofficers will be nervous and undecided when mustering for battle;\nwithout constant practice, the general will be wavering and irresolute\nwhen the crisis is at hand.\"]\n\n\n(7) In which army is there the greater constancy both in reward and\npunishment?\n\n[On which side is there the most absolute certainty that merit will be\nproperly rewarded and misdeeds summarily punished?]\n\n\n14. By means of these seven considerations I can forecast victory or\ndefeat.\n\n15. The general that hearkens to my counsel and acts upon it, will\nconquer:\u2014let such a one be retained in command! The general that\nhearkens not to my counsel nor acts upon it, will suffer defeat:\u2014let\nsuch a one be dismissed!\n\n[The form of this paragraph reminds us that Sun Tz\u016d\u2019s treatise was\ncomposed expressly for the benefit of his patron Ho Lu, king of the Wu\nState.]\n\n\n16. While heeding the profit of my counsel, avail yourself also of any\nhelpful circumstances over and beyond the ordinary rules.\n\n17. According as circumstances are favourable, one should modify one\u2019s\nplans.\n\n[Sun Tz\u016d, as a practical soldier, will have none of the \"bookish\ntheoric.\" He cautions us here not to pin our faith to abstract\nprinciples; \"for,\" as Chang Yu puts it, \"while the main laws of\nstrategy can be stated clearly enough for the benefit of all and\nsundry, you must be guided by the actions of the enemy in attempting to\nsecure a favourable position in actual warfare.\" On the eve of the\nbattle of Waterloo, Lord Uxbridge, commanding the cavalry, went to the\nDuke of Wellington in order to learn what his plans and calculations\nwere for the morrow, because, as he explained, he might suddenly find\nhimself",
+          " to\ngive broad instructions, but to decide on battle it is the function of\nthe general.\" It is needless to dilate on the military disasters which\nhave been caused by undue interference with operations in the field on\nthe part of the home government. Napoleon undoubtedly owed much of his\nextraordinary success to the fact that he was not hampered by central\nauthority.]\n\nVictory lies in the knowledge of these five points.\n\n[Literally, \u201cThese five things are knowledge of the principle of\nvictory.\u201d]\n\n18. Hence the saying: If you know the enemy and know yourself, you need\nnot fear the result of a hundred battles. If you know yourself but not\nthe enemy, for every victory gained you will also suffer a defeat.\n\n[Li Ch\u2019uan cites the case of Fu Chien, prince of Ch\u2019in, who in 383 A.D.\nmarched with a vast army against the Chin Emperor. When warned not to\ndespise an enemy who could command the services of such men as Hsieh An\nand Huan Ch\u2019ung, he boastfully replied: \"I have the population of eight\nprovinces at my back, infantry and horsemen to the number of one\nmillion; why, they could dam up the Yangtsze River itself by merely\nthrowing their whips into the stream. What danger have I to fear?\"\nNevertheless, his forces were soon after disastrously routed at the Fei\nRiver, and he was obliged to beat a hasty retreat.]\n\n\nIf you know neither the enemy nor yourself, you will succumb in every\nbattle.\n\n[Chang Yu said: \"Knowing the enemy enables you to take the offensive,\nknowing yourself enables you to stand on the defensive.\" He adds:\n\"Attack is the secret of defence; defence is the planning of an\nattack.\" It would be hard to find a better epitome of the\nroot-principle of war.]\n",
+          "\n\n\nChapter I. LAYING PLANS\n\n[Ts\u2019ao Kung, in defining the meaning of the Chinese for the title of\nthis chapter, says it refers to the deliberations in the temple\nselected by the general for his temporary use, or as we should say, in\nhis tent. See. \u00a7 26.]\n\n\n1. Sun Tz\u016d said: The art of war is of vital importance to the State.\n\n2. It is a matter of life and death, a road either to safety or to\nruin. Hence it is a subject of inquiry which can on no account be\nneglected.\n\n3. The art of war, then, is governed by five constant factors, to be\ntaken into account in one\u2019s deliberations, when seeking to determine\nthe conditions obtaining in the field.\n\n4. These are: (1) The Moral Law; (2) Heaven; (3) Earth; (4) The\nCommander; (5) Method and discipline.\n\n[It appears from what follows that Sun Tz\u016d means by \"Moral Law\" a\nprinciple of harmony, not unlike the Tao of Lao Tz\u016d in its moral\naspect. One might be tempted to render it by \"morale,\" were it not\nconsidered as an attribute of the _ruler_ in \u00a7 13.]\n\n\n5, 6. _The Moral Law_ causes the people to be in complete accord with\ntheir ruler, so that they will follow him regardless of their lives,\nundismayed by any danger.\n\n[Tu Yu quotes Wang Tz\u016d as saying: \"Without constant practice, the\nofficers will be nervous and undecided when mustering for battle;\nwithout constant practice, the general will be wavering and irresolute\nwhen the crisis is at hand.\"]\n\n\n7. _Heaven_ signifies night and day, cold and heat, times and seasons.\n\n[The commentators, I think, make an unnecessary mystery of two words\nhere. Meng Shih refers to \"the hard and the soft, waxing and waning\" of\nHeaven. Wang Hsi, however, may be right in saying that what is meant is\n\"the general economy of Heaven,\" including the five elements, the four\nseasons, wind and clouds, and other phenomena.]\n\n\n8. _Earth_ comprises distances, great and small; danger and security;\nopen ground and narrow passes; the chances of life and death.\n\n9. _The Commander_ stands for the virtues of wisdom, sincerity,\nbenevolence, courage and strictness.\n\n[The five cardinal virtues of the Chinese are (1) humanity or\nbenevolence; (2) uprightness of mind; (3) self-respect, self-control,\nor \"proper feeling;\" (4) wisdom; (5) sincerity or good faith. Here\n\"wisdom\" and \"sincerity\" are put before \"humanity or benevolence,\" and\nthe two military virtues of \"courage\" and \"strictness\" substituted for\n\"uprightness of mind\" and \"self-respect, self-control, or \u2018proper\nfeeling.\u2019\"]\n\n\n10. By _Method and discipline_ are to be understood the marshalling of\nthe army in its proper subdivisions, the gradations of rank among the\nofficers, the maintenance of roads by which supplies may reach the\narmy, and the control of military expenditure.\n\n11. These five heads should be familiar to every general: he who knows\nthem will be victorious; he who knows them not will fail.\n\n12. Therefore, in your deliberations, when seeking to determine the\nmilitary conditions, let them be made the basis of a comparison, in\nthis wise:\u2014\n\n13. (1) Which of the two sovereigns is imbued with the Moral law?\n\n\n[I.e., \"",
+          " in the same way as he\nadministers a kingdom, being ignorant of the conditions which obtain in\nan army. This causes restlessness in the soldier\u2019s minds.\n\n[Ts\u2019ao Kung\u2019s note is, freely translated: \"The military sphere and the\ncivil sphere are wholly distinct; you can\u2019t handle an army in kid\ngloves.\" And Chang Yu says: \"Humanity and justice are the principles on\nwhich to govern a state, but not an army; opportunism and flexibility,\non the other hand, are military rather than civil virtues to assimilate\nthe governing of an army\"\u2014to that of a State, understood.]\n\n\n15. (3) By employing the officers of his army without discrimination,\n\n[That is, he is not careful to use the right man in the right place.]\n\n\nthrough ignorance of the military principle of adaptation to\ncircumstances. This shakes the confidence of the soldiers.\n\n[I follow Mei Yao-ch\u2019en here. The other commentators refer not to the\nruler, as in \u00a7\u00a7 13, 14, but to the officers he employs. Thus Tu Yu\nsays: \"If a general is ignorant of the principle of adaptability, he\nmust not be entrusted with a position of authority.\" Tu Mu quotes: \"The\nskilful employer of men will employ the wise man, the brave man, the\ncovetous man, and the stupid man. For the wise man delights in\nestablishing his merit, the brave man likes to show his courage in\naction, the covetous man is quick at seizing advantages, and the stupid\nman has no fear of death.\"]\n\n\n16. But when the army is restless and distrustful, trouble is sure to\ncome from the other feudal princes. This is simply bringing anarchy\ninto the army, and flinging victory away.\n\n17. Thus we may know that there are five essentials for victory: (1) He\nwill win who knows when to fight and when not to fight.\n\n[Chang Yu says: If he can fight, he advances and takes the offensive;\nif he cannot fight, he retreats and remains on the defensive. He will\ninvariably conquer who knows whether it is right to take the offensive\nor the defensive.]\n\n\n(2) He will win who knows how to handle both superior and inferior\nforces.\n\n[This is not merely the general\u2019s ability to estimate numbers\ncorrectly, as Li Ch\u2019uan and others make out. Chang Yu expounds the\nsaying more satisfactorily: \"By applying the art of war, it is possible\nwith a lesser force to defeat a greater, and _vice versa_. The secret\nlies in an eye for locality, and in not letting the right moment slip.\nThus Wu Tz\u016d says: \u2018With a superior force, make for easy ground; with an\ninferior one, make for difficult ground.\u2019\"]\n\n\n(3) He will win whose army is animated by the same spirit throughout\nall its ranks.\n\n(4) He will win who, prepared himself, waits to take the enemy\nunprepared.\n\n(5) He will win who has military capacity and is not interfered with by\nthe sovereign.\n\n[Tu Yu quotes Wang Tz\u016d as saying: \"It is the sovereign\u2019s function to\ngive broad instructions, but to decide on battle it is the function of\nthe general.\" It is needless to dilate on the military disasters which\nhave been caused by undue interference with operations in the field on\nthe part of the home government. Napoleon undoubtedly owed much of his\nextraordinary success to the fact that he was not hampered by central\nauthority.]\n\nVictory lies in the knowledge of these five points.\n\n[Literally, \u201cThese five things are knowledge of the principle of\nvictory.\u201d]\n\n18. Hence the saying: If you know the enemy and know yourself",
+          " the anchor with him at the\nbattle of Plataea, by means of which he fastened himself firmly to one\nspot. [See Herodotus, IX. 74.] It is not enough, says Sun Tz\u016d, to\nrender flight impossible by such mechanical means. You will not succeed\nunless your men have tenacity and unity of purpose, and, above all, a\nspirit of sympathetic cooperation. This is the lesson which can be\nlearned from the _shuai-jan_.]\n\n\n32. The principle on which to manage an army is to set up one standard\nof courage which all must reach.\n\n[Literally, \"level the courage [of all] as though [it were that of]\none.\" If the ideal army is to form a single organic whole, then it\nfollows that the resolution and spirit of its component parts must be\nof the same quality, or at any rate must not fall below a certain\nstandard. Wellington\u2019s seemingly ungrateful description of his army at\nWaterloo as \"the worst he had ever commanded\" meant no more than that\nit was deficient in this important particular\u2014unity of spirit and\ncourage. Had he not foreseen the Belgian defections and carefully kept\nthose troops in the background, he would almost certainly have lost the\nday.]\n\n\n33. How to make the best of both strong and weak\u2014that is a question\ninvolving the proper use of ground.\n\n[Mei Yao-ch\u2019en\u2019s paraphrase is: \"The way to eliminate the differences\nof strong and weak and to make both serviceable is to utilize\naccidental features of the ground.\" Less reliable troops, if posted in\nstrong positions, will hold out as long as better troops on more\nexposed terrain. The advantage of position neutralizes the inferiority\nin stamina and courage. Col. Henderson says: \"With all respect to the\ntext books, and to the ordinary tactical teaching, I am inclined to\nthink that the study of ground is often overlooked, and that by no\nmeans sufficient importance is attached to the selection of positions\u2026\nand to the immense advantages that are to be derived, whether you are\ndefending or attacking, from the proper utilization of natural\nfeatures.\" [2] ]\n\n\n34. Thus the skilful general conducts his army just as though he were\nleading a single man, willy-nilly, by the hand.\n\n[Tu Mu says: \"The simile has reference to the ease with which he does\nit.\"]\n\n\n35. It is the business of a general to be quiet and thus ensure\nsecrecy; upright and just, and thus maintain order.\n\n36. He must be able to mystify his officers and men by false reports\nand appearances,\n\n[Literally, \"to deceive their eyes and ears.\"]\n\n\nand thus keep them in total ignorance.\n\n[Ts\u2019ao Kung gives us one of his excellent apophthegms: \"The troops must\nnot be allowed to share your schemes in the beginning; they may only\nrejoice with you over their happy outcome.\" \"To mystify, mislead, and\nsurprise the enemy,\" is one of the first principles in war, as had been\nfrequently pointed out. But how about the other process\u2014the\nmystification of one\u2019s own men? Those who may think that Sun Tz\u016d is\nover-emphatic on this point would do well to read Col. Henderson\u2019s\nremarks on Stonewall Jackson\u2019s Valley campaign: \"The infinite pains,\"\nhe says, \"with which Jackson sought to conceal, even from his most\ntrusted staff officers, his movements, his intentions, and his\nthoughts, a commander less thorough would have pronounced useless\"\u2014etc.\netc. [3] In the year 88 A.D., as we read in ch. 47 of the",
+          " pin our faith to abstract\nprinciples; \"for,\" as Chang Yu puts it, \"while the main laws of\nstrategy can be stated clearly enough for the benefit of all and\nsundry, you must be guided by the actions of the enemy in attempting to\nsecure a favourable position in actual warfare.\" On the eve of the\nbattle of Waterloo, Lord Uxbridge, commanding the cavalry, went to the\nDuke of Wellington in order to learn what his plans and calculations\nwere for the morrow, because, as he explained, he might suddenly find\nhimself Commander-in-chief and would be unable to frame new plans in a\ncritical moment. The Duke listened quietly and then said: \"Who will\nattack the first tomorrow\u2014I or Bonaparte?\" \"Bonaparte,\" replied Lord\nUxbridge. \"Well,\" continued the Duke, \"Bonaparte has not given me any\nidea of his projects; and as my plans will depend upon his, how can you\nexpect me to tell you what mine are?\" [1] ]\n\n\n18. All warfare is based on deception.\n\n[The truth of this pithy and profound saying will be admitted by every\nsoldier. Col. Henderson tells us that Wellington, great in so many\nmilitary qualities, was especially distinguished by \"the extraordinary\nskill with which he concealed his movements and deceived both friend\nand foe.\"]\n\n\n19. Hence, when able to attack, we must seem unable; when using our\nforces, we must seem inactive; when we are near, we must make the enemy\nbelieve we are far away; when far away, we must make him believe we are\nnear.\n\n20. Hold out baits to entice the enemy. Feign disorder, and crush him.\n\n[All commentators, except Chang Yu, say, \"When he is in disorder, crush\nhim.\" It is more natural to suppose that Sun Tz\u016d is still illustrating\nthe uses of deception in war.]\n\n\n21. If he is secure at all points, be prepared for him. If he is in\nsuperior strength, evade him.\n\n22. If your opponent is of choleric temper, seek to irritate him.\nPretend to be weak, that he may grow arrogant.\n\n[Wang Tz\u016d, quoted by Tu Yu, says that the good tactician plays with his\nadversary as a cat plays with a mouse, first feigning weakness and\nimmobility, and then suddenly pouncing upon him.]\n\n\n23. If he is taking his ease, give him no rest.\n\n[This is probably the meaning though Mei Yao-ch\u2019en has the note: \"while\nwe are taking our ease, wait for the enemy to tire himself out.\" The\n_Yu Lan_ has \"Lure him on and tire him out.\"]\n\n\nIf his forces are united, separate them.\n\n[Less plausible is the interpretation favoured by most of the\ncommentators: \"If sovereign and subject are in accord, put division\nbetween them.\"]\n\n\n24. Attack him where he is unprepared, appear where you are not\nexpected.\n\n25. These military devices, leading to victory, must not be divulged\nbeforehand.\n\n26. Now the general who wins a battle makes many calculations in his\ntemple ere the battle is fought.\n\n[Chang Yu tells us that in ancient times it was customary for a temple\nto be set apart for the use of a general who was about to take the\nfield, in order that he might there elaborate his plan of campaign.]\n\n\nThe general who loses a battle makes but few calculations beforehand.\nThus do many calculations lead to victory, and few calculations to\ndefeat: how much more no calculation at all! It is by attention to this\npoint that I can foresee who is likely to win or lose.\n\n[1] \"Words on Wellington,\" by"
+        ],
+        "response": "According to Sun Tzu in Chapter I, the art of war is governed by five constant factors:\n\n1. **The Moral Law** \u2013 causes the people to be in complete accord with their ruler, so they will follow him regardless of danger.  \n2. **Heaven** \u2013 signifies night and day, cold and heat, times and seasons.  \n3. **Earth** \u2013 comprises distances, danger and security, open ground and narrow passes, chances of life and death.  \n4. **The Commander** \u2013 stands for the virtues of wisdom, sincerity, benevolence, courage and strictness.  \n5. **Method and discipline** \u2013 includes marshalling of the army in proper subdivisions, gradations of rank among officers, maintenance of supply roads, and control of military expenditure.  \n\nSun Tzu states these five heads \u201cshould be familiar to every general: he who knows them will be victorious; he who knows them not will fail\u201d [4c0ff068cb8a2de1a53a7c103f3cadeb-s1-t0].",
+        "reference": "The five factors are the Moral Law, Heaven, Earth, the Commander, and Method and discipline.",
+        "faithfulness": 1.0,
+        "answer_relevancy": 0.999999738322499,
+        "context_precision": 0.8333333332916666,
+        "context_recall": 1.0
+      },
+      {
+        "user_input": "How does Machiavelli distinguish hereditary principalities from new principalities?",
+        "retrieved_contexts": [
+          "\n\n\n\nCHAPTER I.\nHOW MANY KINDS OF PRINCIPALITIES THERE ARE, AND BY WHAT MEANS THEY ARE\nACQUIRED\n\n\nAll states, all powers, that have held and hold rule over men have been\nand are either republics or principalities.\n\nPrincipalities are either hereditary, in which the family has been long\nestablished; or they are new.\n\nThe new are either entirely new, as was Milan to Francesco Sforza, or\nthey are, as it were, members annexed to the hereditary state of the\nprince who has acquired them, as was the kingdom of Naples to that of\nthe King of Spain.\n\nSuch dominions thus acquired are either accustomed to live under a\nprince, or to live in freedom; and are acquired either by the arms of\nthe prince himself, or of others, or else by fortune or by ability.\n",
+          "\n\n\n\nCHAPTER II.\nCONCERNING HEREDITARY PRINCIPALITIES\n\n\nI will leave out all discussion on republics, inasmuch as in another\nplace I have written of them at length, and will address myself only to\nprincipalities. In doing so I will keep to the order indicated above,\nand discuss how such principalities are to be ruled and preserved.\n\nI say at once there are fewer difficulties in holding hereditary\nstates, and those long accustomed to the family of their prince, than\nnew ones; for it is sufficient only not to transgress the customs of\nhis ancestors, and to deal prudently with circumstances as they arise,\nfor a prince of average powers to maintain himself in his state, unless\nhe be deprived of it by some extraordinary and excessive force; and if\nhe should be so deprived of it, whenever anything sinister happens to\nthe usurper, he will regain it.\n\nWe have in Italy, for example, the Duke of Ferrara, who could not have\nwithstood the attacks of the Venetians in \u201984, nor those of Pope Julius\nin \u201910, unless he had been long established in his dominions. For the\nhereditary prince has less cause and less necessity to offend; hence it\nhappens that he will be more loved; and unless extraordinary vices\ncause him to be hated, it is reasonable to expect that his subjects\nwill be naturally well disposed towards him; and in the antiquity and\nduration of his rule the memories and motives that make for change are\nlost, for one change always leaves the toothing for another.\n",
+          ".\n\n [2] Messer Giorgio Scali. This event is to be found in Machiavelli\u2019s\n \u201cFlorentine History,\u201d Book III.\n\nThese principalities are liable to danger when they are passing from\nthe civil to the absolute order of government, for such princes either\nrule personally or through magistrates. In the latter case their\ngovernment is weaker and more insecure, because it rests entirely on\nthe goodwill of those citizens who are raised to the magistracy, and\nwho, especially in troubled times, can destroy the government with\ngreat ease, either by intrigue or open defiance; and the prince has not\nthe chance amid tumults to exercise absolute authority, because the\ncitizens and subjects, accustomed to receive orders from magistrates,\nare not of a mind to obey him amid these confusions, and there will\nalways be in doubtful times a scarcity of men whom he can trust. For\nsuch a prince cannot rely upon what he observes in quiet times, when\ncitizens have need of the state, because then every one agrees with\nhim; they all promise, and when death is far distant they all wish to\ndie for him; but in troubled times, when the state has need of its\ncitizens, then he finds but few. And so much the more is this\nexperiment dangerous, inasmuch as it can only be tried once. Therefore\na wise prince ought to adopt such a course that his citizens will\nalways in every sort and kind of circumstance have need of the state\nand of him, and then he will always find them faithful.\n",
+          "\n\n\n\nCHAPTER VII.\nCONCERNING NEW PRINCIPALITIES WHICH ARE ACQUIRED EITHER BY THE ARMS OF\nOTHERS OR BY GOOD FORTUNE\n\n\nThose who solely by good fortune become princes from being private\ncitizens have little trouble in rising, but much in keeping atop; they\nhave not any difficulties on the way up, because they fly, but they\nhave many when they reach the summit. Such are those to whom some state\nis given either for money or by the favour of him who bestows it; as\nhappened to many in Greece, in the cities of Ionia and of the\nHellespont, where princes were made by Darius, in order that they might\nhold the cities both for his security and his glory; as also were those\nemperors who, by the corruption of the soldiers, from being citizens\ncame to empire. Such stand simply elevated upon the goodwill and the\nfortune of him who has elevated them\u2014two most inconstant and unstable\nthings. Neither have they the knowledge requisite for the position;\nbecause, unless they are men of great worth and ability, it is not\nreasonable to expect that they should know how to command, having\nalways lived in a private condition; besides, they cannot hold it\nbecause they have not forces which they can keep friendly and faithful.\n\nStates that rise unexpectedly, then, like all other things in nature\nwhich are born and grow rapidly, cannot leave their foundations and\ncorrespondencies[1] fixed in such a way that the first storm will not\noverthrow them; unless, as is said, those who unexpectedly become\nprinces are men of so much ability that they know they have to be\nprepared at once to hold that which fortune has thrown into their laps,\nand that those foundations, which others have laid _before_ they became\nprinces, they must lay _afterwards_.\n\n [1] \u201cLe radici e corrispondenze,\u201d their roots (i.e. foundations) and\n correspondencies or relations with other states\u2014a common meaning of\n \u201ccorrespondence\u201d and \u201ccorrespondency\u201d in the sixteenth and seventeenth\n centuries.\n\nConcerning these two methods of rising to be a prince by ability or\nfortune, I wish to adduce two examples within our own recollection, and\nthese are Francesco Sforza[2] and Cesare Borgia. Francesco, by proper\nmeans and with great ability, from being a private person rose to be\nDuke of Milan, and that which he had acquired with a thousand anxieties\nhe kept with little trouble. On the other hand, Cesare Borgia, called\nby the people Duke Valentino, acquired his state during the ascendancy\nof his father, and on its decline he lost it, notwithstanding that he\nhad taken every measure and done all that ought to be done by a wise\nand able man to fix firmly his roots in the states which the arms and\nfortunes of others had bestowed on him.\n\n [2] Francesco Sforza, born 1401, died 1466. He married Bianca Maria\n Visconti, a natural daughter of Filippo Visconti, the Duke of Milan,\n on whose death he procured his own elevation to the duchy. Machiavelli\n was the accredited agent of the Florentine Republic to Cesare Borgia\n (1478-1507) during the transactions which led up to the assassinations\n of the Orsini and Vitelli at Sinigalia, and along with his letters to\n his chiefs in Florence he has left an account, written ten years\n before _The Prince_, of the proceedings of the duke in his\n \u201cDescritione del modo tenuto dal duca Valentino nello ammazzare\n Vitellozzo Vitelli,\u201d etc., a translation of which is",
+          " the outside forces and the other will not be able to resist. The\nVenetians, moved, as I believe, by the above reasons, fostered the\nGuelph and Ghibelline factions in their tributary cities; and although\nthey never allowed them to come to bloodshed, yet they nursed these\ndisputes amongst them, so that the citizens, distracted by their\ndifferences, should not unite against them. Which, as we saw, did not\nafterwards turn out as expected, because, after the rout at Vaila, one\nparty at once took courage and seized the state. Such methods argue,\ntherefore, weakness in the prince, because these factions will never be\npermitted in a vigorous principality; such methods for enabling one the\nmore easily to manage subjects are only useful in times of peace, but\nif war comes this policy proves fallacious.\n\n4. Without doubt princes become great when they overcome the\ndifficulties and obstacles by which they are confronted, and therefore\nfortune, especially when she desires to make a new prince great, who\nhas a greater necessity to earn renown than an hereditary one, causes\nenemies to arise and form designs against him, in order that he may\nhave the opportunity of overcoming them, and by them to mount higher,\nas by a ladder which his enemies have raised. For this reason many\nconsider that a wise prince, when he has the opportunity, ought with\ncraft to foster some animosity against himself, so that, having crushed\nit, his renown may rise higher.\n\n5. Princes, especially new ones, have found more fidelity and\nassistance in those men who in the beginning of their rule were\ndistrusted than among those who in the beginning were trusted. Pandolfo\nPetrucci, Prince of Siena, ruled his state more by those who had been\ndistrusted than by others. But on this question one cannot speak\ngenerally, for it varies so much with the individual; I will only say\nthis, that those men who at the commencement of a princedom have been\nhostile, if they are of a description to need assistance to support\nthemselves, can always be gained over with the greatest ease, and they\nwill be tightly held to serve the prince with fidelity, inasmuch as\nthey know it to be very necessary for them to cancel by deeds the bad\nimpression which he had formed of them; and thus the prince always\nextracts more profit from them than from those who, serving him in too\nmuch security, may neglect his affairs. And since the matter demands\nit, I must not fail to warn a prince, who by means of secret favours\nhas acquired a new state, that he must well consider the reasons which\ninduced those to favour him who did so; and if it be not a natural\naffection towards him, but only discontent with their government, then\nhe will only keep them friendly with great trouble and difficulty, for\nit will be impossible to satisfy them. And weighing well the reasons\nfor this in those examples which can be taken from ancient and modern\naffairs, we shall find that it is easier for the prince to make friends\nof those men who were contented under the former government, and are\ntherefore his enemies, than of those who, being discontented with it,\nwere favourable to him and encouraged him to seize it.\n\n6. It has been a custom with princes, in order to hold their states\nmore securely, to build fortresses that may serve as a bridle and bit\nto those who might design to work against them, and as a place of\nrefuge from a first attack. I praise this system because it has been\nmade use of formerly. Notwithstanding that, Messer Nicolo Vitelli in",
+          "For this reason a prince ought to take care that he never lets anything\nslip from his lips that is not replete with the above-named five\nqualities, that he may appear to him who sees and hears him altogether\nmerciful, faithful, humane, upright, and religious. There is nothing\nmore necessary to appear to have than this last quality, inasmuch as\nmen judge generally more by the eye than by the hand, because it\nbelongs to everybody to see you, to few to come in touch with you.\nEvery one sees what you appear to be, few really know what you are, and\nthose few dare not oppose themselves to the opinion of the many, who\nhave the majesty of the state to defend them; and in the actions of all\nmen, and especially of princes, which it is not prudent to challenge,\none judges by the result.\n\nFor that reason, let a prince have the credit of conquering and holding\nhis state, the means will always be considered honest, and he will be\npraised by everybody; because the vulgar are always taken by what a\nthing seems to be and by what comes of it; and in the world there are\nonly the vulgar, for the few find a place there only when the many have\nno ground to rest on.\n\nOne prince[5] of the present time, whom it is not well to name, never\npreaches anything else but peace and good faith, and to both he is most\nhostile, and either, if he had kept it, would have deprived him of\nreputation and kingdom many a time.\n\n [5] Ferdinand of Aragon. \u201cWhen Machiavelli was writing _The Prince_ it\n would have been clearly impossible to mention Ferdinand\u2019s name here\n without giving offence.\u201d Burd\u2019s \u201cIl Principe,\u201d p. 308.\n"
+        ],
+        "response": "## How Machiavelli Distinguishes Hereditary from New Principalities\n\n### Classification Structure\nMachiavelli first divides all states into **republics or principalities**, then splits principalities into two fundamental categories: **hereditary** and **new** [f02afa355ece4a909ec46d6c863e8623-s1-t0].\n\n### Hereditary Principalities\n- **Definition**: States \"in which the family has been long established\" [f02afa355ece4a909ec46d6c863e8623-s1-t0].\n- **Stability mechanism**: Subjects are long accustomed to the ruling family, so the prince need only \"not transgress the customs of his ancestors\" and \"deal prudently with circumstances\" to maintain control [f02afa355ece4a909ec46d6c863e8623-s2-t0].\n- **Natural affection**: The hereditary prince is \"naturally more loved\" and faces \"fewer causes of hatred\" because ancient lineage creates habitual obedience [f02afa355ece4a909ec46d6c863e8623-s2-t0].\n\n### New Principalities\n- **Definition**: States that are \"either entirely new\u2026or\u2026members annexed to the hereditary state of the prince who has acquired them\" [f02afa355ece4a909ec46d6c863e8623-s1-t0].\n- **Varied origins**: They may be accustomed to living under a prince or in freedom, and are acquired \"by the arms of the prince himself, or of others, or else by fortune or by ability\" [f02afa355ece4a909ec46d6c863e8623-s1-t0].\n- **Governance challenge**: Unlike hereditary states, new principalities lack established loyalty and require the prince to establish fresh foundations rather than rely on inherited custom.\n\n### Core Distinction\nHereditary rule rests on **ancient lineage and habitual obedience**, while new principalities arise from **conquest, annexation, or fortune** and demand active foundation-building by the prince [f02afa355ece4a909ec46d6c863e8623-s1-t0].",
+        "reference": "Hereditary principalities have long been ruled by the same family. New principalities are either entirely new or territories added to an existing hereditary state.",
+        "faithfulness": 0.75,
+        "answer_relevancy": 1.0000000000000002,
+        "context_precision": 0.99999999995,
+        "context_recall": 1.0
+      }
+    ],
+    "measurements": [
+      {
+        "question": "Why does Alice follow the White Rabbit at the beginning of the story?",
+        "ttft_seconds": 7.205312625039369,
+        "total_seconds": 8.697614500066265,
+        "traces": [
+          {
+            "type": "agent_route",
+            "agent": "supervisor",
+            "reason": "I classify this request and delegate by intent and available evidence."
+          },
+          {
+            "type": "llm_route",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "reason": "I use low-cost structured planning and extraction.",
+            "task": "plan"
+          },
+          {
+            "type": "llm_call",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "seconds": 2.473650160000034,
+            "cost_usd": 5.54e-05,
+            "usage": {
+              "input_tokens": 334,
+              "output_tokens": 44,
+              "total_tokens": 378,
+              "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+              },
+              "output_token_details": {
+                "reasoning": 0
+              }
+            },
+            "success": true
+          },
+          {
+            "type": "agent_route",
+            "agent": "research",
+            "reason": "This is a question about a reason for a character\u2019s action in the selected book; research should retrieve the relevant passage and answer with citations.",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [],
+              "available_results": [],
+              "errors": []
+            }
+          },
+          {
+            "type": "agent_input",
+            "agent": "research",
+            "question": "Use semantic retrieval to answer with citations: Why does Alice follow the White Rabbit at the beginning of the story?",
+            "book_id": "3d30c0bfae1bd4e8adb561c9a6dbdd6a",
+            "spoiler_limit": null,
+            "depth": "brief"
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "research"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 1.6511474780002118,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          },
+          {
+            "type": "rag_retrieval",
+            "agent": "research",
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t2720",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t2040"
+            ],
+            "seconds": 1.3579370110001037
+          },
+          {
+            "type": "agent_route",
+            "agent": "synthesis",
+            "reason": "All planned workers returned; I synthesize available results. ",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [
+                "research"
+              ],
+              "available_results": [
+                "research"
+              ],
+              "errors": []
+            }
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "answer"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 1.6785758290000103,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          }
+        ]
+      },
+      {
+        "question": "What happens when Alice drinks from the bottle labelled DRINK ME?",
+        "ttft_seconds": 4.7031143750064075,
+        "total_seconds": 6.376606291974895,
+        "traces": [
+          {
+            "type": "agent_route",
+            "agent": "supervisor",
+            "reason": "I classify this request and delegate by intent and available evidence."
+          },
+          {
+            "type": "llm_route",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "reason": "I use low-cost structured planning and extraction.",
+            "task": "plan"
+          },
+          {
+            "type": "llm_call",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "seconds": 1.2361447529999623,
+            "cost_usd": 5.38e-05,
+            "usage": {
+              "input_tokens": 333,
+              "output_tokens": 41,
+              "total_tokens": 374,
+              "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+              },
+              "output_token_details": {
+                "reasoning": 0
+              }
+            },
+            "success": true
+          },
+          {
+            "type": "agent_route",
+            "agent": "research",
+            "reason": "This is a question about a specific event in the selected book; research should retrieve the relevant passage and cite its original chunk.",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [],
+              "available_results": [],
+              "errors": []
+            }
+          },
+          {
+            "type": "agent_input",
+            "agent": "research",
+            "question": "Use semantic retrieval to answer with citations: What happens when Alice drinks from the bottle labelled DRINK ME?",
+            "book_id": "3d30c0bfae1bd4e8adb561c9a6dbdd6a",
+            "spoiler_limit": null,
+            "depth": "brief"
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "research"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 1.2853626169999188,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          },
+          {
+            "type": "rag_retrieval",
+            "agent": "research",
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t2720"
+            ],
+            "seconds": 0.7935332560000461
+          },
+          {
+            "type": "agent_route",
+            "agent": "synthesis",
+            "reason": "All planned workers returned; I synthesize available results. ",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [
+                "research"
+              ],
+              "available_results": [
+                "research"
+              ],
+              "errors": []
+            }
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "answer"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 2.6157094399998186,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          }
+        ]
+      },
+      {
+        "question": "What does the Time Traveller say the fourth dimension is?",
+        "ttft_seconds": 8.92614674998913,
+        "total_seconds": 10.619332624948584,
+        "traces": [
+          {
+            "type": "agent_route",
+            "agent": "supervisor",
+            "reason": "I classify this request and delegate by intent and available evidence."
+          },
+          {
+            "type": "llm_route",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "reason": "I use low-cost structured planning and extraction.",
+            "task": "plan"
+          },
+          {
+            "type": "llm_call",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "seconds": 2.6023876140000084,
+            "cost_usd": 5.24e-05,
+            "usage": {
+              "input_tokens": 329,
+              "output_tokens": 39,
+              "total_tokens": 368,
+              "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+              },
+              "output_token_details": {
+                "reasoning": 0
+              }
+            },
+            "success": true
+          },
+          {
+            "type": "agent_route",
+            "agent": "research",
+            "reason": "This is a question about a concept explained in The Time Machine; research should retrieve the relevant passage and cite it.",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [],
+              "available_results": [],
+              "errors": []
+            }
+          },
+          {
+            "type": "agent_input",
+            "agent": "research",
+            "question": "Use semantic retrieval to answer with citations: What does the Time Traveller say the fourth dimension is?",
+            "book_id": "217ea8b4dd49fc3e7a41f9ba0979bf05",
+            "spoiler_limit": null,
+            "depth": "brief"
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "research"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 3.515933657000005,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          },
+          {
+            "type": "rag_retrieval",
+            "agent": "research",
+            "chunk_ids": [
+              "217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t680",
+              "217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t1360",
+              "217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t0",
+              "217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t3400",
+              "217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t4080",
+              "217ea8b4dd49fc3e7a41f9ba0979bf05-s1-t2720"
+            ],
+            "seconds": 1.3110888820001492
+          },
+          {
+            "type": "agent_route",
+            "agent": "synthesis",
+            "reason": "All planned workers returned; I synthesize available results. ",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [
+                "research"
+              ],
+              "available_results": [
+                "research"
+              ],
+              "errors": []
+            }
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "answer"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 2.4557846909999625,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          }
+        ]
+      },
+      {
+        "question": "What does Mr Enfield see Hyde do to a little girl?",
+        "ttft_seconds": 5.853028915938921,
+        "total_seconds": 7.348481999943033,
+        "traces": [
+          {
+            "type": "agent_route",
+            "agent": "supervisor",
+            "reason": "I classify this request and delegate by intent and available evidence."
+          },
+          {
+            "type": "llm_route",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "reason": "I use low-cost structured planning and extraction.",
+            "task": "plan"
+          },
+          {
+            "type": "llm_call",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "seconds": 1.4484297520000382,
+            "cost_usd": 5.29e-05,
+            "usage": {
+              "input_tokens": 339,
+              "output_tokens": 38,
+              "total_tokens": 377,
+              "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+              },
+              "output_token_details": {
+                "reasoning": 0
+              }
+            },
+            "success": true
+          },
+          {
+            "type": "agent_route",
+            "agent": "research",
+            "reason": "This is a question about an event in the selected book; research should retrieve the passage and answer with citations.",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [],
+              "available_results": [],
+              "errors": []
+            }
+          },
+          {
+            "type": "agent_input",
+            "agent": "research",
+            "question": "Use semantic retrieval to answer with citations: What does Mr Enfield see Hyde do to a little girl?",
+            "book_id": "a5d768f28fd4799803f3f03eeef0fa5a",
+            "spoiler_limit": null,
+            "depth": "brief"
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "research"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 2.3161589250000816,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          },
+          {
+            "type": "rag_retrieval",
+            "agent": "research",
+            "chunk_ids": [
+              "a5d768f28fd4799803f3f03eeef0fa5a-s1-t4760",
+              "a5d768f28fd4799803f3f03eeef0fa5a-s1-t2720",
+              "a5d768f28fd4799803f3f03eeef0fa5a-s1-t8160",
+              "a5d768f28fd4799803f3f03eeef0fa5a-s1-t5440",
+              "a5d768f28fd4799803f3f03eeef0fa5a-s1-t8840",
+              "a5d768f28fd4799803f3f03eeef0fa5a-s1-t680"
+            ],
+            "seconds": 0.9792579290001413
+          },
+          {
+            "type": "agent_route",
+            "agent": "synthesis",
+            "reason": "All planned workers returned; I synthesize available results. ",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [
+                "research"
+              ],
+              "available_results": [
+                "research"
+              ],
+              "errors": []
+            }
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "answer"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 1.891104519999999,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          }
+        ]
+      },
+      {
+        "question": "What five constant factors does Sun Tzu say govern the art of war?",
+        "ttft_seconds": 14.849777541006915,
+        "total_seconds": 17.044136625016108,
+        "traces": [
+          {
+            "type": "agent_route",
+            "agent": "supervisor",
+            "reason": "I classify this request and delegate by intent and available evidence."
+          },
+          {
+            "type": "llm_route",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "reason": "I use low-cost structured planning and extraction.",
+            "task": "plan"
+          },
+          {
+            "type": "llm_call",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "seconds": 1.2964696209999147,
+            "cost_usd": 5.39e-05,
+            "usage": {
+              "input_tokens": 334,
+              "output_tokens": 41,
+              "total_tokens": 375,
+              "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+              },
+              "output_token_details": {
+                "reasoning": 0
+              }
+            },
+            "success": true
+          },
+          {
+            "type": "agent_route",
+            "agent": "research",
+            "reason": "This is a question about a specific claim in The Art of War; research can retrieve the relevant passage and cite its source.",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [],
+              "available_results": [],
+              "errors": []
+            }
+          },
+          {
+            "type": "agent_input",
+            "agent": "research",
+            "question": "Use semantic retrieval to answer with citations: What five constant factors does Sun Tzu say govern the art of war?",
+            "book_id": "4c0ff068cb8a2de1a53a7c103f3cadeb",
+            "spoiler_limit": null,
+            "depth": "brief"
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "research"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 11.711960357999942,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          },
+          {
+            "type": "rag_retrieval",
+            "agent": "research",
+            "chunk_ids": [
+              "4c0ff068cb8a2de1a53a7c103f3cadeb-s1-t680",
+              "4c0ff068cb8a2de1a53a7c103f3cadeb-s3-t2720",
+              "4c0ff068cb8a2de1a53a7c103f3cadeb-s1-t0",
+              "4c0ff068cb8a2de1a53a7c103f3cadeb-s3-t2040",
+              "4c0ff068cb8a2de1a53a7c103f3cadeb-s11-t6120",
+              "4c0ff068cb8a2de1a53a7c103f3cadeb-s1-t1360"
+            ],
+            "seconds": 0.8413467729999411
+          },
+          {
+            "type": "agent_route",
+            "agent": "synthesis",
+            "reason": "All planned workers returned; I synthesize available results. ",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [
+                "research"
+              ],
+              "available_results": [
+                "research"
+              ],
+              "errors": []
+            }
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "answer"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 2.5139283539999724,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          }
+        ]
+      },
+      {
+        "question": "How does Machiavelli distinguish hereditary principalities from new principalities?",
+        "ttft_seconds": 9.21176254202146,
+        "total_seconds": 16.948635749984533,
+        "traces": [
+          {
+            "type": "agent_route",
+            "agent": "supervisor",
+            "reason": "I classify this request and delegate by intent and available evidence."
+          },
+          {
+            "type": "llm_route",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "reason": "I use low-cost structured planning and extraction.",
+            "task": "plan"
+          },
+          {
+            "type": "llm_call",
+            "provider": "openai",
+            "model": "gpt-6-luna",
+            "seconds": 1.5223137330001464,
+            "cost_usd": 5.26e-05,
+            "usage": {
+              "input_tokens": 331,
+              "output_tokens": 39,
+              "total_tokens": 370,
+              "input_token_details": {
+                "cache_creation": 0,
+                "cache_read": 0
+              },
+              "output_token_details": {
+                "reasoning": 0
+              }
+            },
+            "success": true
+          },
+          {
+            "type": "agent_route",
+            "agent": "research",
+            "reason": "This is a question about a distinction in The Prince; research should retrieve relevant passages and cite their original chunk IDs.",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [],
+              "available_results": [],
+              "errors": []
+            }
+          },
+          {
+            "type": "agent_input",
+            "agent": "research",
+            "question": "Use semantic retrieval to answer with citations: How does Machiavelli distinguish hereditary principalities from new principalities?",
+            "book_id": "f02afa355ece4a909ec46d6c863e8623",
+            "spoiler_limit": null,
+            "depth": "brief"
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "research"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 4.461858428000141,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          },
+          {
+            "type": "rag_retrieval",
+            "agent": "research",
+            "chunk_ids": [
+              "f02afa355ece4a909ec46d6c863e8623-s1-t0",
+              "f02afa355ece4a909ec46d6c863e8623-s2-t0",
+              "f02afa355ece4a909ec46d6c863e8623-s9-t1360",
+              "f02afa355ece4a909ec46d6c863e8623-s7-t0",
+              "f02afa355ece4a909ec46d6c863e8623-s20-t680",
+              "f02afa355ece4a909ec46d6c863e8623-s18-t1360"
+            ],
+            "seconds": 1.157276425999953
+          },
+          {
+            "type": "agent_route",
+            "agent": "synthesis",
+            "reason": "All planned workers returned; I synthesize available results. ",
+            "state": {
+              "plan": [
+                "research"
+              ],
+              "completed": [
+                "research"
+              ],
+              "available_results": [
+                "research"
+              ],
+              "errors": []
+            }
+          },
+          {
+            "type": "llm_route",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "reason": "I use student-quota generation for focused book evidence.",
+            "task": "answer"
+          },
+          {
+            "type": "llm_call",
+            "provider": "nvidia",
+            "model": "nvidia/nemotron-3-ultra-550b-a55b",
+            "seconds": 9.115656154999897,
+            "cost_usd": null,
+            "usage": null,
+            "success": true
+          }
+        ]
+      }
+    ],
+    "retrieval_context_basis": "Actual rag_retrieval.chunk_ids, all six fixed questions and 24 metric calculations"
+  },
+  "budget_snapshot": {
+    "openai": {
+      "spent": 498718,
+      "reservations": {
+        "fb392421-1c8f-4ba2-8b3d-553088bd2c01": 1993,
+        "54738b13-7480-4553-8a0d-6076f6371cbf": 1647
+      }
+    },
+    "anthropic": {
+      "spent": 490894,
+      "reservations": {}
+    }
+  },
+  "deep_reader": {
+    "passed": true,
+    "ttft_seconds": 98.17092800000682,
+    "total_seconds": 113.421252500033,
+    "answer": "# Alice's Adventures in Wonderland: Story, Character, and Motivation\n\n## The Chronological Story\n\nYour book opens with Alice sitting idly by a riverbank until a White Rabbit\u2014upright, waistcoated, watch-checking\u2014catches her attention and she follows it down a rabbit-hole, beginning a long, musing fall through a tunnel lined with cupboards [book-s1-t0]. In the hall of doors that follows, she finds a tiny key, a fifteen-inch door too small to fit through, and a bottle marked \"DRINK ME,\" which she tastes only after confirming it isn't labeled poison [book-s1-t1360].\n\nThe narrative then moves through her size-changing crisis, a pool of her own tears, and the Caucus-race with the Mouse and assorted birds [book-s2, book-s3]. In Chapter IV, the White Rabbit mistakes her for his housemaid \"Mary Ann\" and sends her for gloves and a fan; she complies out of fright, drinks an unlabeled bottle in his house, and grows too large to escape [book-s4-t0]. The Caterpillar, the Duchess's chaotic household, the Cheshire Cat, the Mad Tea-Party, and the Mock Turtle's schooling story follow in sequence [book-s5 through book-s10]. The climax arrives with the trial of the Knave of Hearts: Alice observes the court, grows to enormous size again, is called as a witness, and directly contradicts the King's invented \"Rule Forty-two\" before the dream dissolves and she wakes beside her sister [book-s11-t0; book-s12-t0].\n\n**A note on evidence gaps:** The specialist research draws most heavily on Chapters I, IV, XI, and XII; some mid-book chapters (II, III, V\u2013X) are represented more thinly in the retrieved passages, so the connective detail there leans on the well-known structure of Lewis Carroll's 1865 text rather than directly quoted chunks.\n\n## Alice's Character Development\n\nAlice's arc moves from **impulsive curiosity toward assertive self-possession**. At the outset, she acts on reflex rather than deliberation\u2014she runs after the Rabbit \"never once considering how in the world she was to get out again\" [book-s1-t0], and in Chapter IV she fetches the Rabbit's gloves \"without trying to explain the mistake\" of his having taken her for his housemaid [book-s4-t0], showing a compliant, socially uncertain child.\n\nBy the trial chapters, this has shifted markedly. She mutters \"Stupid things!\" aloud despite courtroom silence rules [book-s11-t0], and when the King invents a rule barring anyone \"more than a mile high,\" she refuses to be cowed, retorting \"Then it ought to be Number One,\" directly challenging his authority [book-s12-t0]. Her literal growth in size through the story doubles as a figure for her growing willingness to resist the arbitrary logic of Wonderland's adults\u2014culminating, per the summary specialist's account, in her declaring the court \"a pack of cards\" [book-s12-t2040] before waking.\n\nThis reading is interpretive: the specialists note that intervening episodes (the Caterpillar's \"Who are you?\" challenge, the Duchess's moralizing, the croquet match) likely deepen this arc, per the novel's known structure, but not all of that connective text was available to confirm line-by-line.\n\n## Why Does Alice Follow the White Rabbit?\n\nSemantic retrieval of the opening chapter grounds her pursuit explicitly in curiosity about anomaly, not fear or instruction. The text states she had \"never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it, and burning with curiosity, she ran across the field after it\" [book-s1-t0]. Carroll frames this as unreflective: she follows without weighing consequences. This same impulsive-curiosity pattern recurs when she drinks and eats unlabeled substances in the hall of doors [book-s1-t1360], suggesting her engagement with the Rabbit is really fascination with the strange world he signals, rather than any obligation to him personally.\n\n**Limitation:** No retrieved passage offers Alice's own interior reasoning in first person beyond this description; the inference rests on the narrator's framing rather than Alice's direct self-report.",
+    "traces": [
+      {
+        "type": "agent_route",
+        "agent": "supervisor",
+        "reason": "I classify this request and delegate by intent and available evidence."
+      },
+      {
+        "type": "llm_route",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "reason": "I use low-cost structured planning and extraction.",
+        "task": "plan"
+      },
+      {
+        "type": "llm_call",
+        "provider": "openai",
+        "model": "gpt-6-luna",
+        "seconds": 2.0615842540000813,
+        "cost_usd": 6.34e-05,
+        "usage": {
+          "input_tokens": 349,
+          "output_tokens": 57,
+          "total_tokens": 406,
+          "input_token_details": {
+            "cache_creation": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 0
+          }
+        },
+        "success": true
+      },
+      {
+        "type": "agent_route",
+        "agent": "summary",
+        "reason": "This is a book-related request combining a chronological summary, analysis of Alice\u2019s character development, and evidence-based interpretation of why she follows the White Rabbit; the requested specialists cover these tasks.",
+        "state": {
+          "plan": [
+            "summary",
+            "data",
+            "research"
+          ],
+          "completed": [],
+          "available_results": [],
+          "errors": []
+        }
+      },
+      {
+        "type": "agent_input",
+        "agent": "summary",
+        "question": "Summarize this book's chronological story, explain Alice's character development, and use semantic retrieval to support why she follows the White Rabbit. Use Summary, Data, and Research specialists.",
+        "book_id": "3d30c0bfae1bd4e8adb561c9a6dbdd6a",
+        "spoiler_limit": null,
+        "depth": "deep"
+      },
+      {
+        "type": "summary_input",
+        "agent": "summary",
+        "book_id": "3d30c0bfae1bd4e8adb561c9a6dbdd6a",
+        "question": "Summarize this book's chronological story, explain Alice's character development, and use semantic retrieval to support why she follows the White Rabbit. Use Summary, Data, and Research specialists.",
+        "spoiler_limit": null,
+        "maps": [
+          {
+            "chapter": 1,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t2720"
+            ]
+          },
+          {
+            "chapter": 2,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s2-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s2-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s2-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s2-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s2-t2720"
+            ]
+          },
+          {
+            "chapter": 3,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s3-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s3-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s3-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s3-t2040"
+            ]
+          },
+          {
+            "chapter": 4,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t2720",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t3400"
+            ]
+          },
+          {
+            "chapter": 5,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s5-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s5-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s5-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s5-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s5-t2720"
+            ]
+          },
+          {
+            "chapter": 6,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t2720",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s6-t3400"
+            ]
+          },
+          {
+            "chapter": 7,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s7-t2720"
+            ]
+          },
+          {
+            "chapter": 8,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s8-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s8-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s8-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s8-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s8-t2720"
+            ]
+          },
+          {
+            "chapter": 9,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s9-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s9-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s9-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s9-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s9-t2720"
+            ]
+          },
+          {
+            "chapter": 10,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s10-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s10-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s10-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s10-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s10-t2720"
+            ]
+          },
+          {
+            "chapter": 11,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t2040"
+            ]
+          },
+          {
+            "chapter": 12,
+            "chunk_ids": [
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t0",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t680",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t1360",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t2040",
+              "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t2720"
+            ]
+          }
+        ]
+      },
+      {
+        "type": "llm_route",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
+        "task": "summary"
+      },
+      {
+        "type": "llm_call",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "seconds": 27.84429374499996,
+        "cost_usd": 0.03907,
+        "usage": {
+          "input_tokens": 7260,
+          "output_tokens": 2455,
+          "total_tokens": 9715,
+          "input_token_details": {
+            "cache_creation": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 314
+          }
+        },
+        "success": true
+      },
+      {
+        "type": "chapter_coverage",
+        "agent": "summary",
+        "reason": "I used all 12 evidence maps within the spoiler boundary."
+      },
+      {
+        "type": "agent_route",
+        "agent": "data",
+        "reason": "I select the next unfinished worker from my task-specific plan. ",
+        "state": {
+          "plan": [
+            "summary",
+            "data",
+            "research"
+          ],
+          "completed": [
+            "summary"
+          ],
+          "available_results": [
+            "summary"
+          ],
+          "errors": []
+        }
+      },
+      {
+        "type": "agent_input",
+        "agent": "data",
+        "question": "Summarize this book's chronological story, explain Alice's character development, and use semantic retrieval to support why she follows the White Rabbit. Use Summary, Data, and Research specialists.",
+        "book_id": "3d30c0bfae1bd4e8adb561c9a6dbdd6a",
+        "spoiler_limit": null,
+        "depth": "deep"
+      },
+      {
+        "type": "structured_query",
+        "agent": "data",
+        "reason": "I queried 12 JSON records for characters."
+      },
+      {
+        "type": "llm_route",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
+        "task": "data"
+      },
+      {
+        "type": "llm_call",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "seconds": 29.941608049000024,
+        "cost_usd": 0.034402,
+        "usage": {
+          "input_tokens": 3726,
+          "output_tokens": 2695,
+          "total_tokens": 6421,
+          "input_token_details": {
+            "cache_creation": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 745
+          }
+        },
+        "success": true
+      },
+      {
+        "type": "agent_route",
+        "agent": "research",
+        "reason": "I select the next unfinished worker from my task-specific plan. ",
+        "state": {
+          "plan": [
+            "summary",
+            "data",
+            "research"
+          ],
+          "completed": [
+            "summary",
+            "data"
+          ],
+          "available_results": [
+            "summary",
+            "data"
+          ],
+          "errors": []
+        }
+      },
+      {
+        "type": "agent_input",
+        "agent": "research",
+        "question": "Summarize this book's chronological story, explain Alice's character development, and use semantic retrieval to support why she follows the White Rabbit. Use Summary, Data, and Research specialists.",
+        "book_id": "3d30c0bfae1bd4e8adb561c9a6dbdd6a",
+        "spoiler_limit": null,
+        "depth": "deep"
+      },
+      {
+        "type": "llm_route",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
+        "task": "research"
+      },
+      {
+        "type": "llm_call",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "seconds": 33.19943735800007,
+        "cost_usd": 0.04412,
+        "usage": {
+          "input_tokens": 6900,
+          "output_tokens": 3032,
+          "total_tokens": 9932,
+          "input_token_details": {
+            "cache_creation": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 815
+          }
+        },
+        "success": true
+      },
+      {
+        "type": "rag_retrieval",
+        "agent": "research",
+        "chunk_ids": [
+          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0",
+          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t0",
+          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t0",
+          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t0",
+          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t2040",
+          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360"
+        ],
+        "seconds": 0.8716537349998816
+      },
+      {
+        "type": "mcp_tool_call",
+        "agent": "research",
+        "tool": "tavily_search",
+        "reason": "Alice's Adventures in Wonderland Lewis Carroll author biography film adaptations",
+        "transport": "streamable_http"
+      },
+      {
+        "type": "agent_route",
+        "agent": "synthesis",
+        "reason": "All planned workers returned; I synthesize available results. ",
+        "state": {
+          "plan": [
+            "summary",
+            "data",
+            "research"
+          ],
+          "completed": [
+            "summary",
+            "data",
+            "research"
+          ],
+          "available_results": [
+            "summary",
+            "data",
+            "research"
+          ],
+          "errors": []
+        }
+      },
+      {
+        "type": "llm_route",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
+        "task": "answer"
+      },
+      {
+        "type": "llm_call",
+        "provider": "anthropic",
+        "model": "claude-sonnet-5",
+        "seconds": 15.831469685999991,
+        "cost_usd": 0.034316,
+        "usage": {
+          "input_tokens": 9983,
+          "output_tokens": 1435,
+          "total_tokens": 11418,
+          "input_token_details": {
+            "cache_creation": 0,
+            "cache_read": 0
+          },
+          "output_token_details": {
+            "reasoning": 0
+          }
+        },
+        "success": true
+      }
+    ]
+  },
+  "prior_released_evaluation": {
     "code_commit": "a84c8097567349688351a513b5da8ae7bc91d6c3",
     "ragas": [
       {
@@ -1526,211 +2790,16 @@
     ],
     "retrieval_context_basis": "rag_retrieval trace chunk_ids; not all specialist citations"
   },
-  "budget_snapshot": {
-    "openai": {
-      "reservations": {
-        "fb392421-1c8f-4ba2-8b3d-553088bd2c01": 1993
-      },
-      "spent": 473099
-    },
-    "anthropic": {
-      "reservations": {
-        "9f06ea6e-0145-42ff-b02b-1246453b0957": 57254
-      },
-      "spent": 178154
-    }
-  },
-  "deep_reader": {
-    "passed": true,
-    "ttft_seconds": 91.67702104197815,
-    "total_seconds": 107.15380220802035,
-    "answer": "# Alice's Adventures in Wonderland: Story, Character, and the Rabbit's Pull\n\n## Chronological Story\n\nThe novel opens with Alice, bored on a riverbank, who spots a White Rabbit talking to itself and checking a pocket watch \u2014 and chases it down a rabbit-hole [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0]. She falls into a long shaft lined with cupboards, lands in a hall of locked doors, and begins the famous size-changing sequence: a \"DRINK ME\" bottle, a growth-cake, and a pool of her own tears [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360, book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s2-t0].\n\nShe dries off among Wonderland creatures after a Caucus-race, then is mistaken by the Rabbit for his housemaid \"Mary Ann\" and sent to fetch gloves; she grows too large for his house and escapes [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t0]. The Caterpillar's mushroom teaches her to regulate her size, after which she passes through the Duchess's chaotic household, the Cheshire Cat, and the Mad Tea-Party [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s5-t0 through s7-t2720].\n\nShe then enters the Queen's garden for an absurd croquet match, hears the Mock Turtle's and Gryphon's stories, and arrives at the trial of the Knave of Hearts, accused of stealing tarts [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t0]. There, the King invokes a fabricated \"Rule Forty-two\" to expel her; she refuses, grows to full size, and declares the court \"nothing but a pack of cards\" before waking beside her sister [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t0, book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t1360].\n\n**Gap in evidence:** My supplied chunks do not cover Chapters II\u2013III or V\u2013X in full detail, so some connective episodes (the Pool of Tears' aftermath, Pig and Pepper, the Queen's full croquet match) are summarized only at a high level from chapter headers, not verified chunk text.\n\n## Alice's Character Development\n\nAcross the evidenced chapters, Alice shifts through distinct phases:\n\n- **Curious impulsiveness (Ch. 1):** She chases the Rabbit \"burning with curiosity,\" entering the hole \"never once considering how in the world she was to get out again\" [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0].\n- **Emerging caution (Ch. 1):** Before drinking the bottle, she checks it isn't \"marked poison,\" citing cautionary tales she remembered from schoolbooks [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360].\n- **Compliant passivity (Ch. 4):** She obeys the Rabbit's mistaken order to fetch gloves \"without trying to explain the mistake\" [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t0].\n- **Growing assertiveness (Ch. 8\u201311):** She defies the Queen over the gardeners and challenges the Mock Turtle's illogical lessons [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s8-t680, book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s9-t2720].\n- **Confident self-possession (Ch. 12):** She rebuts the King's invented rule directly \u2014 \"that's not a regular rule: you invented it just now\" \u2014 and dismantles the court's authority altogether [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t0].\n\nThis progression \u2014 from impulsive curiosity toward critical, self-assured defiance \u2014 is a *reasonable synthesis* of the evidence rather than an explicit claim the text states outright; I offer it as interpretation.\n\n## Why Does Alice Follow the White Rabbit?\n\nSemantic retrieval isolates the precise trigger. Alice notes the Rabbit's anomaly directly: \"it flashed across her mind that she had never before seen a rabbit with either a waistcoat-pocket, or a watch to take out of it\" [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0]. The text explicitly names her motive as curiosity: \"burning with curiosity, she ran across the field after it\" [book-3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0]. No rapport, trust, or rescue motive appears in the evidence \u2014 only an impossible detail (a clothed, timekeeping animal) overriding her initial drowsy boredom, with risk entirely unconsidered. Any broader reading (e.g., escapism) remains plausible but is extrapolation beyond the stated text.",
-    "traces": [
-      {
-        "type": "agent_route",
-        "agent": "supervisor",
-        "reason": "I classify this request and delegate by intent and available evidence."
-      },
-      {
-        "type": "llm_route",
-        "provider": "openai",
-        "model": "gpt-6-luna",
-        "reason": "I use low-cost structured planning and extraction.",
-        "task": "plan"
-      },
-      {
-        "type": "llm_call",
-        "provider": "openai",
-        "model": "gpt-6-luna",
-        "seconds": 2.2110422959999596,
-        "cost_usd": 6.45e-05,
-        "usage": {
-          "input_tokens": 225,
-          "output_tokens": 84,
-          "total_tokens": 309,
-          "input_token_details": {
-            "cache_creation": 0,
-            "cache_read": 0
-          },
-          "output_token_details": {
-            "reasoning": 0
-          }
-        },
-        "success": true
-      },
-      {
-        "type": "agent_route",
-        "agent": "summary",
-        "reason": "Summary should cover the book\u2019s chronological story; Data should identify and support Alice\u2019s character development and relevant events; Research should address the semantic-retrieval question of why she follows the White Rabbit. The supplied material contains no book passages or retrieval results, so the specialists should ground any answer in provided evidence and state uncertainty."
-      },
-      {
-        "type": "agent_route",
-        "agent": "data",
-        "reason": "Summary should cover the book\u2019s chronological story; Data should identify and support Alice\u2019s character development and relevant events; Research should address the semantic-retrieval question of why she follows the White Rabbit. The supplied material contains no book passages or retrieval results, so the specialists should ground any answer in provided evidence and state uncertainty."
-      },
-      {
-        "type": "agent_route",
-        "agent": "research",
-        "reason": "Summary should cover the book\u2019s chronological story; Data should identify and support Alice\u2019s character development and relevant events; Research should address the semantic-retrieval question of why she follows the White Rabbit. The supplied material contains no book passages or retrieval results, so the specialists should ground any answer in provided evidence and state uncertainty."
-      },
-      {
-        "type": "llm_route",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
-        "task": "summary"
-      },
-      {
-        "type": "llm_call",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "seconds": 30.11416968499998,
-        "cost_usd": 0.041184,
-        "usage": {
-          "input_tokens": 7222,
-          "output_tokens": 2674,
-          "total_tokens": 9896,
-          "input_token_details": {
-            "cache_creation": 0,
-            "cache_read": 0
-          },
-          "output_token_details": {
-            "reasoning": 666
-          }
-        },
-        "success": true
-      },
-      {
-        "type": "chapter_coverage",
-        "agent": "summary",
-        "reason": "I used all 12 evidence maps within the spoiler boundary."
-      },
-      {
-        "type": "structured_query",
-        "agent": "data",
-        "reason": "I queried 12 JSON records for characters."
-      },
-      {
-        "type": "llm_route",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
-        "task": "data"
-      },
-      {
-        "type": "llm_call",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "seconds": 19.605313770000066,
-        "cost_usd": 0.024904,
-        "usage": {
-          "input_tokens": 3697,
-          "output_tokens": 1751,
-          "total_tokens": 5448,
-          "input_token_details": {
-            "cache_creation": 0,
-            "cache_read": 0
-          },
-          "output_token_details": {
-            "reasoning": 0
-          }
-        },
-        "success": true
-      },
-      {
-        "type": "llm_route",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
-        "task": "research"
-      },
-      {
-        "type": "llm_call",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "seconds": 35.304510202999836,
-        "cost_usd": 0.046222,
-        "usage": {
-          "input_tokens": 6871,
-          "output_tokens": 3248,
-          "total_tokens": 10119,
-          "input_token_details": {
-            "cache_creation": 0,
-            "cache_read": 0
-          },
-          "output_token_details": {
-            "reasoning": 1132
-          }
-        },
-        "success": true
-      },
-      {
-        "type": "rag_retrieval",
-        "agent": "research",
-        "chunk_ids": [
-          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t0",
-          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s12-t0",
-          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t0",
-          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s4-t0",
-          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s11-t2040",
-          "3d30c0bfae1bd4e8adb561c9a6dbdd6a-s1-t1360"
-        ],
-        "seconds": 1.0227939569999762
-      },
-      {
-        "type": "mcp_tool_call",
-        "agent": "research",
-        "tool": "tavily_search",
-        "reason": "Alice's Adventures in Wonderland Lewis Carroll author biography film adaptations",
-        "transport": "streamable_http"
-      },
-      {
-        "type": "llm_route",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "reason": "I use Sonnet 5 for detailed cross-section synthesis.",
-        "task": "answer"
-      },
-      {
-        "type": "llm_call",
-        "provider": "anthropic",
-        "model": "claude-sonnet-5",
-        "seconds": 15.855504308000036,
-        "cost_usd": 0.036928,
-        "usage": {
-          "input_tokens": 9519,
-          "output_tokens": 1789,
-          "total_tokens": 11308,
-          "input_token_details": {
-            "cache_creation": 0,
-            "cache_read": 0
-          },
-          "output_token_details": {
-            "reasoning": 0
-          }
-        },
-        "success": true
-      }
-    ]
+  "release_verification": {
+    "code_commit": "d21cf5d459101978799e18713614f2432bc0d49f",
+    "ci_run": 40598550163,
+    "python_passed": 168,
+    "javascript_passed": 90,
+    "candidate_passed": 6,
+    "public_passed": 6,
+    "read_stress_requests": 120,
+    "read_stress_workers": 12,
+    "read_stress_seconds": 21.847,
+    "read_stress_all_status_200": true
   }
 }
