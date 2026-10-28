@@ -285,3 +285,33 @@ def test_chapter_scope_suppresses_research_and_edition_web_search(tmp_path):
 
     asyncio.run(run())
     assert calls == []
+
+
+@pytest.mark.parametrize("identifier", ["book-s3-t2", "other-owner-s1-t0", "book-s1-t999"])
+def test_synthesis_rejects_fabricated_or_out_of_scope_citations(tmp_path, identifier):
+    class InvalidCitation(ProviderFixture):
+        async def stream(self, system, prompt, **kwargs):
+            assert json.loads(prompt)["allowed_source_ids"] == ["book-s1-t0"]
+            assert "Never shorten an identifier" in system
+            yield "An unsupported answer ["
+            yield identifier
+            yield "]."
+
+    settings = Settings(_env_file=None, data_dir=tmp_path)
+    graph = BookGraph(
+        settings, SQLiteStore(tmp_path / "state.sqlite3"), LibraryFixture(), InvalidCitation()
+    )
+    request = ChatRequest(
+        query="Explain the opening", session_id=uuid.uuid4(), turn_id=uuid.uuid4(), book_id="book"
+    )
+    events = []
+
+    async def run():
+        async for event in graph.stream("owner", request, []):
+            events.append(event)
+
+    with pytest.raises(ValueError, match="unverified source identifier"):
+        asyncio.run(run())
+    assert any(d.get("type") == "citation_validation" and d["valid"] is False for _, d in events)
+    snapshot = graph.graph.get_state({"configurable": {"thread_id": f"owner:{request.session_id}"}})
+    assert snapshot.values["answer"] == ""

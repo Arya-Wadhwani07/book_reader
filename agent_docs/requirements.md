@@ -152,7 +152,7 @@ I use shared Tavily MCP calls as my protocol evidence, separately from the live-
 ## Engineering and release checks
 
 - [x] **WORK-REVIEW:** Reviewed imports, module consumers, executable scripts, static assets, and dependencies. Ruff and formatting checks passed; I found no unused imports or orphaned source files in that review.
-- [x] **TEST-OFFLINE:** Passed 168 Python tests and 90 JavaScript tests with no failures, errors, or skips. I isolate offline state, credentials, network access, and temporary files inside the project.
+- [x] **TEST-OFFLINE:** Passed 171 Python tests and 90 JavaScript tests with no failures, errors, or skips. I isolate offline state, credentials, network access, and temporary files inside the project.
 - [x] **TEST-FAILURES:** Cover invalid input, worker/provider failures, truncation, stream framing, silent cancellation, ownership, duplicate turns, expired leases, storage failure, and ingestion retry/idempotency.
 - [x] **TEST-LONG-BOOKS:** Checked real-tokenizer Walden chunks and substantial 300/400/500-page PDF fixtures, plus over-limit, malformed, encrypted, and unsafe EPUB inputs.
 - [x] **TEST-LIVE:** Verified PDF/EPUB/TXT ingestion, source isolation, multi-provider answers, shared MCP tools, unrehearsed fiction/nonfiction questions, off-topic redirects, and exact saved-answer recovery through another revision.
@@ -161,9 +161,12 @@ I use shared Tavily MCP calls as my protocol evidence, separately from the live-
 - [x] **DOC-REVIEW:** Checked Markdown links, required paths, first-person wording, sample queries, corpus reproducibility, and the four-section process log containing my personal reflection. I preserve instructor references unchanged.
 - [x] **PACKAGE:** Build the source ZIP from tracked files, check required contents and archive integrity, and scan its contents—including the expanded corpus snapshot—for configured secrets. I exclude environments, private state, caches, credentials, and generated vector binaries.
 
+- [x] **TEST-CITATIONS:** Added three regression cases for fabricated, other-owner, and nonexistent chunk IDs. I strengthened live checks to compare answer citations with authorized source cards and retained the failed qualitative review in evaluation evidence.
+- [ ] **RELEASE-CITATIONS:** Verify the revised prompts and citation validation through candidate/public CI, review the three added book answers, then rebuild the submission ZIP from the verified revision.
+
 ## Evidence and verification limits
 
-My full measurements are in [evaluation_results.json](../docs/evaluation_results.json). My application code passed [CI run 40617091518](https://github.com/Arya-Wadhwani07/book_reader/actions/runs/40617091518) at commit `155eaab`: six candidate and six public tests, with no failures or skips. Later edits improve documentation without changing application code; each push starts a new CI/CD run.
+My full measurements are in [evaluation_results.json](../docs/evaluation_results.json). My application code passed [CI run 40624189921](https://github.com/Arya-Wadhwani07/book_reader/actions/runs/40624189921) at commit `0ddf7b4`: six candidate and six public tests, with no failures or skips. Later edits improve documentation without changing application code; each push starts a new CI/CD run.
 
 My final RAGAS means are faithfulness **0.9028**, answer relevance **0.8931**, context precision **0.7361**, and context recall **1.0000**. These cover six fixed questions and 24 completed metric calculations, not every possible answer.
 
@@ -171,7 +174,7 @@ My browser checks covered streaming, original passages, traces, refresh, Stop, s
 
 - [ ] **MANUAL-A11Y:** Verify actual 200% browser zoom, screen-reader announcements, and reduced-motion interaction. Responsive-width and semantic-markup checks do not replace those observations.
 - [ ] **MANUAL-UPLOAD:** Verify the browser file picker and private-upload retry/category controls. I kept existing file permissions as requested; API and unit checks already cover formats, retries, and category ownership.
-- [ ] **MANUAL-DIAGRAM:** Visually inspect the four rendered Mermaid diagrams. I have checked their source structure and state/flow descriptions.
+- [x] **MANUAL-DIAGRAM:** Rendered and visually inspected all four Mermaid diagrams. I changed the compressed horizontal RAG diagram to a readable vertical flow and verified all four SVGs rendered without errors.
 
 I do not treat these unexecuted observations as missing application features or as passing tests. I also do not claim exhaustive model correctness, a measured final infrastructure invoice, or a verified remaining cloud-credit balance.
 
@@ -187,7 +190,9 @@ I do not treat these unexecuted observations as missing application features or 
 - [x] **SUBMIT-08:** Review the ZIP and all written deliverables for completeness, valid links, consistency with deployed behavior, first-person prose, and absence of secrets or unfinished-step lists outside this file.
 - [x] **SUBMIT-09:** Reconcile every applicable requirement against evidence, account explicitly for unselected alternatives, and audit all six rubric categories before submission. [PDF pp. 14–16]
 
-My submission consists of the public URL **https://book-companion-a6lyssed7q-uw.a.run.app** and the reviewed source ZIP. The local package is `reports/book_companion_source_draft.zip`; I retain the draft label while manual verification limits and the actual hand-in remain open.
+My Brightspace submission consists of one URL in the comments—**https://book-companion-a6lyssed7q-uw.a.run.app**—and five files: the source ZIP, `docs/architecture.md`, `docs/evaluation.md`, `PROCESS_LOG.md`, and `README.md`. The local package is `reports/book_companion_source_draft.zip`; I retain the draft label while manual verification limits and the actual hand-in remain open.
+
+My two-pass submission review checks document content against the required sections, then verifies the packaged copies against the working files. Architecture includes the exact Research augmentation prompt, typed graph state, and the implemented deep-mode routing rule; evaluation includes exact model IDs and the token-cost calculation.
 
 ## Academic integrity
 

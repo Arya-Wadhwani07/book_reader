@@ -22,7 +22,7 @@ The four metrics answer different questions about my results:
 
 With only six questions, my scores cover a small sample of the library. Recall was high, but retrieval still returned irrelevant passages, and some answers added unsupported detail. I kept those weaker results in the report. My initial baseline used revision `book-companion-00001-dac`.
 
-During review, I corrected the evaluator to use actual `rag_retrieval.chunk_ids` rather than all citations from Summary/Data. I reused the already-generated responses after correcting that context selection; I did not regenerate answers to improve their scores. My prior `a84c809` run exercised provider recovery; I preserve that run separately in the JSON. I regenerated all six fixed questions on the final implementation, without selecting answers by score. My pinned RAGAS compatibility wrappers emit deprecation notices; all metrics still execute, and I do not suppress evaluator failures.
+During review, I corrected the evaluator to use actual `rag_retrieval.chunk_ids` rather than all citations from Summary/Data. I reused the already-generated responses after correcting that context selection; I did not regenerate answers to improve their scores. My prior `a84c809` run exercised provider recovery; I preserve that run separately in the JSON. I regenerated all six fixed questions on application commit `d21cf5d`, without selecting answers by score. My pinned RAGAS compatibility wrappers emit deprecation notices; all metrics still execute, and I do not suppress evaluator failures.
 
 | Question | Retrieval (s) | LLM work (s) | Total (s) | TTFT (s) | Paid generation (USD) |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -35,6 +35,12 @@ During review, I corrected the evaluator to use actual `rag_retrieval.chunk_ids`
 
 Retrieval and generation are timed separately in my measurements. My client total includes obtaining original passages for verification; TTFT ends at the first streamed token. The paid-generation column excludes separately reserved embeddings, student-plan NVIDIA usage, and infrastructure costs. I retain exact usage traces and answers in the JSON evidence.
 
+## Additional book coverage and citation review
+
+My later review added three ordinary reader questions covering Frankenstein, Walden, and Franklin’s autobiography, without specifying worker names. The first run exposed two quality defects despite successful transport and source-panel checks: an unsupported Walden quotation and invented Franklin chunk IDs. I retain the answers and passages under `additional_books_pre_fix` in the raw evidence.
+
+The revised Research prompt explicitly rejects remembered quotations absent from retrieved passages. Synthesis receives an authorized source-ID list and cannot report successful completion with an unknown chunk identifier. Regression tests cover fabricated, other-owner, and nonexistent chunk IDs; the expanded live suite also compares answer IDs against emitted sources. These checks establish source identity, not semantic entailment. The six-question RAGAS table above measures commit `d21cf5d`, before this later prompt and validation change.
+
 ## Latency measurements
 
 To compare idle and warm behavior, I used a separately tagged revision and repeated the same two-sentence Alice question. End-to-end TTFT includes anonymous-session bootstrap and chat creation; query TTFT starts immediately before the chat request. My first-hit figure includes client/network/setup overhead and is not a measurement of container initialization alone.
@@ -44,7 +50,7 @@ To compare idle and warm behavior, I used a separately tagged revision and repea
 | first_hit_after_idle | 25.561 | 38.724 | 12.791 | 18.533 |
 | warm | 0.240 | 11.447 | 11.037 | 12.089 |
 
-For those same calls, my separate retrieval and generation measurements were: My total includes orchestration, checkpoint persistence, and network overhead, so it exceeds the sum of model execution and vector retrieval.
+The following table separates retrieval from generation for those same calls. My total also includes orchestration, checkpoint persistence, and network overhead, so it exceeds their sum.
 
 | Run | Retrieval (s) | Sum of LLM calls (s) | Recorded paid generation cost (USD) |
 | --- | ---: | ---: | ---: |
@@ -57,11 +63,11 @@ NVIDIA did not return billed usage for my student-plan calls, so those costs rem
 
 For my provider comparison, each model received the same Alice question and the same two original chunks through the budgeted adapter. For each call, I checked that the response contained an answer and an original chunk ID. These are direct generation timings, not full graph or Cloud Run timings.
 
-| Provider | TTFT (s) | Total (s) | Recorded token cost (USD) |
+| Provider and model | TTFT (s) | Total (s) | Recorded token cost (USD) |
 | --- | ---: | ---: | ---: |
-| nvidia | 1.633 | 2.607 | Student plan; usage unavailable |
-| openai | 1.095 | 1.841 | $0.0001954 |
-| anthropic | 1.085 | 3.504 | $0.0068420 |
+| NVIDIA `nvidia/nemotron-3-ultra-550b-a55b` | 1.633 | 2.607 | Student plan; usage unavailable |
+| OpenAI `gpt-6-luna` | 1.095 | 1.841 | $0.0001954 |
+| Anthropic `claude-sonnet-5` | 1.085 | 3.504 | $0.0068420 |
 
 All three answers identified curiosity and the pocket watch. OpenAI was shortest; NVIDIA added modest explanation; Sonnet explicitly separated fact from interpretation. I would not rank the providers from this one example; it shows how they handled the same evidence in this run. Exact models and dated prices appear in my [architecture](architecture.md) and [README](../README.md).
 
@@ -77,6 +83,8 @@ My indexed corpus contains eight complete public-domain books: 425,982 extracted
 - **Regression coverage:** Integration exposed browser-origin rejection behind TLS termination, unreliable explicit-retrieval delegation, a missing ingestion-job override permission, Unicode boundary corruption, transient provider failures, and incomplete generation. I retain regression checks and failed-run evidence.
 
 ## Costs and interpretation
+
+My per-query paid-generation estimate sums each model call as `(input_tokens × input_rate + output_tokens × output_rate) / 1,000,000`. The rates recorded for October 27, 2026 are $0.10/$0.50 for GPT-6 Luna input/output and $2.00/$10.00 for Sonnet 5. Query embeddings are separate at $0.02 per million tokens; NVIDIA student-plan usage is unknown where the API supplied no billing metadata. This is a token-based estimate rather than an account invoice, and the query table labels its exclusions.
 
 All paid ingestion, generation, evaluation, recovery attempts, and verification share my transactional spending ledger. My later shared-ledger snapshot recorded $0.498718 spent plus $0.003640 reserved for OpenAI, and $0.490894 spent plus $0 reserved for Anthropic. Active verification calls explain the reservations. Every call uses the same ledger and cannot reserve above the approved $5/$2.50 limits. Embedding reservations conservatively use UTF-8 byte counts because the wrapper does not return billed token usage; generation uses reported tokens when available.
 
@@ -107,3 +115,5 @@ My Chrome review of the deployed service covered:
 - 390/640/1024-pixel viewports, where content and scroll widths matched. The checked rendered text pairs had contrast ratios from 5.63:1 to 13.95:1.
 
 I kept the existing browser file permissions, so my upload evidence comes from API checks for all three formats, not the file picker. I also did not establish actual 200% browser zoom through keyboard automation; responsive-width checks are separate evidence. I record those verification limits in my requirements checklist.
+
+My architecture review rendered all four Mermaid diagrams successfully. I changed the RAG flow to a vertical layout after finding that its horizontal version compressed the labels, then inspected the revised nodes and connections.

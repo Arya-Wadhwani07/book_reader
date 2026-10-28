@@ -1,6 +1,7 @@
 import io
 import json
 import os
+import re
 import time
 import uuid
 
@@ -154,3 +155,72 @@ def test_live_summary_inputs_and_unrehearsed_book_question(client):
             source = client.get(f"/api/books/{book['id']}/sources/{identifier}")
             assert source.status_code == 200 and source.json()["text"]
     assert not any(data.get("type") == "mcp_tool_call" for _, data in events)
+
+
+@pytest.mark.parametrize(
+    "gutenberg_id,query",
+    [
+        (
+            41445,
+            "Why does Walton want a friend in his opening letters, despite having a crew? Distinguish his words from your interpretation.",
+        ),
+        (
+            205,
+            "Why does Thoreau say he went to the woods, and what did he want to learn there? Support your explanation with passages.",
+        ),
+        (
+            148,
+            "How did Franklin use his notebook and weekly routine to work on his virtues? Explain the method rather than just listing the virtues.",
+        ),
+    ],
+)
+def test_live_additional_books(client, record_testsuite_property, gutenberg_id, query):
+    book = next(b for b in client.get("/api/books").json() if b.get("gutenberg_id") == gutenberg_id)
+    chat = client.post("/api/chats", json={}).json()
+    started = time.monotonic()
+    response = client.post(
+        "/api/chat",
+        json={
+            "query": query,
+            "session_id": chat["id"],
+            "turn_id": str(uuid.uuid4()),
+            "book_id": book["id"],
+            "depth": "brief",
+            "spoiler_limit": None,
+        },
+    )
+    total = time.monotonic() - started
+    response.raise_for_status()
+    events = list(read_events(io.BytesIO(response.content)))
+    assert events[-1][0] == "done" and events[-1][1]["success"] is True
+    traces = [data for event, data in events if event == "trace"]
+    assert not any(t.get("type") == "worker_failure" for t in traces)
+    assert any(t.get("type") == "agent_route" and t.get("state") for t in traces)
+    assert len({t["provider"] for t in traces if t.get("type") == "llm_route"}) >= 2
+    answer = "".join(data["text"] for event, data in events if event == "token")
+    assert answer.strip()
+    citations = [data for event, data in events if event == "citation" and data.get("chunk_id")]
+    assert citations
+    cited_ids = set(re.findall(r"(?<![\w-])[\w-]+-s\d+-t\d+(?![\w-])", answer))
+    assert cited_ids
+    assert cited_ids <= {citation["chunk_id"] for citation in citations}
+    passages = []
+    for citation in citations:
+        source = client.get(f"/api/books/{book['id']}/sources/{citation['chunk_id']}")
+        source.raise_for_status()
+        assert source.json()["text"].strip()
+        passages.append({"chunk_id": citation["chunk_id"], "text": source.json()["text"]})
+    saved = client.get(f"/api/chats/{chat['id']}").json()["turns"][0]
+    assert saved["status"] == "complete" and saved["answer"] == answer
+    record_testsuite_property(
+        f"additional_book_{gutenberg_id}",
+        json.dumps(
+            {
+                "question": query,
+                "answer": answer,
+                "total_seconds": total,
+                "traces": traces,
+                "passages": passages,
+            }
+        ),
+    )

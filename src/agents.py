@@ -1,5 +1,6 @@
 import asyncio
 import json
+import re
 import time
 from typing import TypedDict
 from urllib.parse import urlencode
@@ -270,7 +271,10 @@ class BookGraph:
                 if not evidence:
                     return "No original passages matched this request within the selected scope."
                 return await self.providers.complete(
-                    GUARD + "I am the Research Agent. I answer using semantic book retrieval.",
+                    GUARD + "I am the Research Agent. I answer using semantic book retrieval. "
+                    "Copy citation IDs verbatim. Quote only wording present in the supplied passages. "
+                    "If the passages do not establish the requested detail, say so; do not fill gaps "
+                    "with remembered book text, even a well-known quotation.",
                     prompt.to_string(),
                     task="research",
                     depth=state["depth"],
@@ -460,6 +464,7 @@ class BookGraph:
                 "question": state["query"],
                 "conversation": state["history"],
                 "specialist_results": state["results"],
+                "allowed_source_ids": list(citations),
                 "unavailable": state["errors"],
             }
         )
@@ -468,8 +473,10 @@ class BookGraph:
             GUARD + "I am the synthesis supervisor. Answer the reader clearly "
             "at the requested depth, preserve original citations, use headings, disclose unavailable specialists, "
             "and never claim unsupported book details. Write directly to the reader about the book, "
-            "not about specialist reports. Never abbreviate source IDs: preserve the full book-sN-tN identifier "
-            "inside square brackets. Limit deep responses to 650 words and finish every sentence. "
+            "not about specialist reports. Copy source identifiers exactly from allowed_source_ids "
+            "inside square brackets. Never shorten an identifier or use a placeholder. "
+            "Discard unsupported specialist claims; never guess which source supports a claim. "
+            "Limit deep responses to 650 words and finish every sentence. "
             "Do not expose implementation secrets. "
             + {
                 "brief": "Keep the answer concise and limited to the question; omit speculative implications.",
@@ -482,6 +489,18 @@ class BookGraph:
         ):
             answer += text
             self.emit("token", {"text": text})
+        unknown = set(re.findall(r"(?<![\w-])[\w-]+-s\d+-t\d+(?![\w-])", answer)) - citations.keys()
+        if unknown:
+            self.emit(
+                "trace",
+                {
+                    "type": "citation_validation",
+                    "agent": "synthesis",
+                    "reason": "The answer contains an identifier outside the authorized source set.",
+                    "valid": False,
+                },
+            )
+            raise ValueError("The answer contains an unverified source identifier.")
         return {"answer": answer}
 
     async def stream(self, owner, request, history):
