@@ -1,25 +1,28 @@
 # AI tools used
 
-I used OpenAI Codex to help plan, implement, debug, test, and document this project. In the application, I used GPT-6 Luna for planning and extraction, NVIDIA Nemotron for ordinary answers, and Claude Sonnet 5 for deep analysis. I record exact model IDs and dependency versions in the repository.
+OpenAI Codex helped me plan, implement, debug, test, and document this project. My application uses GPT-6 Luna for planning and extraction, NVIDIA Nemotron for ordinary answers, and Claude Sonnet 5 for deep analysis. Exact model IDs and dependencies are recorded in the repository.
 
 # Development narrative
 
-I expanded my book summarizer into a reading companion with a supervisor and three specialists: Research, Summary, and Data.
+My book summarizer grew into a reading companion with a supervisor and three specialists: Research, Summary, and Data.
 
-- With Codex's help, I fixed HTTPS-origin rejection, a missing ingestion permission, and Unicode corruption at token boundaries.
-- I added off-topic routing and visible Summary inputs after reviewing the instructor's clarifications.
+- Integration exposed HTTPS-origin rejection, a missing ingestion permission, and Unicode corruption. With Codex's help, I fixed these and added regression tests.
+- Instructor clarifications prompted off-topic routing and visible Summary inputs.
 
 # Verification narrative
 
-I kept offline tests separate from live API checks so mocked responses would not count as working integrations.
+Mocked responses could not prove my integrations worked, so offline and live tests stayed separate.
 
-- I checked citations, private uploads, cancellation, shared Tavily calls, and saved-answer recovery through another cloud revision.
-- I retained imperfect RAGAS scores and the failed stress run before the concurrency fix. My pipeline checks both candidate and public deployments.
+- Checks covered citations, uploads, cancellation, shared Tavily calls, and saved-answer recovery across revisions.
+- My evidence retains imperfect RAGAS scores and the failed stress run. Release checks covered candidate and public deployments.
 
 # What I learned that AI tools could not do for me
 
-I learned that I had to define the boundaries and judge the results myself; AI could help implement those choices but could not make them on my behalf.
+AI helped implement my choices, but setting boundaries and judging the results remained my responsibility.
 
-- I had to specify folder boundaries, upload limits, and repository structure; vague requests left too much for the tool to assume. Repeated review and testing helped catch mistakes.
-- Authentication approvals made me decide which access was appropriate instead of allowing the tool to proceed unchecked.
-- I learned how supervisor delegation, Pinecone retrieval, RAGAS metrics, and asynchronous FastAPI fit together. AI could explain these, but I had to develop my own understanding of what each component did and what the test results actually demonstrated.
+- Clear folder boundaries, upload limits, and repository structure reduced assumptions; repeated review helped catch mistakes.
+- Authentication approvals required my judgment about appropriate access.
+- Understanding delegation, Pinecone, RAGAS, and asynchronous FastAPI meant making sense of the components myself, not simply accepting generated code.
+- Cold and warm measurements showed me why one timing is misleading. Time to first token also differs from the wait for a complete answer.
+- Deep analysis took longer and cost more than brief answers, making response depth a practical tradeoff in my design.
+- Concurrent reads exposed 429 errors that individual requests missed. The passing rerun supported my concurrency adjustment, not a claim of unlimited capacity.
