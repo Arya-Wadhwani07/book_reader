@@ -162,19 +162,20 @@ I use shared Tavily MCP calls as my protocol evidence, separately from the live-
 - [x] **PACKAGE:** Build the source ZIP from tracked files, check required contents and archive integrity, and scan its contents—including the expanded corpus snapshot—for configured secrets. I exclude environments, private state, caches, credentials, and generated vector binaries.
 
 - [x] **TEST-CITATIONS:** Added three regression cases for fabricated, other-owner, and nonexistent chunk IDs. I strengthened live checks to compare answer citations with authorized source cards and retained the failed qualitative review in evaluation evidence.
-- [ ] **RELEASE-CITATIONS:** Verify the revised prompts and citation validation through candidate/public CI, review the three added book answers, then rebuild the submission ZIP from the verified revision.
+- [x] **RELEASE-CITATIONS:** Revised prompts and source-ID validation passed nine candidate and nine public CI checks. I reviewed the three added book answers, retained their evidence and the remaining retrieval/grounding limitations, and refreshed the submission ZIP.
+
+- [x] **MANUAL-DIAGRAM:** Rendered and visually inspected all four Mermaid diagrams. I changed the compressed horizontal RAG diagram to a readable vertical flow and verified all four SVGs rendered without errors.
 
 ## Evidence and verification limits
 
-My full measurements are in [evaluation_results.json](../docs/evaluation_results.json). My application code passed [CI run 40624189921](https://github.com/Arya-Wadhwani07/book_reader/actions/runs/40624189921) at commit `0ddf7b4`: six candidate and six public tests, with no failures or skips. Later edits improve documentation without changing application code; each push starts a new CI/CD run.
+My full measurements are in [evaluation_results.json](../docs/evaluation_results.json). My citation-validated application passed [CI run 40627570217](https://github.com/Arya-Wadhwani07/book_reader/actions/runs/40627570217) at commit `b1ec3e5`: nine candidate and nine public tests, with no failures or skips. The expanded nine-question evaluation uses that same application revision. Later documentation and evaluation-data updates do not change application behavior; each push starts a new CI/CD run.
 
-My final RAGAS means are faithfulness **0.9028**, answer relevance **0.8931**, context precision **0.7361**, and context recall **1.0000**. These cover six fixed questions and 24 completed metric calculations, not every possible answer.
+My expanded RAGAS means are faithfulness **0.8719**, answer relevance **0.7665**, context precision **0.5920**, and context recall **0.8889**. These cover nine fixed questions across all eight books and 36 completed metric calculations. I retain the earlier results and the new retrieval/grounding weaknesses, rather than presenting the strongest run as universal performance.
 
 My browser checks covered streaming, original passages, traces, refresh, Stop, separate chats/tabs, keyboard focus, responsive widths, and selected text contrast. I retain these additional manual checks as unverified rather than claiming complete browser/accessibility coverage:
 
-- [ ] **MANUAL-A11Y:** Verify actual 200% browser zoom, screen-reader announcements, and reduced-motion interaction. Responsive-width and semantic-markup checks do not replace those observations.
+- [ ] **MANUAL-A11Y:** Verify actual 200% browser zoom, screen-reader announcements, and reduced-motion interaction. Native Chrome access was rejected during the final review; I did not bypass that restriction. Responsive-width and semantic-markup checks do not replace those observations.
 - [ ] **MANUAL-UPLOAD:** Verify the browser file picker and private-upload retry/category controls. I kept existing file permissions as requested; API and unit checks already cover formats, retries, and category ownership.
-- [x] **MANUAL-DIAGRAM:** Rendered and visually inspected all four Mermaid diagrams. I changed the compressed horizontal RAG diagram to a readable vertical flow and verified all four SVGs rendered without errors.
 
 I do not treat these unexecuted observations as missing application features or as passing tests. I also do not claim exhaustive model correctness, a measured final infrastructure invoice, or a verified remaining cloud-credit balance.
 

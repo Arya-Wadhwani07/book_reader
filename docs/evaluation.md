@@ -4,14 +4,16 @@ My evaluation on October 27, 2026 used real model, Pinecone, Tavily MCP, and Clo
 
 ## Fixed RAGAS evaluation
 
-For a repeatable quality check, I selected six fixed questions across Alice, The Time Machine, Jekyll and Hyde, The Art of War, and The Prince. RAGAS 0.4.3 received the actual retrieved passages, reference answers, and generated responses, using a budgeted GPT-6 Luna judge and text-embedding-3-small embeddings. All 24 metric computations completed with `raise_exceptions=True` on application commit `d21cf5d`.
+For a repeatable quality check, I use nine fixed questions covering all eight books. RAGAS 0.4.3 received the actual retrieved passages, reference answers, and generated responses, using a budgeted GPT-6 Luna judge and text-embedding-3-small embeddings. All 36 metric computations completed with `raise_exceptions=True` on application commit `b1ec3e5`.
 
-| Metric | Released-run mean | Initial baseline |
+| Metric | Expanded nine-question run | Earlier six-question run |
 | --- | ---: | ---: |
-| Faithfulness | 0.9028 | 0.8611 |
-| Answer relevance | 0.8931 | 0.9357 |
-| Context precision | 0.7361 | 0.6944 |
-| Context recall | 1.0000 | 1.0000 |
+| Faithfulness | 0.8719 | 0.9028 |
+| Answer relevance | 0.7665 | 0.8931 |
+| Context precision | 0.5920 | 0.7361 |
+| Context recall | 0.8889 | 1.0000 |
+
+The question sets differ, so this is not a controlled before/after quality comparison. I retain both runs and the initial baseline in the raw JSON; I do not select whichever run scores best.
 
 The four metrics answer different questions about my results:
 
@@ -20,18 +22,21 @@ The four metrics answer different questions about my results:
 - **Context precision:** Do useful retrieved passages rank ahead of irrelevant ones?
 - **Context recall:** How much of the reference answer is supported by the retrieved passages?
 
-With only six questions, my scores cover a small sample of the library. Recall was high, but retrieval still returned irrelevant passages, and some answers added unsupported detail. I kept those weaker results in the report. My initial baseline used revision `book-companion-00001-dac`.
+Nine questions still represent a small sample. The harder additions exposed weak retrieval and imperfect grounding. In particular, the Walden question received zero relevance, precision, and recall: its required passage was not retrieved, and the answer acknowledged that limitation. Franklin's revised answer used valid original IDs and scored 1.0 faithfulness; Frankenstein scored 0.625, so valid IDs alone do not establish faithful claims.
 
-During review, I corrected the evaluator to use actual `rag_retrieval.chunk_ids` rather than all citations from Summary/Data. I reused the already-generated responses after correcting that context selection; I did not regenerate answers to improve their scores. My prior `a84c809` run exercised provider recovery; I preserve that run separately in the JSON. I regenerated all six fixed questions on application commit `d21cf5d`, without selecting answers by score. My pinned RAGAS compatibility wrappers emit deprecation notices; all metrics still execute, and I do not suppress evaluator failures.
+During review, I corrected the evaluator to use actual `rag_retrieval.chunk_ids` rather than all citations from Summary/Data. My pinned RAGAS compatibility wrappers emit deprecation notices; all metrics execute, and evaluator failures are not suppressed. The earlier six-question run remains recorded at `d21cf5d`; the expanded run uses newly generated answers from `b1ec3e5`, including a traced provider recovery rather than discarding that slower case.
 
 | Question | Retrieval (s) | LLM work (s) | Total (s) | TTFT (s) | Paid generation (USD) |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Q1: Why does Alice follow the White Rabbit at the beginning of the story? | 1.358 | 5.803 | 8.698 | 7.205 | $0.0000554 |
-| Q2: What happens when Alice drinks from the bottle labelled DRINK ME? | 0.794 | 5.137 | 6.377 | 4.703 | $0.0000538 |
-| Q3: What does the Time Traveller say the fourth dimension is? | 1.311 | 8.574 | 10.619 | 8.926 | $0.0000524 |
-| Q4: What does Mr Enfield see Hyde do to a little girl? | 0.979 | 5.656 | 7.348 | 5.853 | $0.0000529 |
-| Q5: What five constant factors does Sun Tzu say govern the art of war? | 0.841 | 15.522 | 17.044 | 14.850 | $0.0000539 |
-| Q6: How does Machiavelli distinguish hereditary principalities from new principalities? | 1.157 | 15.100 | 16.949 | 9.212 | $0.0000526 |
+| Q1: Why does Alice follow the White Rabbit at the beginning of the story? | 1.304 | 5.706 | 8.119 | 6.922 | $0.0000534 |
+| Q2: What happens when Alice drinks from the bottle labelled DRINK ME? | 1.222 | 4.882 | 6.905 | 5.736 | $0.0007108 |
+| Q3: What does the Time Traveller say the fourth dimension is? | 0.854 | 4.677 | 6.372 | 5.382 | $0.0006798 |
+| Q4: What does Mr Enfield see Hyde do to a little girl? | 0.940 | 8.677 | 10.396 | 9.460 | $0.0001337 |
+| Q5: What five constant factors does Sun Tzu say govern the art of war? | 0.845 | 7.696 | 9.314 | 4.918 | $0.0005845 |
+| Q6: How does Machiavelli distinguish hereditary principalities from new principalities? | 0.916 | 22.500 | 24.673 | 21.226 | $0.0002225 |
+| Q7: Why does Walton want a friend in his opening letters, despite having a crew? Distinguish his words from your interpretation. | 0.914 | 8.587 | 10.509 | 6.455 | $0.0006750 |
+| Q8: Why does Thoreau say he went to the woods, and what did he want to learn there? Support your explanation with passages. | 0.986 | 11.274 | 13.138 | 11.128 | $0.0002234 |
+| Q9: How did Franklin use his notebook and weekly routine to work on his virtues? Explain the method rather than just listing the virtues. | 0.933 | 6.101 | 8.193 | 5.894 | $0.0008403 |
 
 Retrieval and generation are timed separately in my measurements. My client total includes obtaining original passages for verification; TTFT ends at the first streamed token. The paid-generation column excludes separately reserved embeddings, student-plan NVIDIA usage, and infrastructure costs. I retain exact usage traces and answers in the JSON evidence.
 
@@ -39,7 +44,7 @@ Retrieval and generation are timed separately in my measurements. My client tota
 
 My later review added three ordinary reader questions covering Frankenstein, Walden, and Franklin’s autobiography, without specifying worker names. The first run exposed two quality defects despite successful transport and source-panel checks: an unsupported Walden quotation and invented Franklin chunk IDs. I retain the answers and passages under `additional_books_pre_fix` in the raw evidence.
 
-The revised Research prompt explicitly rejects remembered quotations absent from retrieved passages. Synthesis receives an authorized source-ID list and cannot report successful completion with an unknown chunk identifier. Regression tests cover fabricated, other-owner, and nonexistent chunk IDs; the expanded live suite also compares answer IDs against emitted sources. These checks establish source identity, not semantic entailment. The six-question RAGAS table above measures commit `d21cf5d`, before this later prompt and validation change.
+The revised Research prompt explicitly rejects remembered quotations absent from retrieved passages. Synthesis receives an authorized source-ID list and cannot report successful completion with an unknown chunk identifier. Regression tests cover fabricated, other-owner, and nonexistent chunk IDs; the expanded live suite also compares answer IDs against emitted sources. These checks establish source identity, not semantic entailment. The nine-question RAGAS table above measures the revised candidate, including these changes. I verified the Walden source vector exists, matches its original text, and has cosine similarity 0.999997 to a regenerated embedding. Its absence from a diagnostic top-30 search is a ranking limitation, not a missing corpus artifact.
 
 ## Latency measurements
 
@@ -75,7 +80,7 @@ All three answers identified curiosity and the pocket watch. OpenAI was shortest
 
 My indexed corpus contains eight complete public-domain books: 425,982 extracted words, 570,802 tokens, and 864 original chunks. My largest source, Walden with Civil Disobedience, contains 115,831 words and 153,361 tokens. I preserve source URLs and original files.
 
-- My offline suite passed 168 Python tests and 90 JavaScript stream-parser tests without failures or skips. My offline tests block external socket access and writes outside Assignment 2; I do not describe Python guards as an OS security sandbox.
+- My offline suite passed 171 Python tests and 90 JavaScript stream-parser tests without failures or skips. My offline tests block external socket access and writes outside Assignment 2; I do not describe Python guards as an OS security sandbox.
 - **Uploads:** Live checks covered PDF, EPUB, and TXT ingestion, duplicate rejection, private-book listing isolation, and original-source authorization. My synthetic files completed in approximately 28.6, 31.6, and 32.3 seconds respectively.
 - **Load:** An earlier 120-read/12-worker stress test produced three HTTP 429 responses. After increasing Cloud Run request concurrency to 16, all 120 reads passed in 3.515 seconds. My final 120-read/12-worker rerun also passed, taking 21.847 seconds; latency varies under concurrent verification. I do not claim an unbounded production load capacity.
 - **Agent cooperation:** Research and Data invoked the same Tavily MCP tool with different queries. A separate deep query exercised all three specialists plus OpenAI/Sonnet routing (98.171 s TTFT; 113.421 s total). I show activity during that wait, because a deep response can take much longer than a brief answer.
@@ -86,7 +91,7 @@ My indexed corpus contains eight complete public-domain books: 425,982 extracted
 
 My per-query paid-generation estimate sums each model call as `(input_tokens × input_rate + output_tokens × output_rate) / 1,000,000`. The rates recorded for October 27, 2026 are $0.10/$0.50 for GPT-6 Luna input/output and $2.00/$10.00 for Sonnet 5. Query embeddings are separate at $0.02 per million tokens; NVIDIA student-plan usage is unknown where the API supplied no billing metadata. This is a token-based estimate rather than an account invoice, and the query table labels its exclusions.
 
-All paid ingestion, generation, evaluation, recovery attempts, and verification share my transactional spending ledger. My later shared-ledger snapshot recorded $0.498718 spent plus $0.003640 reserved for OpenAI, and $0.490894 spent plus $0 reserved for Anthropic. Active verification calls explain the reservations. Every call uses the same ledger and cannot reserve above the approved $5/$2.50 limits. Embedding reservations conservatively use UTF-8 byte counts because the wrapper does not return billed token usage; generation uses reported tokens when available.
+All paid ingestion, generation, evaluation, recovery attempts, and verification share my transactional spending ledger. My earlier shared-ledger snapshot, before the expanded evaluation, recorded $0.498718 spent plus $0.003640 reserved for OpenAI, and $0.490894 spent plus $0 reserved for Anthropic. Active verification calls explain the reservations. Every call uses the same ledger and cannot reserve above the approved $5/$2.50 limits. Embedding reservations conservatively use UTF-8 byte counts because the wrapper does not return billed token usage; generation uses reported tokens when available.
 
 My other services use confirmed NVIDIA/Tavily student access, Pinecone Starter, and existing GCP credits. I have not measured final infrastructure invoices or claimed that credits make resource consumption free. Firestore, GCS, Cloud Run, Artifact Registry, and Cloud Build are separate from LLM usage.
 

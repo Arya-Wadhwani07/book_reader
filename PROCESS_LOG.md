@@ -14,7 +14,7 @@ My book summarizer grew into a reading companion with a supervisor and three spe
 Mocked responses could not prove my integrations worked, so offline and live tests stayed separate.
 
 - Checks covered citations, uploads, cancellation, shared Tavily calls, and saved-answer recovery across revisions.
-- My evidence retains imperfect RAGAS scores and the failed stress run. Release checks covered candidate and public deployments.
+- My evidence retains imperfect RAGAS scores and the failed stress run. Candidate and public checks passed; an extra book question exposed invented citations, prompting validation.
 
 # What I learned that AI tools could not do for me
 

@@ -132,7 +132,7 @@ For a rough per-run budget, I use my measured examples below. These are paid gen
 
 | Run I measured | Recorded paid generation | How I use the estimate |
 | --- | ---: | --- |
-| One brief cited answer, using NVIDIA student access | $0.000052–$0.000055 | About $0.005–$0.006 for 100 similar answers, mainly OpenAI planning; NVIDIA did not return billed usage. |
+| One brief cited answer in my nine-question run | $0.0000534–$0.0008403 | About $0.005–$0.084 for 100 comparable answers; provider recovery increased some calls. NVIDIA did not return billed usage. |
 | One whole-book deep query using all three specialists | $0.15197 | Roughly $0.15 per comparable deep query; length, evidence size, and fallback calls can change the cost substantially. |
 
 For embedding alone, I estimate about **$0.0114** to process my 570,802-token corpus once at $0.02 per million tokens, before overlap and request overhead. This is a lower-bound component estimate, not the price of a full rebuild: chapter extraction and later generation add cost. I include the measured traces in [evaluation_results.json](docs/evaluation_results.json).
