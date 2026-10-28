@@ -1,8 +1,8 @@
-# My Book Companion Architecture
+# Book Companion Architecture
 
-I use one LangGraph supervisor and three specialists. I serve a vanilla browser client from FastAPI and stream actual answer tokens, citations, and execution traces. I keep acceptance evidence and unfinished work exclusively in [my requirements](../agent_docs/requirements.md).
+I chose one LangGraph supervisor and three specialists so that book retrieval, summarization, and structured analysis have clear responsibilities. I serve the interface through FastAPI and stream answers with their sources and activity traces. My verification record is in [requirements.md](../agent_docs/requirements.md).
 
-## My agent topology
+## Agent topology
 
 ```mermaid
 flowchart TD
@@ -17,7 +17,7 @@ flowchart TD
     F --> O[SSE answer and sources]
 ```
 
-| My node | My prompt and tools |
+| Node | Prompt and tools |
 | --- | --- |
 | Supervisor | I classify the request into relevant workers through structured model output and inspect `plan`/`completed` state. |
 | Research | I answer from a LangChain LCEL semantic retriever and original passages; I use Tavily for author/adaptation research. |
@@ -25,24 +25,34 @@ flowchart TD
 | Data | I query structured JSON records for characters, concepts, and events; I use Tavily for editions and purchase sources. |
 | Synthesis | I combine successful worker results, retain citations, disclose failed workers, and stream the final answer. |
 
-I give each specialist a separate system prompt and a different tool surface. My supervisor does not count toward the three-specialist requirement. Each worker returns to the supervisor; a failed worker records a structured failure, and successful workers can still contribute. If every selected worker fails, I return an incomplete response.
+I give each specialist a separate system prompt and different tools. My supervisor does not count toward the three-specialist requirement. Each worker returns to the supervisor; a failed worker records a structured failure, and successful workers can still contribute. If every selected worker fails, I return an incomplete response.
 
-I generate the worker plan once per request. At every subsequent hop, I read `plan` and `completed` to choose the next unfinished worker; I expose available result names and sanitized errors alongside the routing reason. I synthesize after all planned workers have returned. I do not announce an unexecuted worker as an invocation. For an empty off-topic plan, I return a deterministic book-focused redirect without workers or synthesis-model calls. I trace Summary's question, book, spoiler boundary, chapter maps, and original chunk IDs before its generation call.
+I generate the worker plan once, then make each transition from the current state:
 
-## My provider routing
+1. I read `plan` and `completed` to choose the next unfinished worker.
+2. I trace that hop with its reason, available results, and sanitized errors.
+3. I return to the supervisor after each worker and synthesize after the selected workers finish.
 
-| My task | My normal provider/model | My rationale |
+I trace Summary's question, book, spoiler boundary, maps, and chunk IDs before generation. An off-topic request gets an empty plan and a book-focused redirect, without a worker or synthesis-model call.
+
+## Provider routing
+
+| Task | Normal provider/model | Rationale |
 | --- | --- | --- |
 | Planning and evidence extraction | OpenAI `gpt-6-luna` | I use low-cost, schema-constrained output for bounded structured work. |
 | Brief/detailed evidence-based responses | NVIDIA `nvidia/nemotron-3-ultra-550b-a55b` | I use my confirmed student access for ordinary generation. |
 | Deep cross-section synthesis | Anthropic `claude-sonnet-5` | I use the selected Sonnet model for detailed interpretation. |
 | Embeddings | OpenAI `text-embedding-3-small`, 1,536 dimensions | I use one compatible embedding space for indexing and queries; this does not count as a generation provider. |
 
-I route by task and requested depth. I emit provider, exact model, task, and reason in `llm_route` events. I select another configured provider when the preferred provider is unconfigured. If a configured provider fails before publishing text, I attempt at most one alternative with a visible recovery reason and a separate budget reservation. I can discard an unpublished, incomplete specialist draft before that fallback. I never mix providers after final-answer text starts, and I treat provider-reported output truncation as an incomplete response.
+I route by task and requested depth, exposing the provider, model, task, and reason in `llm_route` events.
 
-I reserve a conservative cost bound before each OpenAI/Anthropic call. I settle actual token costs when available and retain the reservation when billing is uncertain. My separate limits are $5 OpenAI and $2.50 Anthropic. I record embedding costs as conservative byte-token estimates. My cloud ledger is shared across workers and instances.
+- I choose another configured provider if the preferred one is unavailable in configuration.
+- If a call fails before publishing text, I try at most one alternative, with a visible reason and a separate budget reservation. I discard any unpublished incomplete draft first.
+- Once final-answer text starts, I do not switch providers. I report provider-side output truncation as an incomplete response.
 
-## My ingestion and RAG
+I reserve a conservative cost estimate before each OpenAI/Anthropic call. I settle actual token costs when available and retain the reservation when billing is uncertain. My separate limits are $5 OpenAI and $2.50 Anthropic. I record embedding costs as conservative byte-token estimates. My cloud ledger is shared across workers and instances.
+
+## Ingestion and RAG
 
 ```mermaid
 flowchart LR
@@ -72,7 +82,7 @@ flowchart LR
 - I query stored character/event/concept JSON records in Data. I order records numerically by section and token offset.
 - I preserve validated extracted JSON and record the size of any discarded model continuation. I never discard original book text to repair model output.
 
-## My memory and runtime
+## Memory and runtime
 
 ```mermaid
 flowchart LR
@@ -88,24 +98,30 @@ flowchart LR
     JOB --> FACT[(Firestore: facts and readiness)]
 ```
 
-| My state group | My actual fields |
+| State group | Actual fields |
 | --- | --- |
 | Identity | `owner_id`, `session_id`, `book_id` |
 | Request | `query`, `depth`, `spoiler_limit`, bounded `history` |
 | Execution | `plan`, `plan_reason`, `completed`, `initialized` |
 | Results | `results`, `errors`, `citations`, `answer` |
 
-I derive ownership from a signed HttpOnly cookie; a caller-supplied chat ID is not authorization. I isolate multiple chats, preserve them when creating a new chat, and require explicit deletion. I filter incomplete turns and exclude prior answers outside a reduced spoiler boundary from model history.
+I keep conversation state separate from the book index:
 
-I atomically reserve a chat and its turn, reject duplicate IDs and concurrent turns, and persist successful completion before emitting success. I persist LangGraph checkpoints and intermediate writes through a shared storage adapter. Local development uses SQLite; Cloud Run uses application-prefixed Firestore collections and GCS artifacts. I do not mix conversation checkpoints with Pinecone's book index.
+- **Ownership:** I verify a signed HttpOnly cookie; a supplied chat ID is not authorization. I isolate chats and exclude incomplete or out-of-scope earlier answers from model history.
+- **Persistence:** I reserve each chat/turn atomically, reject duplicates and overlapping turns, and save completion before reporting success. I store LangGraph checkpoints and intermediate writes through the same storage adapter.
+- **Storage:** I use SQLite locally, Firestore for cloud conversations/checkpoints/facts, GCS for originals and chunks, and Pinecone for book vectors.
+- **Ingestion:** I use a separate Cloud Run Job, or a tracked asynchronous task locally, so uploads do not hold a chat request open.
 
-I use a separate Cloud Run Job for cloud ingestion. I use a tracked asynchronous task locally. My artifact/checkpoint adapters and ready-state records separate long-running ingestion from reader requests.
+I handle retries and interruptions explicitly:
 
-I reserve an ingestion lease to reject competing jobs, publish readiness only after vector writes and every evidence map succeed, and reuse existing maps when retrying the same pipeline. I expose private-owner retry for failed or expired jobs. The job has a one-hour deadline and 2 GiB memory limit; I do not claim hostile PDF parsing is completely resource-safe. I reject XML entities and malformed EPUB metadata before ebook parsing. My curated snapshot pins pipeline 2 originals/chunks/maps; changes to chunking require explicit corpus migration.
+- I reserve an ingestion lease, reject competing jobs, and publish readiness only after all vectors and maps succeed. Retrying the same pipeline reuses completed maps; only the private owner can retry a failed or expired job.
+- I bound the ingestion job to one hour and 2 GiB. I reject malformed EPUB metadata and XML entities, but do not claim every hostile PDF is resource-safe.
+- I pin the curated snapshot to pipeline 2. Changing chunking requires an explicit corpus migration.
+- I set a 270-second application deadline inside Cloud Run's 300-second timeout, leaving time to save failure status. I poll cancellation even while a provider is silent and close the pending stream on Stop.
+- I mark an expired turn lease interrupted after process loss. Unpublished partial output can be lost; completed answers remain durable.
+- I enforce hourly admission limits separately from paid-budget reservations. My browser cookie lasts 30 days; clearing it removes access but does not immediately erase server-side data.
 
-I use a 270-second application deadline within Cloud Run's 300-second timeout so failure finalization has time to run. I poll cancellation during otherwise silent generation, close the pending async stream, and never send terminal success before durable turn finalization. A lost process can lose unpublished partial output; an expired lease becomes interrupted on subsequent access. I enforce transactional hourly admission limits separately from exact paid-budget reservations. My anonymous cookie lasts 30 days; clearing it removes access, not an assertion that server-side artifacts were immediately erased.
-
-## My complete workflow
+## Complete workflow
 
 ```mermaid
 flowchart TB
@@ -140,6 +156,6 @@ I render model text safely and link original source passages. I parse arbitrary 
 
 My container uses a multistage Python 3.13-slim build, `/app/.venv`, a non-root user, and Cloud Run's `PORT`. My workflow uses repository/main-scoped OIDC, Secret Manager, a tested image passed between jobs, candidate checks, promotion, public checks, and traffic rollback after a failed post-promotion check.
 
-## My practical limits
+## Practical limits
 
-I cannot preserve every detail in a compressed summary. I keep original source passages inspectable and distinguish interpretation from evidence. Language detection is probabilistic, PDF pages are not necessarily chapters, and files without explicit headings provide coarse spoiler boundaries. I report failed processing rather than publishing a partially indexed book as ready. I distinguish synthetic tests, actual external-service execution, and measured live deployment evidence in my requirements and evaluation report.
+I cannot preserve every detail in a compressed summary. I keep original source passages inspectable and distinguish interpretation from evidence. Language detection is probabilistic, PDF pages are not necessarily chapters, and files without explicit headings provide coarse spoiler boundaries. I report failed processing rather than publishing a partially indexed book as ready. I explain which checks used fixtures and which reached real services in my evaluation report.
